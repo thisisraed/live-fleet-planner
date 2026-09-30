@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.65</title>
+<title>Live Fleet Planner 0.9.66</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,8 @@ nav{display:flex;gap:5px;padding:10px 28px;border-bottom:1px solid var(--border)
 main{padding:26px 28px;max-width:1500px;margin:auto}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,rgba(15,30,47,.96),rgba(10,23,37,.96));border:1px solid var(--border);border-radius:12px;padding:17px;box-shadow:var(--shadow)}.stat{font-size:30px;font-weight:850;letter-spacing:-.03em}.muted{color:var(--muted);font-size:12px}.toolbar{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap}.toolbar-left,.toolbar-right{display:flex;gap:8px;align-items:center}h2{margin:0 0 5px;font-size:22px;letter-spacing:-.02em}h3{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.07em;color:#b9d1e5}
 table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:14px}th{color:#70879d;font-size:10px;text-transform:uppercase;letter-spacing:.1em}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#102c42;color:#8edfff;font-size:11px;border:1px solid #24506c}.warning-badge{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;background:#3b2416;color:#ffc27b;border:1px solid #694329;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0b1725;box-shadow:var(--shadow)}.dow{padding:10px;color:#70879d;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);background:#0d1b2b}.day{min-height:125px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px;position:relative}.day:nth-child(7n){border-right:0}.day.other{opacity:.3}.day.today{box-shadow:inset 0 0 0 2px var(--accent);background:rgba(57,198,255,.035)}.daynum{font-size:11px;color:#7890a5;margin-bottom:7px}.event{background:linear-gradient(135deg,#12304a,#10283d);border:1px solid #25516e;padding:7px;border-radius:8px;font-size:12px;margin-top:5px;cursor:pointer;position:relative;padding-right:30px;box-shadow:0 5px 14px rgba(0,0,0,.16)}.event strong{display:block;font-size:12px}.event small{color:#91cbe6}.delete-event{display:none;position:absolute;right:5px;top:5px;width:20px;height:20px;padding:0;border-radius:50%;background:#4a1d29;color:#ff9aaa;border:1px solid #713142;font-size:13px;line-height:18px;font-weight:800;box-shadow:none}.event:hover .delete-event{display:block}.delete-event:hover{background:#672637;color:#fff}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;color:#8297ab;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#091625;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#2d7192;box-shadow:0 0 0 3px rgba(57,198,255,.08)}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field-hint{font-size:10px;letter-spacing:.08em;opacity:.62;margin-top:6px;text-transform:uppercase}
+.field label{display:block;color:#8297ab;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#091625;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#2d7192;box-shadow:0 0 0 3px rgba(57,198,255,.08)}
 .modal{position:fixed;inset:0;background:rgba(0,5,10,.76);display:none;align-items:center;justify-content:center;padding:20px;z-index:10;backdrop-filter:blur(5px)}.modal.show{display:flex}.modalbox{background:#0c1b2b;border:1px solid #29445b;border-radius:14px;padding:20px;max-width:600px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5)}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h3{margin:0}.empty{padding:30px;text-align:center;color:var(--muted)}.rotation{display:grid;gap:8px}.rotation-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--panel);border:1px solid var(--border);border-radius:9px}
 .schedule-preview{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:16px}.schedule-chip{padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--panel2);font-size:12px}.schedule-chip strong{display:block;font-size:13px}.schedule-chip.off{opacity:.45}
 .route-line{margin-top:7px;font-size:12px;color:#9bdfff}.route-editor{display:grid;grid-template-columns:1fr 1fr;gap:10px}.route-editor .full{grid-column:1/-1}.route-map{width:100%;height:280px;border:1px solid var(--border);border-radius:11px;background:#081522;overflow:hidden;margin-top:12px;position:relative}.route-map .leaflet-container{width:100%;height:100%;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#dfe7ef}.route-map .leaflet-control-attribution{font-size:10px}.route-map .leaflet-control-zoom a{color:#07111f}.route-map .route-map-badge{position:absolute;z-index:500;top:10px;left:10px;background:rgba(7,16,28,.92);border:1px solid rgba(255,255,255,.13);color:#edf6ff;border-radius:7px;padding:6px 9px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,.25)}.route-map .leaflet-tooltip{font-weight:800}.route-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}.route-card{padding:12px 0;border-bottom:1px solid var(--border)}
@@ -1166,13 +1167,13 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 
   <div class="ois-panel settings-panel cloud-settings-panel">
     <div class="ois-panel-head"><span>CLOUD DATABASE · GITHUB</span><span class="panel-code">SYNC / MULTI-DEVICE</span></div>
-    <div class="settings-description">Database centrale per schedule, flotta, live, rotazione e rotte. Il token GitHub resta esclusivamente su questo dispositivo e non viene mai salvato nel database remoto.</div>
+    <div class="settings-description">Database centrale per schedule, flotta, live, rotazione e rotte. Configura GitHub una sola volta su questo dispositivo: il token resta esclusivamente in locale e non viene mai salvato nel database remoto.</div>
     <div class="formgrid settings-formgrid">
       <div class="field"><label>GITHUB OWNER</label><input id="githubOwner" placeholder="es. raed" autocomplete="off"></div>
       <div class="field"><label>REPOSITORY</label><input id="githubRepo" placeholder="es. live-fleet-data" autocomplete="off"></div>
       <div class="field"><label>DATABASE FILE</label><input id="githubPath" placeholder="data/database.json" autocomplete="off"></div>
       <div class="field"><label>BRANCH</label><input id="githubBranch" placeholder="main" autocomplete="off"></div>
-      <div class="field" style="grid-column:1/-1"><label>GITHUB TOKEN · SOLO SU QUESTO DISPOSITIVO</label><input id="githubToken" type="password" placeholder="github_pat_…" autocomplete="off"></div>
+      <div class="field" style="grid-column:1/-1"><label>GITHUB ACCESS TOKEN · SOLO SU QUESTO DISPOSITIVO</label><input id="githubToken" type="password" placeholder="github_pat_…" autocomplete="off"><div id="githubTokenHint" class="field-hint">Il token viene memorizzato solo localmente su questo dispositivo.</div></div>
     </div>
     <div class="settings-actions cloud-actions">
       <button class="secondary ois-button" id="saveCloudBtn" type="button">SAVE CLOUD SETTINGS</button>
@@ -1441,9 +1442,14 @@ function setGitHubToken(v){try{if(v) localStorage.setItem(CLOUD_AUTH_KEY,String(
 function renderCloudSettings(){
   normalizeCloud();
   githubOwnerEl.value=db.cloud.owner; githubRepoEl.value=db.cloud.repo; githubPathEl.value=db.cloud.path; githubBranchEl.value=db.cloud.branch;
-  githubTokenEl.value=getGitHubToken(); cloudAutoSyncEl.checked=db.cloud.autoSync;
   const token=getGitHubToken();
-  cloudStatusEl.textContent=db.cloud.owner&&db.cloud.repo&&token?`READY · ${db.cloud.owner}/${db.cloud.repo}`:"Cloud non configurato.";
+  githubTokenEl.value=token;
+  cloudAutoSyncEl.checked=db.cloud.autoSync;
+  const configured=!!(db.cloud.owner&&db.cloud.repo&&token);
+  cloudStatusEl.textContent=configured?`✓ GITHUB CONNECTED · ${db.cloud.owner}/${db.cloud.repo}`:"GITHUB NOT CONFIGURED";
+  cloudStatusEl.style.color=configured?"var(--ok)":"var(--warn)";
+  const hint=document.getElementById("githubTokenHint");
+  if(hint) hint.textContent=token?"Token configurato e memorizzato solo localmente. Non viene mai inviato al database remoto.":"Inserisci il token GitHub personale una sola volta su questo dispositivo.";
 }
 function readCloudForm(){
   normalizeCloud();
@@ -1452,7 +1458,7 @@ function readCloudForm(){
   db.cloud.branch=String(githubBranchEl.value||"main").trim()||"main"; db.cloud.autoSync=!!cloudAutoSyncEl.checked;
   setGitHubToken(String(githubTokenEl.value||"").trim());
 }
-function githubConfig(){normalizeCloud(); const token=getGitHubToken(); if(!db.cloud.owner||!db.cloud.repo||!db.cloud.path) throw new Error("Configura owner, repository e file database GitHub."); if(!token) throw new Error("Inserisci un GitHub token su questo dispositivo."); return {owner:db.cloud.owner,repo:db.cloud.repo,path:db.cloud.path,branch:db.cloud.branch,token};}
+function githubConfig(){normalizeCloud(); const token=getGitHubToken(); if(!db.cloud.owner||!db.cloud.repo||!db.cloud.path) throw new Error("Configura owner, repository e file database GitHub."); if(!token) throw new Error("Configura il GitHub access token su questo dispositivo."); return {owner:db.cloud.owner,repo:db.cloud.repo,path:db.cloud.path,branch:db.cloud.branch,token};}
 function githubHeaders(token){return {"Accept":"application/vnd.github+json","Authorization":`Bearer ${token}`,"X-GitHub-Api-Version":"2026-03-10","Content-Type":"application/json"};}
 async function githubGetDatabase(){
   const c=githubConfig(); const url=`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/contents/${c.path.split('/').map(encodeURIComponent).join('/')}`;
@@ -1469,7 +1475,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.65",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.66",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
