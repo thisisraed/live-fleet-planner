@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.67</title>
+<title>Live Fleet Planner 0.9.68</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1073,10 +1073,56 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 /* Aircraft names are always displayed in uppercase; stored values remain unchanged. */
 .release-aircraft,.rotation-aircraft-line strong,.route-record-aircraft strong,.route-pending-row strong,.next-flight-row b,.event > strong{ text-transform:uppercase !important; }
 </style>
+
+<style id="ipad-layout-v0-9-68">
+/* v0.9.68 — iPad/iPadOS layout refinement. Desktop logic and layout remain unchanged. */
+@supports (-webkit-touch-callout: none) {
+  @media (pointer: coarse) and (min-width: 768px) {
+    /* Keep the iPadOS status area clear of the application header. */
+    header{
+      height:calc(48px + max(24px, env(safe-area-inset-top)))!important;
+      min-height:calc(48px + max(24px, env(safe-area-inset-top)))!important;
+      padding: max(24px, env(safe-area-inset-top)) 18px 0!important;
+      align-items:center!important;
+    }
+    header .brand,
+    header .actions{height:48px!important;display:flex!important;align-items:center!important}
+    header .brand{min-width:0!important}
+    header .brand h1{white-space:nowrap!important}
+    header .actions{flex-shrink:0!important}
+
+    /* Give the main content a small, deliberate breathing space below navigation. */
+    main{padding-top:18px!important}
+
+    /* iPad touch targets: preserve the OIS visual language while making controls easier to use. */
+    .ois-nav{padding-top:7px!important;height:61px!important}
+    .ois-nav .tab{height:48px!important}
+    .actions button,.actions span{min-height:40px!important}
+    .actions #cloudRefreshBtn{padding-left:11px!important;padding-right:11px!important}
+    .settings-gear{width:40px!important;height:40px!important}
+
+    /* Prevent toolbars/modals from crowding each other on tablet widths. */
+    .toolbar{row-gap:8px!important}
+    .toolbar-left,.toolbar-right{flex-wrap:wrap!important}
+    .toolbar-right{justify-content:flex-end!important}
+    .modal{padding: max(20px, env(safe-area-inset-top)) 20px 20px!important}
+
+    /* Settings schedule: slightly more room for labels and native controls. */
+    #settings .schedule-row{grid-template-columns:145px 70px minmax(0,1fr) 105px!important;gap:9px!important}
+    #settings .schedule-settings{padding-left:12px!important;padding-right:12px!important}
+    #settings .schedule-row select,#settings .schedule-row input[type=time]{height:38px!important}
+
+    /* Calendar controls remain on one clean control line when there is enough width. */
+    #calendar .toolbar-left,#calendar .toolbar-right{min-height:40px!important}
+    #calendar .toolbar-right .ois-button,
+    #calendar .toolbar-right button{min-height:40px!important}
+  }
+}
+</style>
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.67</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.68</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
