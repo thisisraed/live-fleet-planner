@@ -18,7 +18,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.66</title>
+<title>Live Fleet Planner 0.9.67</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -579,7 +579,7 @@ table,.calendar{background:#111619!important;border-color:#697378!important}th{b
 .field input,.field select{border-radius:0!important;background:#111619!important;border-color:#667176!important}.field label{font-size:9px!important;letter-spacing:.1em!important}.modalbox{border-radius:0!important;background:#171d20!important;border-color:#687378!important}
 /* Mobile: preserve horizontal system tabs with horizontal scrolling */
 @media(max-width:800px){
-  header{height:auto!important;padding:8px 12px!important}.actions{display:none!important}
+  header{height:auto!important;padding:8px 12px!important}.actions{display:flex!important;align-items:center!important;gap:5px!important}.actions #saveStatus{display:none!important}.actions #cloudRefreshBtn{display:inline-flex!important;height:36px!important;padding:0 8px!important;font-size:9px!important}.actions .settings-gear{width:36px!important;height:36px!important;line-height:34px!important;font-size:16px!important}
   nav{position:sticky!important;top:0!important;height:50px!important;padding:0 6px!important;overflow-x:auto!important;overflow-y:hidden!important}
   nav button{flex:0 0 150px!important;min-width:150px!important;height:40px!important;margin-top:5px!important}
   main{padding:12px!important}.flight-data-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1076,13 +1076,11 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.66</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.67</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
-    <button class="secondary" id="exportBtn">Esporta backup</button>
-    <button class="secondary" id="importBtn">Importa backup</button>
+    <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
     <button class="settings-gear" id="settingsGear" title="Impostazioni" aria-label="Apri impostazioni">⚙</button>
-    <input id="importFile" type="file" accept=".json" hidden>
   </div>
 </header>
 <nav class="ois-nav">
@@ -1185,6 +1183,16 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
     <div class="cloud-auto-row"><label><input type="checkbox" id="cloudAutoSync"> AUTO SYNC AFTER CHANGES</label><span id="cloudStatus" class="settings-status">Cloud non configurato.</span></div>
   </div>
 
+  <div class="ois-panel settings-panel backup-settings-panel">
+    <div class="ois-panel-head"><span>LOCAL BACKUP</span><span class="panel-code">DATA / SAFETY</span></div>
+    <div class="settings-description">Esporta una copia locale del planner oppure ripristina un backup JSON precedentemente salvato. Il backup locale non sostituisce la sincronizzazione GitHub.</div>
+    <div class="settings-actions backup-actions">
+      <button class="secondary ois-button" id="exportBtn" type="button">ESPORTA BACKUP</button>
+      <button class="secondary ois-button" id="importBtn" type="button">IMPORTA BACKUP</button>
+      <input id="importFile" type="file" accept=".json" hidden>
+    </div>
+  </div>
+
   <div class="ois-panel settings-panel simbrief-settings-panel">
     <div class="ois-panel-head"><span>SIMBRIEF INTEGRATION</span><span class="panel-code">DISPATCH / OFP</span></div>
     <div class="settings-description">Collega il profilo SimBrief al planner per aprire il Dispatch con partenza, arrivo, aereo, orario e rotta già compilati.</div>
@@ -1252,6 +1260,7 @@ const generate3BtnEl=document.getElementById("generate3Btn");
 const exportBtnEl=document.getElementById("exportBtn");
 const importBtnEl=document.getElementById("importBtn");
 const importFileEl=document.getElementById("importFile");
+const cloudRefreshBtnEl=document.getElementById("cloudRefreshBtn");
 const saveStatusEl=document.getElementById("saveStatus");
 const scheduleSettingsEl=document.getElementById("scheduleSettings");
 const schedulePreviewEl=document.getElementById("schedulePreview");
@@ -1475,7 +1484,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.66",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.67",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -2839,6 +2848,26 @@ setInterval(updateOISClock,1000);updateOISClock();
 function renderAll(){renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages()}
 exportBtnEl.onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="live-fleet-planner-backup.json";a.click();URL.revokeObjectURL(a.href)}
 importBtnEl.onclick=()=>importFileEl.click();
+if(cloudRefreshBtnEl) cloudRefreshBtnEl.onclick=async()=>{
+  try{
+    readCloudForm();
+    localStorage.setItem(KEY,JSON.stringify(db));
+    if(!db.cloud.owner||!db.cloud.repo||!getGitHubToken()){
+      alert("GitHub non configurato su questo dispositivo. Apri Settings → Cloud Database · GitHub e completa la configurazione.");
+      return;
+    }
+    if(db.cloud.dirty){
+      const ok=confirm("Ci sono modifiche locali non ancora sincronizzate. REFRESH sostituirà i dati locali con quelli presenti su GitHub. Continuare?");
+      if(!ok)return;
+    }
+    cloudRefreshBtnEl.disabled=true;
+    cloudRefreshBtnEl.textContent="↻ REFRESHING…";
+    await pullFromCloud();
+  }finally{
+    if(cloudRefreshBtnEl){cloudRefreshBtnEl.disabled=false;cloudRefreshBtnEl.textContent="↻ REFRESH";}
+  }
+};
+
 const settingsGearEl=document.getElementById("settingsGear");
 if(settingsGearEl) settingsGearEl.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));const v=document.getElementById("settings");if(v){v.classList.add("active");renderAll();v.scrollIntoView({block:"start"});}};
 saveSettingsBtnEl.onclick=()=>{
@@ -3174,6 +3203,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
 #settings .settings-formgrid .field input{height:40px!important;padding:8px 10px!important;border-radius:0!important;background:#0d1317!important;border:1px solid #59666b!important;color:#e2e7e8!important;font-family:'Roboto Mono',monospace!important;font-size:14px!important;letter-spacing:.02em!important}
 #settings .settings-formgrid .field input:focus{border-color:#77868c!important;box-shadow:inset 0 0 0 1px #263238!important}
 #settings .settings-actions{display:flex!important;justify-content:flex-end!important;gap:7px!important;flex-wrap:wrap!important;padding:10px 12px!important}
+.backup-actions{padding-top:4px!important}
 #settings .settings-actions .ois-button{margin:0!important;min-width:142px!important}
 #settings .settings-status{min-height:22px!important;padding:0 12px 10px!important;color:#7f8a8e!important;font-family:'Roboto Condensed',Arial,sans-serif!important;font-size:9px!important;letter-spacing:.04em!important}
 @media(max-width:850px){#settings .schedule-row{grid-template-columns:110px 65px minmax(0,1fr) 90px!important;gap:7px!important}#settings .schedule-day span{display:none!important}}
