@@ -1,10 +1,11 @@
-const CACHE = 'live-fleet-planner-shell-v0.9.70';
+const CACHE = 'live-fleet-planner-shell-v0.9.71';
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-192-v0.9.71.png',
+  './icons/icon-512-v0.9.71.png',
+  './icons/apple-touch-icon-v0.9.71.png'
 ];
 
 self.addEventListener('install', event => {
