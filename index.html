@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.70</title>
+<title>Live Fleet Planner 0.9.72</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1076,7 +1076,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </style>
 
 <style id="ipad-layout-v0-9-68">
-/* v0.9.70 — Route sync fix. iPad/iPadOS layout refinement remains unchanged. */
+/* v0.9.72 — GitHub Blob API fallback for databases larger than 1 MB. */
 @supports (-webkit-touch-callout: none) {
   @media (pointer: coarse) and (min-width: 768px) {
     /* Keep the iPadOS status area clear of the application header. */
@@ -1123,7 +1123,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.70</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.72</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1522,7 +1522,21 @@ async function githubGetDatabase(){
   if(r.status===404) return {exists:false,sha:null,data:null};
   if(!r.ok) throw new Error(`GitHub GET HTTP ${r.status}`);
   const x=await r.json(); if(Array.isArray(x)) throw new Error("Il percorso GitHub punta a una cartella, non a un file.");
-  const raw=atob(String(x.content||"").replace(/\n/g,""));
+
+  // GitHub Contents API may omit the file content for files larger than 1 MB.
+  // Fall back to the Git Blob API using the file SHA, which supports files up to 100 MB.
+  let encoded=String(x.content||"").replace(/\s/g,"");
+  if(!encoded && x.sha){
+    const blobUrl=`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}/git/blobs/${encodeURIComponent(x.sha)}`;
+    const br=await fetch(blobUrl,{headers:githubHeaders(c.token),cache:"no-store"});
+    if(!br.ok) throw new Error(`GitHub BLOB GET HTTP ${br.status}`);
+    const blob=await br.json();
+    if(String(blob.encoding||"").toLowerCase()!=="base64" || !blob.content) throw new Error("GitHub Blob API non ha restituito il contenuto del database in Base64.");
+    encoded=String(blob.content).replace(/\s/g,"");
+  }
+  if(!encoded) throw new Error("GitHub ha restituito il file database senza contenuto.");
+
+  const raw=atob(encoded);
   const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0)); const text=new TextDecoder().decode(bytes);
   try{
     return {exists:true,sha:x.sha,data:JSON.parse(text)};
@@ -1531,7 +1545,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.70",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.72",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
