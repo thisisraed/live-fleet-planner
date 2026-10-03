@@ -3231,7 +3231,8 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-right{border-right:0}
     .perf-section{margin-bottom:10px;border:1px solid #414d51;background:#181f22}
     .perf-section-head{height:26px;display:flex;align-items:center;padding:0 8px;background:#2a3236;color:#b9c4c7;font-size:8px;letter-spacing:.10em;border-bottom:1px solid #414d51}
-    .perf-runway-meta{display:block;margin-top:4px;color:#748084;font-family:'Roboto Mono',monospace;font-size:7px;letter-spacing:.06em;line-height:1.3}
+    .perf-auth-actions{display:flex;align-items:center;gap:8px;margin-top:6px}.perf-auth-actions button{min-width:105px}.perf-auth-actions span{font-family:"Roboto Mono",monospace;font-size:7px;letter-spacing:.08em;color:#79d8e6}
+.perf-runway-meta{display:block;margin-top:4px;color:#748084;font-family:'Roboto Mono',monospace;font-size:7px;letter-spacing:.06em;line-height:1.3}
 .perf-field{display:grid;grid-template-columns:1fr 1fr;min-height:34px;border-bottom:1px solid #303b3f}
     .perf-field:last-child{border-bottom:0}
     .perf-field label{padding:8px 7px;color:#849095;font-size:8px;letter-spacing:.07em}
@@ -3500,7 +3501,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
 
   async function callPerformance(url){
     const token=readToken();
-    const headers={Accept:"application/json, text/javascript, */*; q=0.01",Origin:location.origin};
+    const headers={Accept:"application/json, text/javascript, */*; q=0.01"};
     if(token)headers.Authorization=token.startsWith("Bearer ")?token:"Bearer "+token;
     const response=await fetch(url,{method:"GET",headers,cache:"no-store"});
     const textBody=await response.text();
@@ -3562,14 +3563,16 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / SIMBRIEF ENGINE</span></div>'+
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-grid">'+
-      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">'+(tab==="takeoff"?"CALCULATE":"CALCULATE")+'</button></div><div class="perf-auth"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="Bearer token / session token" value="'+esc(auth)+'"><small>Test tecnico: il token viene mantenuto solo in sessionStorage su questo browser. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">'+(auth?"AUTH TOKEN PRESENT · LOCAL SESSION":"NO PERFORMANCE AUTH TOKEN · CALCULATE WILL RETURN 401")+'</div></div></div></div>'+
+      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">'+(tab==="takeoff"?"CALCULATE":"CALCULATE")+'</button></div><div class="perf-auth"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="INCOLLA QUI IL TOKEN" value="'+esc(auth)+'"><div class="perf-auth-actions"><button type="button" class="secondary" id="perfTokenApply">APPLY TOKEN</button><span id="perfTokenState">TOKEN PRESENT · SESSION</span></div><small>Il token resta solo nella sessione di questo browser. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">AUTH TOKEN READY · REQUEST WILL USE BEARER AUTH</div></div></div></div></div>'+
       '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+outputFromApi(tab,data)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
       '<div class="perf-right">'+rightPanel(tab,l,data)+'</div>'+
       '</div><div class="perf-foot">v0.9.76 · TAKEOFF ENDPOINT CONNECTED · TLR REMAINS THE DEFAULT DATA SOURCE · PERFORMANCE TOKEN IS SESSION-ONLY</div>'+
       '</div>');
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{data:null}));
     const tokenInput=document.getElementById("perfAuthToken");
-    if(tokenInput)tokenInput.onchange=()=>{writeToken(tokenInput.value.trim());};
+    if(tokenInput){tokenInput.onchange=()=>{writeToken(tokenInput.value.trim());updateTokenState()};}
+    const updateTokenState=()=>{const v=clean(document.getElementById("perfAuthToken")?.value||"");const state=document.getElementById("perfTokenState"),engine=document.querySelector(".perf-engine-state");if(state)state.textContent=v?"TOKEN PRESENT · SESSION":"NO TOKEN";if(engine)engine.textContent=v?"AUTH TOKEN READY · REQUEST WILL USE BEARER AUTH":"NO PERFORMANCE AUTH TOKEN · INSERT TOKEN BEFORE CALCULATE"};
+    document.getElementById("perfTokenApply")?.addEventListener("click",()=>{writeToken(clean(document.getElementById("perfAuthToken")?.value||""));updateTokenState()});
     if(tab==="takeoff"){
       const airportInput=document.querySelector('#perfForm input[name="airport"]'),runwaySelect=document.getElementById("perfRunwaySelect");
       if(airportInput){
@@ -3584,6 +3587,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       const btn=document.getElementById("perfCalc"), form=document.getElementById("perfForm");
       const token=clean(document.getElementById("perfAuthToken")?.value||"");
       writeToken(token);
+      if(!token){const out=document.getElementById("perfOutput");if(out)out.innerHTML='<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">AUTHENTICATION REQUIRED</span></div><div class="perf-warning">Inserisci il Performance API Access Token e premi APPLY TOKEN prima di CALCULATE.</div>';return}
       if(tab!=="takeoff"){
         alert("Landing è pronto come UI, ma prima completiamo la mappatura del request/response reale di /v2/performance/landing. Il Takeoff è già collegato.");
         return;
