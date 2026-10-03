@@ -3366,7 +3366,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       altimeter:qnhFor(l,"takeoff"),
       surface_condition:upper(pick(c,"surface_condition")||"Dry").toLowerCase(),
       enable_flex:pick(r,"flex_temperature")!==""?"1":"1",
-      enable_climb_optimization":pick(r,"climb_optimized")===false?"0":"1"
+      enable_climb_optimization:pick(r,"climb_optimized")===false?"0":"1"
     };
   }
   function takeoffForm(l,a){
