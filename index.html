@@ -3183,6 +3183,21 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .perf-tabs{flex:0 0 38px}
     .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2}
     .modal:has(.perf-shell) .perf-data-row strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    /* v0.9.75 performance layout refinement — vertical speeds + narrower runway */
+    .modal:has(.perf-shell) .perf-grid{grid-template-columns:minmax(250px,0.9fr) minmax(430px,1.8fr) minmax(190px,0.55fr)}
+    .modal:has(.perf-shell) .perf-speeds{grid-template-columns:1fr;gap:5px}
+    .modal:has(.perf-shell) .perf-metric{min-height:54px;padding:7px 10px;display:grid;grid-template-columns:1fr auto;align-items:center}
+    .modal:has(.perf-shell) .perf-metric span{margin-bottom:0}
+    .modal:has(.perf-shell) .perf-metric strong{font-size:20px;text-align:right}
+    .modal:has(.perf-shell) .perf-metric em{text-align:right}
+    .modal:has(.perf-shell) .perf-runway{width:150px;max-width:100%;margin-left:auto;margin-right:auto}
+    .modal:has(.perf-shell) .perf-stop{left:4px;right:4px}
+    .modal:has(.perf-shell) .perf-margin{max-width:150px;margin-left:auto;margin-right:auto}
+    @media(max-width:900px){
+      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr}
+      .modal:has(.perf-shell) .perf-runway{width:150px}
+    }
+
     .modal:has(.perf-shell) .perf-warning{font-size:8px}
     @media(max-width:900px){
       .modal:has(.perf-shell){padding:8px!important}
