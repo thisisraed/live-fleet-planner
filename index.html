@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.81</title>
+<title>Live Fleet Planner 0.9.82</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1124,7 +1124,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.81</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.82</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1548,7 +1548,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.81",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.82",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -3261,6 +3261,26 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-metric span{color:#7f8b8f;font-size:8px;letter-spacing:.09em}
     .perf-metric strong{font-size:20px;font-weight:400;color:#63ed58}
     .perf-metric em{font-style:normal;color:#879398;font-size:8px;text-align:right}
+    /* v0.9.82 layout corrections */
+    .modal:has(.perf-shell) .modalbox{display:flex!important;flex-direction:column!important}
+    .modal:has(.perf-shell) .modalhead{box-sizing:border-box;flex:0 0 34px;height:34px;margin:0!important;padding:0 12px!important;align-items:center!important}
+    .modal:has(.perf-shell) .modalhead h3{margin:0!important;font-size:10px!important;line-height:1.2!important;letter-spacing:.1em!important}
+    .modal:has(.perf-shell) #closeModal{align-self:center!important;height:26px!important;padding:0 12px!important;margin:0!important}
+    .modal:has(.perf-shell) .perf-shell{height:calc(100% - 34px)!important;min-height:0;flex:1}
+    .modal:has(.perf-shell) .perf-grid{flex:1 1 auto!important;height:0!important;min-height:0!important;overflow:hidden!important}
+    .modal:has(.perf-shell) .perf-right{overflow-y:auto!important;overflow-x:hidden!important;padding-bottom:14px!important}
+    .modal:has(.perf-shell) .perf-mid{display:grid!important;grid-template-columns:minmax(0,1.65fr) minmax(180px,.85fr)!important;align-items:stretch!important;overflow:hidden!important;padding:0!important}
+    .modal:has(.perf-shell) .perf-output-main{min-width:0;overflow:auto!important;border-right:1px solid #3e494d!important}
+    .modal:has(.perf-shell) .perf-eosid{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:auto!important;background:#0d1214!important;border:0!important;padding:12px!important}
+    .modal:has(.perf-shell) .perf-eosid-empty{flex:1;min-height:120px;height:auto!important}
+    .modal:has(.perf-shell) .perf-foot{flex:0 0 28px;height:28px;box-sizing:border-box;display:flex;align-items:center;padding:0 12px!important;margin:0!important;white-space:nowrap;overflow:hidden}
+    @media(max-width:900px){
+      .modal:has(.perf-shell) .perf-shell{height:auto!important;flex:1}
+      .modal:has(.perf-shell) .perf-grid{height:auto!important;overflow:visible!important}
+      .modal:has(.perf-shell) .perf-mid{grid-template-columns:1fr!important;overflow:visible!important}
+      .modal:has(.perf-shell) .perf-eosid{min-height:220px}
+      .modal:has(.perf-shell) .perf-foot{white-space:normal;height:auto;min-height:28px}
+    }
     .perf-output-layout{display:grid;grid-template-columns:minmax(105px,0.72fr) minmax(0,2fr);gap:8px;align-items:start}
     .perf-speed-panel{display:flex;flex-direction:column;gap:6px}
     .perf-speed-green strong{color:#63ed58!important}
@@ -3658,7 +3678,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       :'<div class="perf-speed-panel">'+tlrMetric("VREF",tlrSpeed((selected?.distanceDry||{}).speeds_vref||(p?.distanceDry||{}).speeds_vref),"perf-speed-green")+'</div>';
     const content=hasTLR?
       '<div class="perf-left"><div class="perf-section-head">TLR CONDITIONS</div>'+tlrConditionRows(p,selected?.identifier)+'</div>'+
-      '<div class="perf-mid"><div class="perf-output-main"><div class="perf-result-head"><strong>SIMBRIEF TLR · '+title+'</strong><span class="perf-status">OFP DATA</span></div><div class="perf-output-layout">'+speedPanel+'<div class="perf-output-details">'+(tab==="takeoff"?tlrTakeoffOutput(selected):tlrLandingOutput(p,selected))+'</div></div></div></div>'+
+      '<div class="perf-mid"><div class="perf-output-main"><div class="perf-result-head"><strong>SIMBRIEF TLR · '+title+'</strong><span class="perf-status">OFP DATA</span></div><div class="perf-output-layout">'+speedPanel+'<div class="perf-output-details">'+(tab==="takeoff"?tlrTakeoffOutput(selected):tlrLandingOutput(p,selected))+'</div></div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
       '<div class="perf-right">'+tlrRightPanel(tab,p,selected)+'</div>'
       :
       '<div class="perf-no-tlr"><strong>NO SIMBRIEF TLR AVAILABLE</strong><span>Generate or import an OFP with RUNWAY ANALYSIS enabled, then use REFRESH OFP above.</span></div>';
@@ -3667,7 +3687,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-toolbar"><div><span>RUNWAY</span><select id="perfTlrRunway">'+runwayOptions+'</select></div><button type="button" class="secondary" id="perfRefreshOFP">REFRESH OFP</button></div>'+
       '<div class="perf-grid perf-tlr-grid">'+content+'</div>'+
-      '<div class="perf-foot">v0.9.81 · RESTORED THREE-PANEL LAYOUT · DATA SOURCE: SIMBRIEF OFP / TLR · NO PRIVATE PERFORMANCE TOKEN REQUIRED</div>'+
+      '<div class="perf-foot">v0.9.82 · RESTORED THREE-PANEL LAYOUT · DATA SOURCE: SIMBRIEF OFP / TLR · NO PRIVATE PERFORMANCE TOKEN REQUIRED</div>'+
       '</div>');
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{runwayId:document.getElementById("perfTlrRunway")?.value||""}));
     const rs=document.getElementById("perfTlrRunway");
