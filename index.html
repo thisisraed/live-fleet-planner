@@ -3170,7 +3170,30 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
   style.textContent=String.raw`
     .perf-open-btn{height:30px!important;padding:0 10px!important;margin-left:10px!important;border:1px solid #4e686d!important;background:#182326!important;color:#b7c5c8!important;font-family:"B612",sans-serif!important;font-size:9px!important;letter-spacing:.09em!important}
     .perf-open-btn:hover{border-color:#10b8c7!important;color:#10b8c7!important}
-    .perf-modal .modalbox{width:min(1180px,96vw)!important;max-width:1180px!important}
+    /* v0.9.75 UI fix — performance screen uses almost the full viewport and stays above sticky navigation */
+    .modal:has(.perf-shell){z-index:1000!important;align-items:center!important;justify-content:center!important;padding:2vh 2vw!important;overflow:auto!important}
+    .modal:has(.perf-shell) .modalbox{width:96vw!important;max-width:1500px!important;height:92vh!important;max-height:92vh!important;padding:0!important;overflow:hidden!important}
+    .modal:has(.perf-shell) .perf-shell{height:100%;display:flex;flex-direction:column;min-height:0}
+    .modal:has(.perf-shell) .perf-grid{flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(260px,0.9fr) minmax(420px,1.7fr) minmax(250px,0.8fr)}
+    .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{min-width:0;min-height:0;overflow:auto}
+    .modal:has(.perf-shell) .perf-right{overflow:hidden}
+    .modal:has(.perf-shell) .perf-runway{height:calc(100% - 92px);min-height:260px}
+    .modal:has(.perf-shell) .perf-foot{flex:0 0 auto}
+    .modal:has(.perf-shell) .perf-titlebar{flex:0 0 44px}
+    .modal:has(.perf-shell) .perf-tabs{flex:0 0 38px}
+    .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2}
+    .modal:has(.perf-shell) .perf-data-row strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .modal:has(.perf-shell) .perf-warning{font-size:8px}
+    @media(max-width:900px){
+      .modal:has(.perf-shell){padding:8px!important}
+      .modal:has(.perf-shell) .modalbox{width:98vw!important;height:94vh!important;max-height:94vh!important}
+      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr;overflow:auto}
+      .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{overflow:visible}
+      .modal:has(.perf-shell) .perf-runway{height:280px}
+    }
+    @media(max-width:600px){
+      .modal:has(.perf-shell) .modalbox{width:99vw!important;height:96vh!important;max-height:96vh!important}
+    }
     .perf-shell{background:#101517;border:1px solid #566267;color:#dce2e3}
     .perf-titlebar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #4a555a;background:#252d31}
     .perf-titlebar strong{font-size:14px;font-weight:400;letter-spacing:.10em}
