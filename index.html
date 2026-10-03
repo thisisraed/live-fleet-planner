@@ -3209,7 +3209,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell){z-index:1000!important;align-items:center!important;justify-content:center!important;padding:2vh 2vw!important;overflow:auto!important}
     .modal:has(.perf-shell) .modalbox{width:96vw!important;max-width:1500px!important;height:92vh!important;max-height:92vh!important;padding:0!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-shell{height:100%;display:flex;flex-direction:column;min-height:0}
-    .modal:has(.perf-shell) .perf-grid{flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(250px,.78fr) minmax(0,3.8fr) minmax(150px,.6fr)}
+    .modal:has(.perf-shell) .perf-grid{display:grid!important;flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(300px,.9fr) minmax(0,3.2fr) minmax(180px,.7fr)}
     .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{min-width:0;min-height:0;overflow:auto}
     .modal:has(.perf-shell) .perf-right{overflow:hidden;background:#0b1012!important}
     .modal:has(.perf-shell) .perf-mid{border-right:1px solid #3e494d!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;padding:0!important;overflow:hidden!important}
@@ -3505,11 +3505,11 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
         alert("Landing è pronto come UI, ma prima completiamo la mappatura del request/response reale di /v2/performance/landing. Il Takeoff è già collegato.");
         return;
       }
-      const fd=new FormData(form);
-      const v=Object.fromEntries(fd.entries());
-      const url=buildTakeoffUrl(v,l,a);
+      const v={};
+      form.querySelectorAll("input[name],select[name],textarea[name]").forEach(el=>{v[el.name]=el.value;});
       btn.disabled=true;btn.textContent="CALCULATING…";
       try{
+        const url=buildTakeoffUrl(v,l,a);
         const data=await callPerformance(url);
         render(tab,l,a,{data});
       }catch(err){
