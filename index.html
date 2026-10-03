@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.73</title>
+<title>Live Fleet Planner 0.9.74</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1120,10 +1120,11 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
   }
 }
 </style>
+<style>.calendar-mobile-agenda{display:none}</style>
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.73</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.74</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1182,6 +1183,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
     <div class="toolbar-right"><button id="addLiveBtn">+ Aggiungi live</button><button id="generateMonthBtn">Genera rotazione mese</button></div>
   </div>
   <div class="calendar" id="calendarGrid"></div>
+  <div class="calendar-mobile-agenda" id="calendarMobileAgenda"></div>
 </section>
 
 <section id="rotation" class="view">
@@ -1293,6 +1295,7 @@ const addLiveBtnEl=document.getElementById("addLiveBtn");
 const fleetTableEl=document.getElementById("fleetTable");
 const monthTitleEl=document.getElementById("monthTitle");
 const calendarGridEl=document.getElementById("calendarGrid");
+const calendarMobileAgendaEl=document.getElementById("calendarMobileAgenda");
 const rotationListEl=document.getElementById("rotationList");
 const statsEl=document.getElementById("stats");
 const upcomingEl=document.getElementById("upcoming");
@@ -1545,7 +1548,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.73",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.74",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -2355,6 +2358,36 @@ for(let i=0;i<42;i++){
   }).join("")}<div class="calendar-drag-hint">TRASCINA QUI PER SPOSTARE</div><button class="secondary" style="padding:3px 7px;font-size:11px;margin-top:5px" onclick="showLiveForm(null,'${dateKey}')">+</button></div>`);
 }
 calendarGridEl.innerHTML=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].map(x=>`<div class="dow">${x}</div>`).join("")+cells.join("");
+
+if(calendarMobileAgendaEl){
+  const monthDays=new Date(y,m+1,0).getDate();
+  const weekdayNames=['DOM','LUN','MAR','MER','GIO','VEN','SAB'];
+  let agenda=[];
+  for(let day=1;day<=monthDays;day++){
+    const d=new Date(y,m,day), dateKey=localDateKey(d);
+    const events=db.lives.filter(l=>localDateKey(new Date(l.date))===dateKey);
+    const today=dateKey===localDateKey(new Date());
+    const dayLabel=`${weekdayNames[d.getDay()]} ${String(day).padStart(2,'0')}`;
+    const eventMarkup=events.map(l=>{
+      const a=getAircraft(l.aircraftId);
+      const skipped=l.status==="skipped";
+      const done=l.status==="done";
+      const title=esc(l.title||"Live");
+      const pref=l.preference&&l.preference!=="any"?` · ${esc((PREFERENCES.find(p=>p.value===l.preference)||{}).label||"")}`:"";
+      const route=l.route&&l.route.from&&l.route.to?`<div class="calendar-mobile-route">✈ ${esc(l.route.from)} → ${esc(l.route.to)}</div>`:"";
+      const status=skipped?'<span class="calendar-mobile-status skipped">NON EFFETTUATA</span>':done?'<span class="calendar-mobile-status done">EFFETTUATA</span>':'<span class="calendar-mobile-status planned">PIANIFICATA</span>';
+      const special=l.special?'<span class="special-badge">SPECIALE</span>':'';
+      let actions='';
+      if(!skipped && !done){actions=`<div class="calendar-mobile-actions"><button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"MODIFICA ROTTA":"＋ ROTTA"}</button><button class="not-performed-btn" onclick="event.stopPropagation();confirmNotPerformedLive('${l.id}')">NON EFFETTUATA</button></div>`;}
+      else if(skipped){actions=`<div class="calendar-mobile-actions"><button class="not-performed-btn" onclick="event.stopPropagation();restoreLiveToPlanned('${l.id}')">RIPRISTINA LIVE</button></div>`;}
+      else if(done){actions=`<div class="calendar-mobile-actions"><button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"MODIFICA ROTTA":"＋ ROTTA"}</button></div>`;}
+      return `<div class="calendar-mobile-event ${skipped?'is-skipped':''}" onclick="showLiveForm('${l.id}')"><div class="calendar-mobile-event-top"><strong>${aircraftName(a?.name,"AEREO RIMOSSO")}</strong>${status}</div><div class="calendar-mobile-event-title">${title}${pref}</div>${special}${skipped?'<div class="calendar-mobile-note">LIVE NON EFFETTUATA · AEREO REINSERITO IN ROTAZIONE</div>':''}${route}${actions}</div>`;
+    }).join('');
+    const empty=!events.length;
+    agenda.push(`<section class="calendar-mobile-day ${today?'today':''}"><div class="calendar-mobile-day-head"><span>${dayLabel}</span><button class="secondary" onclick="showLiveForm(null,'${dateKey}')">＋</button></div>${empty?'<div class="calendar-mobile-empty">NESSUNA LIVE</div>':eventMarkup}<button class="calendar-mobile-add" onclick="showLiveForm(null,'${dateKey}')">＋ AGGIUNGI LIVE</button></section>`);
+  }
+  calendarMobileAgendaEl.innerHTML=agenda.join('');
+}
 }
 prevMonthEl.onclick=()=>{cursor.setMonth(cursor.getMonth()-1);renderCalendar()};nextMonthEl.onclick=()=>{cursor.setMonth(cursor.getMonth()+1);renderCalendar()};todayMonthEl.onclick=()=>{cursor=new Date();cursor.setDate(1);renderCalendar()};
 
@@ -3330,7 +3363,7 @@ button,.tab{font-weight:400!important}
 
 
 <style id="mobile-phone-0973">
-/* v0.9.73 — PHONE-ONLY RESPONSIVE PASS. Desktop/iPad layouts intentionally untouched. */
+/* v0.9.74 — PHONE-ONLY MOBILE CALENDAR AGENDA. Desktop/iPad layouts intentionally untouched. */
 @media (max-width:600px){
   html,body{
     width:100%!important;
@@ -3597,6 +3630,30 @@ button,.tab{font-weight:400!important}
   #settings .schedule-preview{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   #settings .settings-actions{justify-content:stretch!important}
   #settings .settings-actions .ois-button{width:100%!important;min-width:0!important}
+
+  /* Mobile calendar: agenda layout replaces the 7-column grid only on phones. */
+  #calendarGrid{display:none!important}
+  #calendarMobileAgenda{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important}
+  .calendar-mobile-day{border:1px solid #3f494e;background:#121719;margin:0 0 8px;padding:0;overflow:hidden}
+  .calendar-mobile-day.today{box-shadow:inset 0 0 0 2px var(--ois-yellow)!important}
+  .calendar-mobile-day-head{min-height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 9px;background:#252d31;border-bottom:1px solid #4e595e;font-family:'Roboto Mono',monospace;font-size:11px;letter-spacing:.08em;color:#d2d7d8}
+  .calendar-mobile-day-head span{font-weight:700}
+  .calendar-mobile-day-head button{width:30px!important;min-width:30px!important;height:30px!important;padding:0!important;font-size:14px!important}
+  .calendar-mobile-empty{padding:13px 10px;color:#727d80;font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.08em}
+  .calendar-mobile-event{margin:8px;border:1px solid #697378;background:#252d31;padding:9px;cursor:pointer}
+  .calendar-mobile-event.is-skipped{opacity:.72}
+  .calendar-mobile-event-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .calendar-mobile-event-top strong{min-width:0;font-family:'Roboto Mono',monospace;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#e0e4e5}
+  .calendar-mobile-event-title{margin-top:5px;color:var(--ois-cyan);font-size:10px;line-height:1.35;overflow-wrap:anywhere}
+  .calendar-mobile-route{margin-top:6px;color:var(--ois-cyan);font-family:'Roboto Mono',monospace;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .calendar-mobile-status{flex:0 0 auto;font-family:'Roboto Mono',monospace;font-size:7px;padding:4px 5px;border:1px solid #697378;letter-spacing:.04em}
+  .calendar-mobile-status.planned{color:var(--ois-cyan)}
+  .calendar-mobile-status.done{color:var(--ois-green)}
+  .calendar-mobile-status.skipped{color:var(--ois-yellow)}
+  .calendar-mobile-note{margin-top:6px;color:var(--ois-yellow);font-family:'Roboto Mono',monospace;font-size:8px;line-height:1.35}
+  .calendar-mobile-actions{display:flex;gap:6px;margin-top:8px}
+  .calendar-mobile-actions button{flex:1;min-width:0!important;font-size:8px!important;padding:6px 5px!important}
+  .calendar-mobile-add{display:block;width:calc(100% - 16px);margin:0 8px 8px;height:30px;padding:0 6px;border:1px solid #4d595e;background:#182124;color:#aeb7ba;font-family:'Roboto Mono',monospace;font-size:8px;letter-spacing:.06em}
 
   /* Forms/modals on narrow screens. */
   .modal{padding:10px!important}
