@@ -3210,7 +3210,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .modalbox{width:96vw!important;max-width:1500px!important;height:92vh!important;max-height:92vh!important;padding:0!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-shell{height:100%;display:flex;flex-direction:column;min-height:0}
     .modal:has(.perf-shell) .perf-grid{display:grid!important;flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(300px,.9fr) minmax(0,3.2fr) minmax(180px,.7fr)}
-    .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{min-width:0;min-height:0;overflow:auto}
+    .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{min-width:0;min-height:0;overflow:auto}.modal:has(.perf-shell) .perf-left{display:flex;flex-direction:column;padding:8px}.modal:has(.perf-shell) .perf-input-section{flex:1;min-height:0;overflow:auto;margin-bottom:8px}.modal:has(.perf-shell) .perf-auth-top{flex:0 0 auto;margin-bottom:8px}
     .modal:has(.perf-shell) .perf-right{overflow:hidden;background:#0b1012!important}
     .modal:has(.perf-shell) .perf-mid{border-right:1px solid #3e494d!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;padding:0!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-output-main,.modal:has(.perf-shell) .perf-eosid{padding:12px;min-width:0;overflow:auto}
@@ -3220,7 +3220,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .perf-eosid-empty span{color:#414c50;font-size:7px}
     .modal:has(.perf-shell) .perf-titlebar{flex:0 0 44px;padding:0 14px!important;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #4a555a;background:#252d31}
     .modal:has(.perf-shell) .perf-tabs{flex:0 0 38px}
-    .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2}
+    .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2;flex:0 0 auto;border:1px solid #414d51}
     .perf-shell{background:#101517;border:1px solid #566267;color:#dce2e3}
     .perf-titlebar strong{font-size:14px;font-weight:400;letter-spacing:.10em}
     .perf-titlebar span{font-size:9px;color:#768287;letter-spacing:.08em}
@@ -3563,10 +3563,14 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / SIMBRIEF ENGINE</span></div>'+
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-grid">'+
-      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">'+(tab==="takeoff"?"CALCULATE":"CALCULATE")+'</button></div><div class="perf-auth"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="INCOLLA QUI IL TOKEN" value="'+esc(auth)+'"><div class="perf-auth-actions"><button type="button" class="secondary" id="perfTokenApply">APPLY TOKEN</button><span id="perfTokenState">TOKEN PRESENT · SESSION</span></div><small>Il token resta solo nella sessione di questo browser. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">AUTH TOKEN READY · REQUEST WILL USE BEARER AUTH</div></div></div></div></div>'+
+      '<div class="perf-left">'+
+      '<div class="perf-auth perf-auth-top"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="INCOLLA QUI IL TOKEN" value="'+esc(auth)+'"><div class="perf-auth-actions"><button type="button" class="secondary" id="perfTokenApply">APPLY TOKEN</button><span id="perfTokenState">'+(auth?"TOKEN PRESENT · SESSION":"NO TOKEN")+'</span></div><small>Token locale alla sessione Safari. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">'+(auth?"AUTH TOKEN READY · BEARER WILL BE SENT":"NO TOKEN · INSERT TOKEN BEFORE CALCULATE")+'</div></div>'+
+      '<div class="perf-section perf-input-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div></div>'+
+      '<div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">CALCULATE</button></div>'+
+      '</div>'+
       '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+outputFromApi(tab,data)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
       '<div class="perf-right">'+rightPanel(tab,l,data)+'</div>'+
-      '</div><div class="perf-foot">v0.9.76 · TAKEOFF ENDPOINT CONNECTED · TLR REMAINS THE DEFAULT DATA SOURCE · PERFORMANCE TOKEN IS SESSION-ONLY</div>'+
+      '</div><div class="perf-foot">v0.9.76.5 · TAKEOFF ENDPOINT CONNECTED · TLR REMAINS THE DEFAULT DATA SOURCE · PERFORMANCE TOKEN IS SESSION-ONLY</div>'+
       '</div>');
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{data:null}));
     const tokenInput=document.getElementById("perfAuthToken");
