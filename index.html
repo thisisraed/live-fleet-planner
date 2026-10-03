@@ -3167,7 +3167,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
 (function(){
   const style=document.createElement("style");
   style.id="performance-prototype-style";
-  style.textContent=String.raw\`
+  style.textContent=String.raw`
     .perf-open-btn{height:30px!important;padding:0 10px!important;margin-left:10px!important;border:1px solid #4e686d!important;background:#182326!important;color:#b7c5c8!important;font-family:"B612",sans-serif!important;font-size:9px!important;letter-spacing:.09em!important}
     .perf-open-btn:hover{border-color:#10b8c7!important;color:#10b8c7!important}
     .perf-modal .modalbox{width:min(1180px,96vw)!important;max-width:1180px!important}
@@ -3216,7 +3216,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-foot{padding:8px 12px;border-top:1px solid #465257;background:#151b1e;color:#727e82;font-size:7px;letter-spacing:.05em}
     @media(max-width:900px){.perf-grid{grid-template-columns:1fr}.perf-left,.perf-mid,.perf-right{border-right:0;border-bottom:1px solid #3e494d}.perf-runway{height:280px}}
     @media(max-width:600px){.perf-modal .modalbox{width:98vw!important}.perf-grid{display:block}.perf-speeds,.perf-data{grid-template-columns:1fr 1fr}.perf-left,.perf-mid,.perf-right{padding:8px}.perf-tab{flex:1 1 50%;font-size:9px}}
-  \`;
+  `;
   document.head.appendChild(style);
 
   function todayLive(){
