@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.84</title>
+<title>Live Fleet Planner 0.9.85</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,7 @@ nav{display:flex;gap:5px;padding:10px 28px;border-bottom:1px solid var(--border)
 main{padding:26px 28px;max-width:1500px;margin:auto}.view{display:none}.view.active{display:block}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,rgba(15,30,47,.96),rgba(10,23,37,.96));border:1px solid var(--border);border-radius:12px;padding:17px;box-shadow:var(--shadow)}.stat{font-size:30px;font-weight:850;letter-spacing:-.03em}.muted{color:var(--muted);font-size:12px}.toolbar{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap}.toolbar-left,.toolbar-right{display:flex;gap:8px;align-items:center}h2{margin:0 0 5px;font-size:22px;letter-spacing:-.02em}h3{margin:0 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:.07em;color:#b9d1e5}
 table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--border);font-size:14px}th{color:#70879d;font-size:10px;text-transform:uppercase;letter-spacing:.1em}tr:last-child td{border-bottom:0}.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#102c42;color:#8edfff;font-size:11px;border:1px solid #24506c}.warning-badge{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;background:#3b2416;color:#ffc27b;border:1px solid #694329;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#0b1725;box-shadow:var(--shadow)}.dow{padding:10px;color:#70879d;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);background:#0d1b2b}.day{min-height:125px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px;position:relative}.day:nth-child(7n){border-right:0}.day.other{opacity:.3}.day.today{box-shadow:inset 0 0 0 2px var(--accent);background:rgba(57,198,255,.035)}.daynum{font-size:11px;color:#7890a5;margin-bottom:7px}.event{background:linear-gradient(135deg,#12304a,#10283d);border:1px solid #25516e;padding:7px;border-radius:8px;font-size:12px;margin-top:5px;cursor:pointer;position:relative;padding-right:30px;box-shadow:0 5px 14px rgba(0,0,0,.16)}.event strong{display:block;font-size:12px}.event small{color:#91cbe6}.delete-event{display:none;position:absolute;right:5px;top:5px;width:20px;height:20px;padding:0;border-radius:50%;background:#4a1d29;color:#ff9aaa;border:1px solid #713142;font-size:13px;line-height:18px;font-weight:800;box-shadow:none}.event:hover .delete-event{display:block}.delete-event:hover{background:#672637;color:#fff}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field-hint{font-size:10px;letter-spacing:.08em;opacity:.62;margin-top:6px;text-transform:uppercase}
+.live-aircraft-field{min-width:0}.live-aircraft-field input[type="search"]{margin-bottom:7px}.live-aircraft-field select{width:100%}.live-aircraft-field .field-hint{font-size:10px;letter-spacing:.03em;text-transform:none;opacity:.7}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field-hint{font-size:10px;letter-spacing:.08em;opacity:.62;margin-top:6px;text-transform:uppercase}
 .field label{display:block;color:#8297ab;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border-radius:8px;border:1px solid var(--border);background:#091625;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:#2d7192;box-shadow:0 0 0 3px rgba(57,198,255,.08)}
 .modal{position:fixed;inset:0;background:rgba(0,5,10,.76);display:none;align-items:center;justify-content:center;padding:20px;z-index:10;backdrop-filter:blur(5px)}.modal.show{display:flex}.modalbox{background:#0c1b2b;border:1px solid #29445b;border-radius:14px;padding:20px;max-width:600px;width:100%;box-shadow:0 24px 70px rgba(0,0,0,.5)}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h3{margin:0}.empty{padding:30px;text-align:center;color:var(--muted)}.rotation{display:grid;gap:8px}.rotation-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--panel);border:1px solid var(--border);border-radius:9px}
 .schedule-preview{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:16px}.schedule-chip{padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--panel2);font-size:12px}.schedule-chip strong{display:block;font-size:13px}.schedule-chip.off{opacity:.45}
@@ -1124,7 +1124,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.84</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.85</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1554,7 +1554,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.84",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.85",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -1854,10 +1854,10 @@ document.getElementById("fleetSort").addEventListener("change",renderFleet);
 function deleteAircraft(id){if(!confirm("Eliminare questo aereo? Verranno eliminate anche le live associate."))return;db.aircraft=db.aircraft.filter(a=>a.id!==id);db.lives=db.lives.filter(l=>l.aircraftId!==id);save("✓ Aereo eliminato")}
 
 function liveForm(l={}){
-const def=l.date?l.date.slice(0,10):new Date().toISOString().slice(0,10);
-return `<form id="liveForm"><div class="formgrid"><div class="field"><label>Data</label><input type="date" name="date" required value="${def}"></div><div class="field"><label>Aereo</label><select name="aircraftId" required>${db.aircraft.map(a=>`<option value="${a.id}" ${a.id===l.aircraftId?"selected":""}>${aircraftName(a.name)} — ${esc(a.sim)}</option>`).join("")}</select></div><div class="field"><label>Titolo / descrizione (opzionale)</label><input name="title" value="${esc(l.title||"")}" placeholder="es. Volo Milano → New York"></div><div class="field"><label>Stato</label><select name="status"><option ${l.status==="planned"?"selected":""} value="planned">Pianificata</option><option ${l.status==="done"?"selected":""} value="done">Completata</option></select></div><label class="special-live-field"><input type="checkbox" name="special" ${l.special?"checked":""}><span>Live speciale · Preview / Collaborazione</span><span class="special-live-hint">NON INFLUENZA LA ROTAZIONE</span></label></div><div style="margin-top:15px;display:flex;justify-content:flex-end;gap:8px">${l.id?`<button type="button" class="danger" onclick="confirmDeleteLive('${l.id}')">Elimina</button>`:""}<button type="button" class="secondary" onclick="hideModal()">Annulla</button><button>Salva live</button></div></form>`
+ const def=l.date?l.date.slice(0,10):new Date().toISOString().slice(0,10);
+ const aircraftOptions=[...db.aircraft].sort((a,b)=>String(a.name||"").localeCompare(String(b.name||""),"it",{sensitivity:"base"})).map(a=>`<option value="${a.id}" ${a.id===l.aircraftId?"selected":""}>${aircraftName(a.name)} — ${esc(a.sim)}</option>`).join("");
+ return `<form id="liveForm"><div class="formgrid"><div class="field"><label>Data</label><input type="date" name="date" required value="${def}"></div><div class="field live-aircraft-field"><label for="liveAircraftSearch">Aereo</label><input id="liveAircraftSearch" type="search" placeholder="Cerca un aereo…" autocomplete="off" aria-label="Cerca un aereo nella lista"><select id="liveAircraftSelect" name="aircraftId" required aria-label="Seleziona aereo">${aircraftOptions}</select><div class="field-hint" id="liveAircraftCount">${db.aircraft.length} aerei disponibili · ordine alfabetico</div></div><div class="field"><label>Titolo / descrizione (opzionale)</label><input name="title" value="${esc(l.title||"")}" placeholder="es. Volo Milano → New York"></div><div class="field"><label>Stato</label><select name="status"><option ${l.status==="planned"?"selected":""} value="planned">Pianificata</option><option ${l.status==="done"?"selected":""} value="done">Completata</option></select></div><label class="special-live-field"><input type="checkbox" name="special" ${l.special?"checked":""}><span>Live speciale · Preview / Collaborazione</span><span class="special-live-hint">NON INFLUENZA LA ROTAZIONE</span></label></div><div style="margin-top:15px;display:flex;justify-content:flex-end;gap:8px">${l.id?`<button type="button" class="danger" onclick="confirmDeleteLive('${l.id}')">Elimina</button>`:""}<button type="button" class="secondary" onclick="hideModal()">Annulla</button><button>Salva live</button></div></form>`
 }
-
 function firstValue(...values){
   for(const v of values){
     if(v!==undefined && v!==null && String(v).trim()!=="") return v;
@@ -2316,6 +2316,22 @@ function showLiveForm(id, dateKey=""){
   if(!db.aircraft.length){alert("Aggiungi almeno un aereo prima di creare una live.");return;}
   openModal(id?"Modifica live":"Aggiungi live",liveForm(l));
   const form=document.getElementById("liveForm");
+  const aircraftSearch=document.getElementById("liveAircraftSearch");
+  const aircraftSelect=document.getElementById("liveAircraftSelect");
+  const aircraftCount=document.getElementById("liveAircraftCount");
+  const allAircraftOptions=[...aircraftSelect.options].map(o=>({value:o.value,text:o.text}));
+  aircraftSearch.addEventListener("input",()=>{
+    const query=aircraftSearch.value.trim().toLocaleLowerCase("it");
+    const current=aircraftSelect.value;
+    let visible=0;
+    allAircraftOptions.forEach(item=>{
+      const option=[...aircraftSelect.options].find(o=>o.value===item.value);
+      const match=item.text.toLocaleLowerCase("it").includes(query);
+      option.hidden=!match && item.value!==current;
+      if(match)visible++;
+    });
+    aircraftCount.textContent=query?`${visible} risultati · seleziona l'aereo dalla lista`:`${allAircraftOptions.length} aerei disponibili · ordine alfabetico`;
+  });
   form.onsubmit=e=>{
     e.preventDefault();
     const f=new FormData(form);
@@ -3289,7 +3305,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-metric span{color:#7f8b8f;font-size:8px;letter-spacing:.09em}
     .perf-metric strong{font-size:20px;font-weight:400;color:#63ed58}
     .perf-metric em{font-style:normal;color:#879398;font-size:8px;text-align:right}
-    /* v0.9.84 layout corrections */
+    /* v0.9.85 layout corrections */
     .modal:has(.perf-shell) .modalbox{display:flex!important;flex-direction:column!important}
     .modal:has(.perf-shell) .modalhead{box-sizing:border-box;flex:0 0 34px;height:34px;margin:0!important;padding:0 12px!important;align-items:center!important}
     .modal:has(.perf-shell) .modalhead h3{margin:0!important;font-size:10px!important;line-height:1.2!important;letter-spacing:.1em!important}
@@ -3715,7 +3731,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-toolbar"><div><span>RUNWAY</span><select id="perfTlrRunway">'+runwayOptions+'</select></div><button type="button" class="secondary" id="perfRefreshOFP">REFRESH OFP</button></div>'+
       '<div class="perf-grid perf-tlr-grid">'+content+'</div>'+
-      '<div class="perf-foot">v0.9.84 · RESTORED THREE-PANEL LAYOUT · DATA SOURCE: SIMBRIEF OFP / TLR · NO PRIVATE PERFORMANCE TOKEN REQUIRED</div>'+
+      '<div class="perf-foot">v0.9.85 · RESTORED THREE-PANEL LAYOUT · DATA SOURCE: SIMBRIEF OFP / TLR · NO PRIVATE PERFORMANCE TOKEN REQUIRED</div>'+
       '</div>');
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{runwayId:document.getElementById("perfTlrRunway")?.value||""}));
     const rs=document.getElementById("perfTlrRunway");
