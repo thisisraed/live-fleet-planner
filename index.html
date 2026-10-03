@@ -3200,7 +3200,10 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .modalhead button{margin:0!important;align-self:center!important}
     .modal:has(.perf-shell) .perf-metric{grid-template-columns:1fr auto!important;text-align:left!important}
     .modal:has(.perf-shell) .perf-metric span{justify-self:start!important;text-align:left!important}
-    .modal:has(.perf-shell) .perf-metric strong{justify-self:end!important;text-align:right!important}
+    .modal:has(.perf-shell) .perf-metric{grid-template-columns:44px 1fr!important}
+    .modal:has(.perf-shell) .perf-metric span{grid-column:1!important}
+    .modal:has(.perf-shell) .perf-metric strong{grid-column:2!important;justify-self:start!important;text-align:left!important}
+    .modal:has(.perf-shell) .perf-metric em{grid-column:3!important;justify-self:start!important;text-align:left!important}
     .modal:has(.perf-shell) .perf-metric em{justify-self:end!important;text-align:right!important}
     .modal:has(.perf-shell) .perf-result-head{margin-top:0!important}
 
