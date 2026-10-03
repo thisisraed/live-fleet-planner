@@ -3185,12 +3185,15 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .perf-data-row strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     /* v0.9.75 performance layout refinement — vertical speeds + narrower runway */
     /* v0.9.75 performance output split — reserve right half for future EOSID */
-    .modal:has(.perf-shell) .perf-grid{grid-template-columns:minmax(250px,0.78fr) minmax(0,1.9fr) minmax(0,1.9fr)}
-    .modal:has(.perf-shell) .perf-mid{border-right:1px solid #3e494d!important}
-    .modal:has(.perf-shell) .perf-mid{display:grid!important;grid-template-rows:auto 1fr!important}
-    .modal:has(.perf-shell) .perf-mid #perfOutput{min-width:0}
-    .modal:has(.perf-shell) .perf-right{background:#0b1012!important}
-    .modal:has(.perf-shell) .perf-right:before{content:"EOSID / FUTURE MODULE";display:block;padding:8px 10px;margin-bottom:10px;border:1px solid #303a3e;background:#111719;color:#5f6c70;font-size:8px;letter-spacing:.10em;text-align:left}
+    .modal:has(.perf-shell) .perf-grid{grid-template-columns:minmax(250px,0.78fr) minmax(0,3.8fr) minmax(150px,0.6fr)}
+    .modal:has(.perf-shell) .perf-mid{border-right:1px solid #3e494d!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;padding:0!important;overflow:hidden!important}
+    .modal:has(.perf-shell) .perf-output-main,.modal:has(.perf-shell) .perf-eosid{padding:12px;min-width:0;overflow:auto}
+    .modal:has(.perf-shell) .perf-output-main{border-right:1px solid #3e494d}
+    .modal:has(.perf-shell) .perf-eosid{background:#0d1214}
+    .modal:has(.perf-shell) .perf-eosid .perf-section-head{margin:-12px -12px 10px}
+    .modal:has(.perf-shell) .perf-eosid-empty{height:calc(100% - 38px);display:flex;align-items:center;justify-content:center;text-align:center;color:#556267;font-family:"B612 Mono",monospace;font-size:9px;line-height:1.7;letter-spacing:.08em}
+    .modal:has(.perf-shell) .perf-eosid-empty span{color:#414c50;font-size:7px}
+    .modal:has(.perf-shell) .perf-right{background:#0b1012!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-runway{margin-top:0!important}
     @media(max-width:900px){
       .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr}
@@ -3364,7 +3367,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-grid">'+
       '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">OPERATIONAL INPUT</div><div id="perfForm">'+form+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">CALCULATE</button></div></div></div>'+
-      '<div class="perf-mid"><div id="perfOutput">'+output(tab)+'</div></div>'+
+      '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+output(tab)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
       '<div class="perf-right"><div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY INPUT</span><div class="perf-centerline"></div><div class="perf-stop">ASD 2776 M</div><span class="perf-rwy-end">RWY</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>1403 M</strong></div></div>'+
       '</div><div class="perf-foot">PROTOTYPE v0.9.75 · INPUTS MIRROR SIMBRIEF PERFORMANCE & TOOLS · CALCULATION ENGINE NOT YET CONNECTED</div>'+
       '</div>');
