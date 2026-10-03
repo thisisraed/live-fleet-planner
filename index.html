@@ -3190,6 +3190,20 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .modal:has(.perf-shell) .perf-metric span{margin-bottom:0}
     .modal:has(.perf-shell) .perf-metric strong{font-size:20px;text-align:right}
     .modal:has(.perf-shell) .perf-metric em{text-align:right}
+    /* v0.9.75 final performance alignment — speed values anchored left, modal header aligned */
+    .modal:has(.perf-shell) .perf-titlebar{padding:0 14px!important;align-items:center!important}
+    .modal:has(.perf-shell) .perf-titlebar strong{margin:0!important;line-height:1!important}
+    .modal:has(.perf-shell) .perf-titlebar span{margin:0!important;line-height:1!important}
+    .modal:has(.perf-shell) .perf-modal-close{position:absolute!important;top:8px!important;right:10px!important}
+    .modal:has(.perf-shell) .modalbox>.modalhead{height:36px!important;margin:0!important;padding:0 10px!important;display:flex!important;align-items:center!important}
+    .modal:has(.perf-shell) .modalhead h3{margin:0!important;line-height:1!important}
+    .modal:has(.perf-shell) .modalhead button{margin:0!important;align-self:center!important}
+    .modal:has(.perf-shell) .perf-metric{grid-template-columns:1fr auto!important;text-align:left!important}
+    .modal:has(.perf-shell) .perf-metric span{justify-self:start!important;text-align:left!important}
+    .modal:has(.perf-shell) .perf-metric strong{justify-self:end!important;text-align:right!important}
+    .modal:has(.perf-shell) .perf-metric em{justify-self:end!important;text-align:right!important}
+    .modal:has(.perf-shell) .perf-result-head{margin-top:0!important}
+
     .modal:has(.perf-shell) .perf-runway{width:150px;max-width:100%;margin-left:auto;margin-right:auto}
     .modal:has(.perf-shell) .perf-stop{left:4px;right:4px}
     .modal:has(.perf-shell) .perf-margin{max-width:150px;margin-left:auto;margin-right:auto}
