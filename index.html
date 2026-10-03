@@ -1124,7 +1124,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.74</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.75</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1548,7 +1548,7 @@ async function githubGetDatabase(){
   }
 }
 function cloudPayload(){
-  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.74",updatedAt:new Date().toISOString(),data:copy};
+  const copy=JSON.parse(JSON.stringify(db)); delete copy.cloud; return {schemaVersion:1,appVersion:"0.9.75",updatedAt:new Date().toISOString(),data:copy};
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -3161,6 +3161,177 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
   #fleet #fleetTable table{min-width:900px!important}
 }
 </style>
+
+
+<script id="performance-prototype-v0-9-75">
+(function(){
+  const style=document.createElement("style");
+  style.id="performance-prototype-style";
+  style.textContent=String.raw\`
+    .perf-open-btn{height:30px!important;padding:0 10px!important;margin-left:10px!important;border:1px solid #4e686d!important;background:#182326!important;color:#b7c5c8!important;font-family:"B612",sans-serif!important;font-size:9px!important;letter-spacing:.09em!important}
+    .perf-open-btn:hover{border-color:#10b8c7!important;color:#10b8c7!important}
+    .perf-modal .modalbox{width:min(1180px,96vw)!important;max-width:1180px!important}
+    .perf-shell{background:#101517;border:1px solid #566267;color:#dce2e3}
+    .perf-titlebar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #4a555a;background:#252d31}
+    .perf-titlebar strong{font-size:14px;font-weight:400;letter-spacing:.10em}
+    .perf-titlebar span{font-size:9px;color:#768287;letter-spacing:.08em}
+    .perf-tabs{display:flex;border-bottom:1px solid #465257;background:#161c1f}
+    .perf-tab{flex:0 0 130px;height:38px;border:0!important;border-right:1px solid #3e494d!important;background:#20282b!important;color:#879398!important}
+    .perf-tab.active{background:#2c3539!important;color:#10b8c7!important;border-bottom:2px solid #10b8c7!important}
+    .perf-grid{display:grid;grid-template-columns:250px minmax(360px,1fr) 260px;min-height:500px}
+    .perf-left,.perf-mid,.perf-right{padding:12px;border-right:1px solid #3e494d}
+    .perf-right{border-right:0;background:#0b1012}
+    .perf-section{margin-bottom:10px;border:1px solid #414d51;background:#181f22}
+    .perf-section-head{height:26px;display:flex;align-items:center;padding:0 8px;background:#2a3236;color:#b9c4c7;font-size:8px;letter-spacing:.10em;border-bottom:1px solid #414d51}
+    .perf-field{display:grid;grid-template-columns:1fr 1fr;min-height:34px;border-bottom:1px solid #303b3f}
+    .perf-field:last-child{border-bottom:0}
+    .perf-field label{padding:8px 7px;color:#849095;font-size:8px;letter-spacing:.07em}
+    .perf-field input,.perf-field select{width:100%;height:32px;border:0!important;border-left:1px solid #303b3f!important;border-radius:0!important;background:#151b1e!important;color:#dce2e3!important;padding:0 7px!important;font-family:"B612 Mono",monospace!important;font-size:10px!important}
+    .perf-field input:focus,.perf-field select:focus{outline:1px solid #10b8c7!important}
+    .perf-calc-row{display:flex;justify-content:flex-end;gap:7px;padding:10px;background:#151b1e}
+    .perf-calc{min-width:110px;height:34px!important;background:#1b9faf!important;color:#071113!important;border:1px solid #59dce7!important}
+    .perf-reset{height:34px!important}
+    .perf-result-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid #465257}
+    .perf-result-head strong{font-size:10px;font-weight:400;letter-spacing:.09em}
+    .perf-status{font-size:8px;color:#f0ca53;letter-spacing:.07em}
+    .perf-speeds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+    .perf-metric{border:1px solid #4b585c;background:#171e21;min-height:70px;padding:8px}
+    .perf-metric span{display:block;color:#7f8b8f;font-size:8px;letter-spacing:.09em;margin-bottom:10px}
+    .perf-metric strong{font-family:"B612 Mono",monospace;font-size:22px;font-weight:400;color:#63ed58}
+    .perf-metric em{font-style:normal;color:#879398;font-size:8px;margin-left:3px}
+    .perf-data{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+    .perf-data-row{border:1px solid #414d51;background:#181f22;min-height:40px;padding:7px}
+    .perf-data-row span{display:block;color:#7f8b8f;font-size:7px;letter-spacing:.08em}
+    .perf-data-row strong{display:block;margin-top:4px;font-family:"B612 Mono",monospace;color:#cbd4d6;font-size:11px;font-weight:400}
+    .perf-warning{padding:9px;border:1px solid #6b5b2c;background:#27240f;color:#e5c75d;font-size:8px;line-height:1.45;letter-spacing:.04em}
+    .perf-runway{height:350px;position:relative;border:1px solid #394549;background:#050708;overflow:hidden}
+    .perf-runway:before{content:"";position:absolute;left:50%;top:18px;bottom:18px;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#e9eded 0 22px,transparent 22px 37px)}
+    .perf-centerline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#555f62;transform:translateX(-50%);opacity:.45}
+    .perf-rwy-label{position:absolute;left:8px;top:7px;color:#fff;font-family:"B612 Mono",monospace;font-size:11px}
+    .perf-rwy-end{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);color:#fff;font-family:"B612 Mono",monospace;font-size:18px}
+    .perf-stop{position:absolute;left:8px;right:8px;top:28%;height:22px;border-top:2px solid #63ed58;border-bottom:2px solid #63ed58;color:#63ed58;font-family:"B612 Mono",monospace;font-size:9px;text-align:right;padding-top:3px}
+    .perf-margin{margin-top:9px;border:1px solid #465257;padding:9px;background:#171e21}
+    .perf-margin span{display:block;color:#7f8b8f;font-size:8px;letter-spacing:.08em}
+    .perf-margin strong{display:block;margin-top:5px;color:#63ed58;font-family:"B612 Mono",monospace;font-size:18px;font-weight:400}
+    .perf-foot{padding:8px 12px;border-top:1px solid #465257;background:#151b1e;color:#727e82;font-size:7px;letter-spacing:.05em}
+    @media(max-width:900px){.perf-grid{grid-template-columns:1fr}.perf-left,.perf-mid,.perf-right{border-right:0;border-bottom:1px solid #3e494d}.perf-runway{height:280px}}
+    @media(max-width:600px){.perf-modal .modalbox{width:98vw!important}.perf-grid{display:block}.perf-speeds,.perf-data{grid-template-columns:1fr 1fr}.perf-left,.perf-mid,.perf-right{padding:8px}.perf-tab{flex:1 1 50%;font-size:9px}}
+  \`;
+  document.head.appendChild(style);
+
+  function todayLive(){
+    const key=typeof localDateKey==="function"?localDateKey(new Date()):new Date().toISOString().slice(0,10);
+    return Array.isArray(db.lives)?db.lives.find(l=>String(l.date).slice(0,10)===key && l.status!=="skipped"):null;
+  }
+  function aircraftFor(l){return l?getAircraft(l.aircraftId):null}
+
+  function field(label,name,value,type="text",options=[]){
+    if(type==="select") return '<div class="perf-field"><label>'+label+'</label><select name="'+name+'">'+options.map(o=>'<option value="'+esc(o.value)+'" '+(String(value)==String(o.value)?'selected':'')+'>'+esc(o.label)+'</option>').join('')+'</select></div>';
+    return '<div class="perf-field"><label>'+label+'</label><input name="'+name+'" type="'+type+'" value="'+esc(value??'')+'"></div>';
+  }
+  function takeoffForm(l,a){
+    const md=l?.manualData||{};
+    return [
+      field("AIRPORT","airport",l?.route?.from||""),
+      field("RUNWAY","runway",""),
+      field("INTX / LENGTH","length","FULL LENGTH"),
+      field("TAKEOFF WEIGHT","weight",md.tow||""),
+      field("FLAP SETTING","flap","OPTIMUM","select",[{value:"OPTIMUM",label:"OPTIMUM"},{value:"1+F",label:"1+F"},{value:"2",label:"2"},{value:"3",label:"3"}]),
+      field("THRUST SETTING","thrust","TOGA/FLEX","select",[{value:"TOGA/FLEX",label:"TOGA / FLEX"},{value:"TOGA",label:"TOGA"}]),
+      field("BLEED SETTING","bleed","AUTO","select",[{value:"AUTO",label:"AUTO"},{value:"OFF",label:"OFF"}]),
+      field("ANTI-ICE SETTING","aice","AUTO","select",[{value:"AUTO",label:"AUTO"},{value:"OFF",label:"OFF"},{value:"ENG",label:"ENG"}]),
+      field("WIND","wind",md.wind||""),
+      field("TEMPERATURE","temp",md.temperature||""),
+      field("PRESSURE / QNH","qnh",md.qnh||""),
+      field("SURFACE CONDITION","surface","DRY","select",[{value:"DRY",label:"DRY"},{value:"WET",label:"WET"}]),
+      field("FLEX / ASSUMED TEMP","flex","","number"),
+      field("IMPROVED CLIMB","climb","ENABLED","select",[{value:"ENABLED",label:"ENABLED"},{value:"DISABLED",label:"DISABLED"}])
+    ].join("");
+  }
+  function landingForm(l,a){
+    const md=l?.manualData||{};
+    return [
+      field("AIRPORT","airport",l?.route?.to||""),
+      field("RUNWAY","runway",""),
+      field("INTX / LENGTH","length","FULL LENGTH"),
+      field("LANDING WEIGHT","weight",md.ldw||""),
+      field("FLAP SETTING","flap","FULL","select",[{value:"FULL",label:"FULL"},{value:"CONF 3",label:"CONF 3"},{value:"CONF 2",label:"CONF 2"}]),
+      field("BRAKE SETTING","brake","OPTIMUM","select",[{value:"OPTIMUM",label:"OPTIMUM"},{value:"LOW",label:"LOW"},{value:"MED",label:"MED"}]),
+      field("REVERSER CREDIT","reverser","YES","select",[{value:"YES",label:"YES"},{value:"NO",label:"NO"}]),
+      field("VREF ADDITIVE","vrefadd","5","select",[{value:"0",label:"0"},{value:"3",label:"3"},{value:"5",label:"5"},{value:"10",label:"10"}]),
+      field("WIND","wind",md.wind||""),
+      field("TEMPERATURE","temp",md.temperature||""),
+      field("PRESSURE / QNH","qnh",md.qnh||""),
+      field("SURFACE CONDITION","surface","DRY","select",[{value:"DRY",label:"DRY"},{value:"WET",label:"WET"}]),
+      field("CALCULATION METHOD","method","INFLIGHT METHOD","select",[{value:"INFLIGHT METHOD",label:"INFLIGHT METHOD"},{value:"QRH",label:"QRH"}]),
+      field("CALCULATION REFERENCE","reference","FACTORED DISTANCE","select",[{value:"FACTORED DISTANCE",label:"FACTORED DISTANCE"},{value:"ACTUAL DISTANCE",label:"ACTUAL DISTANCE"}])
+    ].join("");
+  }
+
+  function output(tab){
+    const isTo=tab==="takeoff";
+    const vals=isTo?{v1:"144",vr:"144",v2:"146",mode:"FLEX 62 °C",conf:"CONF 2",limit:"CLIMB-FIELD",mtow:"73.9 T",distance:"2776 M",margin:"1403 M"}:{v1:"137",vr:"—",v2:"—",mode:"VAPP 142 KT",conf:"FULL",limit:"FACTORED DISTANCE",mtow:"—",distance:"1850 M",margin:"2329 M"};
+    return '<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">TEST FRONTEND · ENGINE OFFLINE</span></div>'+
+      '<div class="perf-speeds">'+
+      '<div class="perf-metric"><span>'+ (isTo?"V1":"VREF") +'</span><strong>'+vals.v1+'</strong><em>KT</em></div>'+
+      '<div class="perf-metric"><span>'+ (isTo?"VR":"VAPP") +'</span><strong>'+ (isTo?vals.vr:vals.mode.replace("VAPP ",""))+'</strong><em>KT</em></div>'+
+      '<div class="perf-metric"><span>'+ (isTo?"V2":"LDG DIST") +'</span><strong>'+ (isTo?vals.v2:vals.distance.replace(" M",""))+'</strong><em>'+ (isTo?"KT":"M") +'</em></div>'+
+      '</div>'+
+      '<div class="perf-data">'+
+      '<div class="perf-data-row"><span>CONFIGURATION</span><strong>'+vals.conf+'</strong></div>'+
+      '<div class="perf-data-row"><span>'+ (isTo?"THRUST / FLEX":"CALCULATION") +'</span><strong>'+vals.mode+'</strong></div>'+
+      '<div class="perf-data-row"><span>'+ (isTo?"LIMITATION":"REFERENCE") +'</span><strong>'+vals.limit+'</strong></div>'+
+      '<div class="perf-data-row"><span>'+ (isTo?"MTOW (PERF)":"REVERSER") +'</span><strong>'+ (isTo?vals.mtow:"CREDIT YES")+'</strong></div>'+
+      '<div class="perf-data-row"><span>PERFORMANCE DISTANCE</span><strong>'+vals.distance+'</strong></div>'+
+      '<div class="perf-data-row"><span>STOP MARGIN</span><strong>'+vals.margin+'</strong></div>'+
+      '</div>'+
+      '<div class="perf-warning" style="margin-top:8px">I valori mostrati sono esclusivamente dati dimostrativi della UI. Nessun valore di performance operativo viene calcolato finché il motore SimBrief non è collegato.</div>';
+  }
+
+  function render(tab,l,a){
+    const title=tab==="takeoff"?"TAKEOFF":"LANDING";
+    const form=tab==="takeoff"?takeoffForm(l,a):landingForm(l,a);
+    const aircraft=(a?.simbriefType||a?.name||"A320/EC").toUpperCase();
+    openModal("PERFORMANCE · "+title, '<div class="perf-shell">'+
+      '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / PERFORMANCE TEST</span></div>'+
+      '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
+      '<div class="perf-grid">'+
+      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">OPERATIONAL INPUT</div><div id="perfForm">'+form+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">CALCULATE</button></div></div></div>'+
+      '<div class="perf-mid"><div id="perfOutput">'+output(tab)+'</div></div>'+
+      '<div class="perf-right"><div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY INPUT</span><div class="perf-centerline"></div><div class="perf-stop">ASD 2776 M</div><span class="perf-rwy-end">RWY</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>1403 M</strong></div></div>'+
+      '</div><div class="perf-foot">PROTOTYPE v0.9.75 · INPUTS MIRROR SIMBRIEF PERFORMANCE & TOOLS · CALCULATION ENGINE NOT YET CONNECTED</div>'+
+      '</div>');
+    document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a));
+    document.getElementById("perfCalc").onclick=()=>{
+      const form=document.getElementById("perfForm");
+      const vals={}; form.querySelectorAll("input,select").forEach(x=>vals[x.name]=x.value);
+      const outputEl=document.getElementById("perfOutput");
+      outputEl.innerHTML=output(tab);
+      const s=outputEl.querySelector(".perf-status");
+      if(s)s.textContent="TEST INPUT ACCEPTED · ENGINE OFFLINE";
+    };
+    document.getElementById("perfReset").onclick=()=>render(tab,l,a);
+  }
+
+  function openForToday(){
+    const l=todayLive();
+    if(!l){alert("Nessuna live pianificata oggi.");return}
+    render("takeoff",l,aircraftFor(l));
+  }
+
+  function mountButton(){
+    const head=document.querySelector(".ois-today-panel .ois-panel-head");
+    if(!head || document.getElementById("perfOpenBtn")) return;
+    const b=document.createElement("button");
+    b.id="perfOpenBtn";b.className="perf-open-btn";b.textContent="PERFORMANCE";
+    b.type="button";b.onclick=openForToday;
+    head.appendChild(b);
+  }
+  const oldRenderAll=window.renderAll;
+  window.renderAll=function(){ if(typeof oldRenderAll==="function") oldRenderAll.apply(this,arguments); setTimeout(mountButton,0); };
+  setTimeout(mountButton,300);
+})();
+</script>
 
 </body>
 </html>
