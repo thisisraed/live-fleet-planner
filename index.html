@@ -3321,11 +3321,17 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
 
   function mountButton(){
     const head=document.querySelector(".ois-today-panel .ois-panel-head");
-    if(!head || document.getElementById("perfOpenBtn")) return;
-    const b=document.createElement("button");
-    b.id="perfOpenBtn";b.className="perf-open-btn";b.textContent="PERFORMANCE";
-    b.type="button";b.onclick=openForToday;
-    head.appendChild(b);
+    if(!head) return;
+    let b=document.getElementById("perfOpenBtn");
+    if(!b){
+      b=document.createElement("button");
+      b.id="perfOpenBtn";
+      b.className="perf-open-btn";
+      b.textContent="PERFORMANCE";
+      b.type="button";
+      head.appendChild(b);
+    }
+    b.onclick=openForToday;
   }
   const oldRenderAll=window.renderAll;
   window.renderAll=function(){ if(typeof oldRenderAll==="function") oldRenderAll.apply(this,arguments); setTimeout(mountButton,0); };
