@@ -3394,7 +3394,7 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       if(!res.ok)throw new Error("RUNWAY DATABASE HTTP "+res.status);
       return res.text();
     }).then(csv=>{
-      const lines=csv.split(/\\r?\\n/).filter(Boolean),headers=parseCsvLine(lines[0]),ix=Object.fromEntries(headers.map((h,i)=>[h,i])),map=new Map();
+      const lines=csv.split(/\r?\n/).filter(Boolean),headers=parseCsvLine(lines[0]),ix=Object.fromEntries(headers.map((h,i)=>[h,i])),map=new Map();
       for(let n=1;n<lines.length;n++){
         const row=parseCsvLine(lines[n]),airport=String(row[ix.airport_ident]||"").trim().toUpperCase();
         if(!airport||String(row[ix.closed]||"0")==="1")continue;
