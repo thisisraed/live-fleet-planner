@@ -3396,10 +3396,22 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       '<div class="perf-grid">'+
       '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">OPERATIONAL INPUT</div><div id="perfForm">'+form+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">LOAD / REFRESH OFP TLR</button></div></div></div>'+
       '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+output(tab,l)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
-      '<div class="perf-right"><div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY INPUT</span><div class="perf-centerline"></div><div class="perf-stop">ASD 2776 M</div><span class="perf-rwy-end">RWY</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>1403 M</strong></div></div>'+
+      '<div class="perf-right"><div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY '+esc((perfTLR(l,tab)?.runway?.identifier||perfTLR(l,tab)?.conditions?.planned_runway||"INPUT"))+'</span><div class="perf-centerline"></div><div class="perf-stop">ASD '+esc(tlrValue(perfTLR(l,tab)?.runway||{},"length_asda","length_tora","length")||"—")+' M</div><span class="perf-rwy-end">'+esc(perfTLR(l,tab)?.runway?.identifier||"RWY")+'</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>—</strong></div></div>'+
       '</div><div class="perf-foot">PROTOTYPE v0.9.75 · INPUTS MIRROR SIMBRIEF PERFORMANCE & TOOLS · CALCULATION ENGINE NOT YET CONNECTED</div>'+
       '</div>');
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a));
+    if(!l.route?.simbrief?.tlr?.available && typeof fetchLatestSimBrief==="function"){
+      setTimeout(async()=>{
+        try{
+          const data=await fetchLatestSimBrief();
+          applySimBriefToLive(l,data);
+          render(tab,l,a);
+        }catch(err){
+          const status=document.querySelector(".perf-status");
+          if(status)status.textContent="TLR NOT LOADED · USE LOAD / REFRESH OFP TLR";
+        }
+      },80);
+    }
     document.getElementById("perfCalc").onclick=async()=>{const btn=document.getElementById("perfCalc");btn.disabled=true;btn.textContent="LOADING TLR…";try{const data=await fetchLatestSimBrief();const parsed=applySimBriefToLive(l,data);render(tab,l,a);const status=document.querySelector(".perf-status");if(status)status.textContent=parsed.tlr?.available?"TLR IMPORTED · SIMBRIEF OFP":"NO TLR · ENABLE RUNWAY ANALYSIS";}catch(err){alert("Non riesco a recuperare il TLR SimBrief.\n\n"+err.message);btn.disabled=false;btn.textContent="LOAD / REFRESH OFP TLR";}};
     document.getElementById("perfReset").onclick=()=>render(tab,l,a);
   }
