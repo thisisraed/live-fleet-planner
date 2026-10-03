@@ -1124,7 +1124,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.75</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.76</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -3199,100 +3199,42 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
 </style>
 
 
-<script id="performance-prototype-v0-9-75">
+<script id="performance-engine-v0-9-76">
 (function(){
   const style=document.createElement("style");
-  style.id="performance-prototype-style";
+  style.id="performance-engine-v0-9-76-style";
   style.textContent=String.raw`
-    .perf-open-btn{height:30px!important;padding:0 10px!important;margin-left:10px!important;border:1px solid #4e686d!important;background:#182326!important;color:#b7c5c8!important;font-family:"B612",sans-serif!important;font-size:9px!important;letter-spacing:.09em!important}
+    .perf-open-btn{height:30px!important;padding:0 10px!important;margin-left:10px!important;border:1px solid #4e686d!important;background:#182326!important;color:#b7c5c8!important;font-size:9px!important;letter-spacing:.09em!important}
     .perf-open-btn:hover{border-color:#10b8c7!important;color:#10b8c7!important}
-    /* v0.9.75 UI fix — performance screen uses almost the full viewport and stays above sticky navigation */
     .modal:has(.perf-shell){z-index:1000!important;align-items:center!important;justify-content:center!important;padding:2vh 2vw!important;overflow:auto!important}
     .modal:has(.perf-shell) .modalbox{width:96vw!important;max-width:1500px!important;height:92vh!important;max-height:92vh!important;padding:0!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-shell{height:100%;display:flex;flex-direction:column;min-height:0}
-    .modal:has(.perf-shell) .perf-grid{flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(260px,0.9fr) minmax(420px,1.7fr) minmax(250px,0.8fr)}
+    .modal:has(.perf-shell) .perf-grid{flex:1;min-height:0;height:auto;overflow:hidden;grid-template-columns:minmax(250px,.78fr) minmax(0,3.8fr) minmax(150px,.6fr)}
     .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{min-width:0;min-height:0;overflow:auto}
-    .modal:has(.perf-shell) .perf-right{overflow:hidden}
-    .modal:has(.perf-shell) .perf-runway{height:calc(100% - 92px);min-height:260px}
-    .modal:has(.perf-shell) .perf-foot{flex:0 0 auto}
-    .modal:has(.perf-shell) .perf-titlebar{flex:0 0 44px}
-    .modal:has(.perf-shell) .perf-tabs{flex:0 0 38px}
-    .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2}
-    .modal:has(.perf-shell) .perf-data-row strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    /* v0.9.75 performance layout refinement — vertical speeds + narrower runway */
-    /* v0.9.75 performance output split — reserve right half for future EOSID */
-    .modal:has(.perf-shell) .perf-grid{grid-template-columns:minmax(250px,0.78fr) minmax(0,3.8fr) minmax(150px,0.6fr)}
+    .modal:has(.perf-shell) .perf-right{overflow:hidden;background:#0b1012!important}
     .modal:has(.perf-shell) .perf-mid{border-right:1px solid #3e494d!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;padding:0!important;overflow:hidden!important}
     .modal:has(.perf-shell) .perf-output-main,.modal:has(.perf-shell) .perf-eosid{padding:12px;min-width:0;overflow:auto}
     .modal:has(.perf-shell) .perf-output-main{border-right:1px solid #3e494d}
     .modal:has(.perf-shell) .perf-eosid{background:#0d1214}
-    .modal:has(.perf-shell) .perf-eosid .perf-section-head{margin:-12px -12px 10px}
-    .modal:has(.perf-shell) .perf-eosid-empty{height:calc(100% - 38px);display:flex;align-items:center;justify-content:center;text-align:center;color:#556267;font-family:"B612 Mono",monospace;font-size:9px;line-height:1.7;letter-spacing:.08em}
+    .modal:has(.perf-shell) .perf-eosid-empty{height:calc(100% - 38px);display:flex;align-items:center;justify-content:center;text-align:center;color:#556267;font-size:9px;line-height:1.7;letter-spacing:.08em}
     .modal:has(.perf-shell) .perf-eosid-empty span{color:#414c50;font-size:7px}
-    .modal:has(.perf-shell) .perf-right{background:#0b1012!important;overflow:hidden!important}
-    .modal:has(.perf-shell) .perf-runway{margin-top:0!important}
-    @media(max-width:900px){
-      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr}
-      .modal:has(.perf-shell) .perf-mid{display:block!important}
-      .modal:has(.perf-shell) .perf-right:before{display:none}
-    }
-    .modal:has(.perf-shell) .perf-speeds{grid-template-columns:1fr;gap:5px}
-    .modal:has(.perf-shell) .perf-metric{min-height:54px;padding:7px 10px;display:grid;grid-template-columns:1fr auto;align-items:center}
-    .modal:has(.perf-shell) .perf-metric span{margin-bottom:0}
-    .modal:has(.perf-shell) .perf-metric strong{font-size:20px;text-align:right}
-    .modal:has(.perf-shell) .perf-metric em{text-align:right}
-    /* v0.9.75 final performance alignment — speed values anchored left, modal header aligned */
-    .modal:has(.perf-shell) .perf-titlebar{padding:0 14px!important;align-items:center!important}
-    .modal:has(.perf-shell) .perf-titlebar strong{margin:0!important;line-height:1!important}
-    .modal:has(.perf-shell) .perf-titlebar span{margin:0!important;line-height:1!important}
-    .modal:has(.perf-shell) .perf-modal-close{position:absolute!important;top:8px!important;right:10px!important}
-    .modal:has(.perf-shell) .modalbox>.modalhead{height:36px!important;margin:0!important;padding:0 10px!important;display:flex!important;align-items:center!important}
-    .modal:has(.perf-shell) .modalhead h3{margin:0!important;line-height:1!important}
-    .modal:has(.perf-shell) .modalhead button{margin:0!important;align-self:center!important}
-    .modal:has(.perf-shell) .perf-metric{grid-template-columns:1fr auto!important;text-align:left!important}
-    .modal:has(.perf-shell) .perf-metric span{justify-self:start!important;text-align:left!important}
-    .modal:has(.perf-shell) .perf-metric{grid-template-columns:44px 1fr!important}
-    .modal:has(.perf-shell) .perf-metric span{grid-column:1!important}
-    .modal:has(.perf-shell) .perf-metric strong{grid-column:2!important;justify-self:start!important;text-align:left!important}
-    .modal:has(.perf-shell) .perf-metric em{grid-column:3!important;justify-self:start!important;text-align:left!important}
-    .modal:has(.perf-shell) .perf-metric em{justify-self:end!important;text-align:right!important}
-    .modal:has(.perf-shell) .perf-result-head{margin-top:0!important}
-
-    .modal:has(.perf-shell) .perf-runway{width:150px;max-width:100%;margin-left:auto;margin-right:auto}
-    .modal:has(.perf-shell) .perf-stop{left:4px;right:4px}
-    .modal:has(.perf-shell) .perf-margin{max-width:150px;margin-left:auto;margin-right:auto}
-    @media(max-width:900px){
-      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr}
-      .modal:has(.perf-shell) .perf-runway{width:150px}
-    }
-
-    .modal:has(.perf-shell) .perf-warning{font-size:8px}
-    @media(max-width:900px){
-      .modal:has(.perf-shell){padding:8px!important}
-      .modal:has(.perf-shell) .modalbox{width:98vw!important;height:94vh!important;max-height:94vh!important}
-      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr;overflow:auto}
-      .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{overflow:visible}
-      .modal:has(.perf-shell) .perf-runway{height:280px}
-    }
-    @media(max-width:600px){
-      .modal:has(.perf-shell) .modalbox{width:99vw!important;height:96vh!important;max-height:96vh!important}
-    }
+    .modal:has(.perf-shell) .perf-titlebar{flex:0 0 44px;padding:0 14px!important;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #4a555a;background:#252d31}
+    .modal:has(.perf-shell) .perf-tabs{flex:0 0 38px}
+    .modal:has(.perf-shell) .perf-calc-row{position:sticky;bottom:0;z-index:2}
     .perf-shell{background:#101517;border:1px solid #566267;color:#dce2e3}
-    .perf-titlebar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #4a555a;background:#252d31}
     .perf-titlebar strong{font-size:14px;font-weight:400;letter-spacing:.10em}
     .perf-titlebar span{font-size:9px;color:#768287;letter-spacing:.08em}
     .perf-tabs{display:flex;border-bottom:1px solid #465257;background:#161c1f}
     .perf-tab{flex:0 0 130px;height:38px;border:0!important;border-right:1px solid #3e494d!important;background:#20282b!important;color:#879398!important}
     .perf-tab.active{background:#2c3539!important;color:#10b8c7!important;border-bottom:2px solid #10b8c7!important}
-    .perf-grid{display:grid;grid-template-columns:250px minmax(360px,1fr) 260px;min-height:500px}
     .perf-left,.perf-mid,.perf-right{padding:12px;border-right:1px solid #3e494d}
-    .perf-right{border-right:0;background:#0b1012}
+    .perf-right{border-right:0}
     .perf-section{margin-bottom:10px;border:1px solid #414d51;background:#181f22}
     .perf-section-head{height:26px;display:flex;align-items:center;padding:0 8px;background:#2a3236;color:#b9c4c7;font-size:8px;letter-spacing:.10em;border-bottom:1px solid #414d51}
     .perf-field{display:grid;grid-template-columns:1fr 1fr;min-height:34px;border-bottom:1px solid #303b3f}
     .perf-field:last-child{border-bottom:0}
     .perf-field label{padding:8px 7px;color:#849095;font-size:8px;letter-spacing:.07em}
-    .perf-field input,.perf-field select{width:100%;height:32px;border:0!important;border-left:1px solid #303b3f!important;border-radius:0!important;background:#151b1e!important;color:#dce2e3!important;padding:0 7px!important;font-family:"B612 Mono",monospace!important;font-size:10px!important}
+    .perf-field input,.perf-field select{width:100%;height:32px;border:0!important;border-left:1px solid #303b3f!important;border-radius:0!important;background:#151b1e!important;color:#dce2e3!important;padding:0 7px!important;font-size:10px!important}
     .perf-field input:focus,.perf-field select:focus{outline:1px solid #10b8c7!important}
     .perf-calc-row{display:flex;justify-content:flex-end;gap:7px;padding:10px;background:#151b1e}
     .perf-calc{min-width:110px;height:34px!important;background:#1b9faf!important;color:#071113!important;border:1px solid #59dce7!important}
@@ -3300,120 +3242,282 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-result-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:7px;border-bottom:1px solid #465257}
     .perf-result-head strong{font-size:10px;font-weight:400;letter-spacing:.09em}
     .perf-status{font-size:8px;color:#f0ca53;letter-spacing:.07em}
-    .perf-speeds{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
-    .perf-metric{border:1px solid #4b585c;background:#171e21;min-height:70px;padding:8px}
-    .perf-metric span{display:block;color:#7f8b8f;font-size:8px;letter-spacing:.09em;margin-bottom:10px}
-    .perf-metric strong{font-family:"B612 Mono",monospace;font-size:22px;font-weight:400;color:#63ed58}
-    .perf-metric em{font-style:normal;color:#879398;font-size:8px;margin-left:3px}
+    .perf-speeds{display:grid;grid-template-columns:1fr;gap:5px;margin-bottom:10px}
+    .perf-metric{min-height:54px;padding:7px 10px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;border:1px solid #4b585c;background:#171e21}
+    .perf-metric span{color:#7f8b8f;font-size:8px;letter-spacing:.09em}
+    .perf-metric strong{font-size:20px;font-weight:400;color:#63ed58}
+    .perf-metric em{font-style:normal;color:#879398;font-size:8px;text-align:right}
     .perf-data{display:grid;grid-template-columns:1fr 1fr;gap:6px}
     .perf-data-row{border:1px solid #414d51;background:#181f22;min-height:40px;padding:7px}
     .perf-data-row span{display:block;color:#7f8b8f;font-size:7px;letter-spacing:.08em}
-    .perf-data-row strong{display:block;margin-top:4px;font-family:"B612 Mono",monospace;color:#cbd4d6;font-size:11px;font-weight:400}
+    .perf-data-row strong{display:block;margin-top:4px;color:#cbd4d6;font-size:11px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .perf-warning{padding:9px;border:1px solid #6b5b2c;background:#27240f;color:#e5c75d;font-size:8px;line-height:1.45;letter-spacing:.04em}
-    .perf-runway{height:350px;position:relative;border:1px solid #394549;background:#050708;overflow:hidden}
+    .perf-runway{height:calc(100% - 92px);min-height:260px;position:relative;width:150px;max-width:100%;margin:0 auto;border:1px solid #394549;background:#050708;overflow:hidden}
     .perf-runway:before{content:"";position:absolute;left:50%;top:18px;bottom:18px;width:5px;transform:translateX(-50%);background:repeating-linear-gradient(to bottom,#e9eded 0 22px,transparent 22px 37px)}
     .perf-centerline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#555f62;transform:translateX(-50%);opacity:.45}
-    .perf-rwy-label{position:absolute;left:8px;top:7px;color:#fff;font-family:"B612 Mono",monospace;font-size:11px}
-    .perf-rwy-end{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);color:#fff;font-family:"B612 Mono",monospace;font-size:18px}
-    .perf-stop{position:absolute;left:8px;right:8px;top:28%;height:22px;border-top:2px solid #63ed58;border-bottom:2px solid #63ed58;color:#63ed58;font-family:"B612 Mono",monospace;font-size:9px;text-align:right;padding-top:3px}
-    .perf-margin{margin-top:9px;border:1px solid #465257;padding:9px;background:#171e21}
+    .perf-rwy-label{position:absolute;left:8px;top:7px;color:#fff;font-size:11px}
+    .perf-rwy-end{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);color:#fff;font-size:18px}
+    .perf-stop{position:absolute;left:4px;right:4px;top:28%;height:22px;border-top:2px solid #63ed58;border-bottom:2px solid #63ed58;color:#63ed58;font-size:9px;text-align:right;padding-top:3px}
+    .perf-margin{max-width:150px;margin:9px auto 0;border:1px solid #465257;padding:9px;background:#171e21}
     .perf-margin span{display:block;color:#7f8b8f;font-size:8px;letter-spacing:.08em}
-    .perf-margin strong{display:block;margin-top:5px;color:#63ed58;font-family:"B612 Mono",monospace;font-size:18px;font-weight:400}
+    .perf-margin strong{display:block;margin-top:5px;color:#63ed58;font-size:18px;font-weight:400}
+    .perf-auth{padding:8px 9px;border-top:1px solid #3d474b;background:#141a1d}
+    .perf-auth label{display:block;color:#7f8b8f;font-size:7px;letter-spacing:.08em;margin-bottom:5px}
+    .perf-auth input{width:100%;height:30px;border:1px solid #465257;background:#0b1012;color:#dce2e3;padding:0 7px;border-radius:0;font-size:9px}
+    .perf-auth small{display:block;margin-top:5px;color:#657277;font-size:7px;line-height:1.4}
+    .perf-engine-state{margin-top:7px;padding:6px 8px;border:1px solid #3f4b50;background:#12181b;color:#8b989d;font-size:7px;line-height:1.45}
     .perf-foot{padding:8px 12px;border-top:1px solid #465257;background:#151b1e;color:#727e82;font-size:7px;letter-spacing:.05em}
-    @media(max-width:900px){.perf-grid{grid-template-columns:1fr}.perf-left,.perf-mid,.perf-right{border-right:0;border-bottom:1px solid #3e494d}.perf-runway{height:280px}}
-    @media(max-width:600px){.perf-modal .modalbox{width:98vw!important}.perf-grid{display:block}.perf-speeds,.perf-data{grid-template-columns:1fr 1fr}.perf-left,.perf-mid,.perf-right{padding:8px}.perf-tab{flex:1 1 50%;font-size:9px}}
+    @media(max-width:900px){
+      .modal:has(.perf-shell){padding:8px!important}
+      .modal:has(.perf-shell) .modalbox{width:98vw!important;height:94vh!important;max-height:94vh!important}
+      .modal:has(.perf-shell) .perf-grid{grid-template-columns:1fr;overflow:auto}
+      .modal:has(.perf-shell) .perf-left,.modal:has(.perf-shell) .perf-mid,.modal:has(.perf-shell) .perf-right{overflow:visible;border-right:0}
+      .modal:has(.perf-shell) .perf-mid{display:block!important}
+      .modal:has(.perf-shell) .perf-output-main{border-right:0;border-bottom:1px solid #3e494d}
+      .modal:has(.perf-shell) .perf-runway{height:280px}
+    }
+    @media(max-width:600px){
+      .modal:has(.perf-shell) .modalbox{width:99vw!important;height:96vh!important;max-height:96vh!important}
+      .perf-data{grid-template-columns:1fr}
+      .perf-tab{flex:1 1 50%}
+    }
   `;
   document.head.appendChild(style);
+
+  const AUTH_KEY="liveFleetPlanner_simbriefPerfAccessToken";
+  const readToken=()=>{try{return sessionStorage.getItem(AUTH_KEY)||""}catch(e){return""}};
+  const writeToken=v=>{try{if(v)sessionStorage.setItem(AUTH_KEY,v);else sessionStorage.removeItem(AUTH_KEY)}catch(e){}};
 
   function todayLive(){
     const key=typeof localDateKey==="function"?localDateKey(new Date()):new Date().toISOString().slice(0,10);
     return Array.isArray(db.lives)?db.lives.find(l=>String(l.date).slice(0,10)===key && l.status!=="skipped"):null;
   }
   function aircraftFor(l){return l?getAircraft(l.aircraftId):null}
-
+  function num(v){const n=Number(String(v??"").replace(",","."));return Number.isFinite(n)?n:null}
+  function clean(v){return String(v??"").trim()}
+  function upper(v){return clean(v).toUpperCase()}
   function field(label,name,value,type="text",options=[]){
     if(type==="select") return '<div class="perf-field"><label>'+label+'</label><select name="'+name+'">'+options.map(o=>'<option value="'+esc(o.value)+'" '+(String(value)==String(o.value)?'selected':'')+'>'+esc(o.label)+'</option>').join('')+'</select></div>';
     return '<div class="perf-field"><label>'+label+'</label><input name="'+name+'" type="'+type+'" value="'+esc(value??'')+'"></div>';
   }
-  function takeoffForm(l,a){
+  function rawOfp(l){
+    return l?.route?.simbrief?.raw?.OFP || l?.route?.simbrief?.raw?.ofp || l?.route?.simbrief?.raw || {};
+  }
+  function currentTLR(l,tab){
+    const t=l?.route?.simbrief?.tlr;
+    return tab==="takeoff"?t?.takeoff:t?.landing;
+  }
+  function pick(o,...keys){
+    for(const k of keys){const v=o?.[k];if(v!==undefined&&v!==null&&clean(v)!=="")return v}
+    return "";
+  }
+  function runwayFor(l,tab){
+    const p=currentTLR(l,tab), c=p?.conditions||{}, r=p?.runway||{};
+    return upper(pick(r,"identifier")||pick(c,"planned_runway")||"");
+  }
+  function windFor(l,tab){
+    const p=currentTLR(l,tab),c=p?.conditions||{};
+    const d=pick(c,"wind_direction"),s=pick(c,"wind_speed");
+    if(d!==""&&s!=="")return String(d).padStart(3,"0")+"/"+String(s).padStart(2,"0");
     const md=l?.manualData||{};
+    return clean(md.wind||"000/00");
+  }
+  function tempFor(l,tab){
+    const p=currentTLR(l,tab),c=p?.conditions||{};
+    return pick(c,"temperature") || l?.manualData?.temperature || "";
+  }
+  function qnhFor(l,tab){
+    const p=currentTLR(l,tab),c=p?.conditions||{};
+    return pick(c,"altimeter") || l?.manualData?.qnh || "";
+  }
+  function weightFor(l,tab){
+    const p=currentTLR(l,tab),c=p?.conditions||{};
+    if(tab==="takeoff") return pick(c,"planned_weight") || l?.manualData?.tow || l?.route?.simbrief?.tow || "";
+    return pick(c,"planned_weight") || l?.manualData?.lw || l?.route?.simbrief?.lw || "";
+  }
+  function aircraftDataFor(l,a){
+    const ac=rawOfp(l)?.aircraft||{};
+    return {
+      name:clean(ac.name||a?.name||"A320-200"),
+      engines:clean(ac.engines||""),
+      reg:clean(ac.reg||ac.registration||l?.route?.simbrief?.registration||"")
+    };
+  }
+  function takeoffDefaults(l,a){
+    const r=currentTLR(l,"takeoff")?.runway||{}, c=currentTLR(l,"takeoff")?.conditions||{}, md=l?.manualData||{};
+    return {
+      basetype:upper(a?.simbriefType||l?.route?.simbrief?.aircraftType||"A320"),
+      aircraft:upper(a?.simbriefType||l?.route?.simbrief?.aircraftType||"A320"),
+      airport:upper(l?.route?.from||""),
+      runway:runwayFor(l,"takeoff"),
+      shorten_units:"tora",
+      runway_shorten:0,
+      length_units:"ft",
+      weight_units:"kgs",
+      weight:weightFor(l,"takeoff"),
+      flap_setting:pick(r,"flap_setting")||"",
+      thrust_setting:pick(r,"thrust_setting")||"AUTO",
+      enable_bleeds:pick(r,"bleed_setting")==="OFF"?"0":"1",
+      enable_anti_ice:pick(r,"anti_ice_setting")||"auto",
+      wind_units:"true",
+      wind:windFor(l,"takeoff"),
+      temperature:tempFor(l,"takeoff"),
+      pressure_units:"inhg",
+      altimeter:qnhFor(l,"takeoff"),
+      surface_condition:upper(pick(c,"surface_condition")||"Dry").toLowerCase(),
+      enable_flex:pick(r,"flex_temperature")!==""?"1":"1",
+      enable_climb_optimization":pick(r,"climb_optimized")===false?"0":"1"
+    };
+  }
+  function takeoffForm(l,a){
+    const d=takeoffDefaults(l,a);
     return [
-      field("AIRPORT","airport",l?.route?.from||""),
-      field("RUNWAY","runway",""),
-      field("INTX / LENGTH","length","FULL LENGTH"),
-      field("TAKEOFF WEIGHT","weight",md.tow||""),
-      field("FLAP SETTING","flap","OPTIMUM","select",[{value:"OPTIMUM",label:"OPTIMUM"},{value:"1+F",label:"1+F"},{value:"2",label:"2"},{value:"3",label:"3"}]),
-      field("THRUST SETTING","thrust","TOGA/FLEX","select",[{value:"TOGA/FLEX",label:"TOGA / FLEX"},{value:"TOGA",label:"TOGA"}]),
-      field("BLEED SETTING","bleed","AUTO","select",[{value:"AUTO",label:"AUTO"},{value:"OFF",label:"OFF"}]),
-      field("ANTI-ICE SETTING","aice","AUTO","select",[{value:"AUTO",label:"AUTO"},{value:"OFF",label:"OFF"},{value:"ENG",label:"ENG"}]),
-      field("WIND","wind",md.wind||""),
-      field("TEMPERATURE","temp",md.temperature||""),
-      field("PRESSURE / QNH","qnh",md.qnh||""),
-      field("SURFACE CONDITION","surface","DRY","select",[{value:"DRY",label:"DRY"},{value:"WET",label:"WET"}]),
-      field("FLEX / ASSUMED TEMP","flex","","number"),
-      field("IMPROVED CLIMB","climb","ENABLED","select",[{value:"ENABLED",label:"ENABLED"},{value:"DISABLED",label:"DISABLED"}])
+      field("AIRPORT","airport",d.airport),
+      field("RUNWAY","runway",d.runway),
+      field("RUNWAY LENGTH","shorten_units",d.shorten_units,"select",[{value:"tora",label:"TORA LENGTH"},{value:"toda",label:"TODA LENGTH"},{value:"asda",label:"ASDA LENGTH"}]),
+      field("LENGTH UNITS","length_units",d.length_units,"select",[{value:"ft",label:"FEET"},{value:"m",label:"METRES"}]),
+      field("WEIGHT UNITS","weight_units",d.weight_units,"select",[{value:"kgs",label:"KG"},{value:"lbs",label:"LBS"}]),
+      field("TAKEOFF WEIGHT","weight",d.weight),
+      field("FLAP SETTING","flap_setting",d.flap_setting,"select",[{value:"",label:"AUTO / DEFAULT"},{value:"1","label":"1"},{value:"1+F","label":"1+F"},{value:"2","label":"2"},{value:"3","label":"3"}]),
+      field("THRUST SETTING","thrust_setting",d.thrust_setting,"select",[{value:"AUTO",label:"AUTO"},{value:"TOGA",label:"TOGA"}]),
+      field("BLEEDS","enable_bleeds",d.enable_bleeds,"select",[{value:"1",label:"ON"},{value:"0",label:"OFF"}]),
+      field("ANTI-ICE","enable_anti_ice",d.enable_anti_ice,"select",[{value:"auto",label:"AUTO"},{value:"off",label:"OFF"},{value:"eng",label:"ENG"}]),
+      field("WIND / TRUE","wind",d.wind),
+      field("TEMPERATURE","temperature",d.temperature),
+      field("PRESSURE / QNH","altimeter",d.altimeter),
+      field("SURFACE CONDITION","surface_condition",d.surface_condition,"select",[{value:"dry",label:"DRY"},{value:"wet",label:"WET"}]),
+      field("FLEX / ASSUMED TEMP","enable_flex",d.enable_flex,"select",[{value:"1",label:"ENABLED"},{value:"0",label:"DISABLED"}]),
+      field("IMPROVED CLIMB","enable_climb_optimization",d.enable_climb_optimization,"select",[{value:"1",label:"ENABLED"},{value:"0",label:"DISABLED"}])
     ].join("");
   }
   function landingForm(l,a){
-    const md=l?.manualData||{};
+    const p=currentTLR(l,"landing"),c=p?.conditions||{},r=p?.runway||{};
+    const d={airport:upper(l?.route?.to||""),runway:upper(pick(r,"identifier")||pick(c,"planned_runway")||""),weight:weightFor(l,"landing"),flap:pick(r,"flap_setting")||"",wind:windFor(l,"landing"),temperature:tempFor(l,"landing"),altimeter:qnhFor(l,"landing")};
     return [
-      field("AIRPORT","airport",l?.route?.to||""),
-      field("RUNWAY","runway",""),
-      field("INTX / LENGTH","length","FULL LENGTH"),
-      field("LANDING WEIGHT","weight",md.ldw||""),
-      field("FLAP SETTING","flap","FULL","select",[{value:"FULL",label:"FULL"},{value:"CONF 3",label:"CONF 3"},{value:"CONF 2",label:"CONF 2"}]),
-      field("BRAKE SETTING","brake","OPTIMUM","select",[{value:"OPTIMUM",label:"OPTIMUM"},{value:"LOW",label:"LOW"},{value:"MED",label:"MED"}]),
-      field("REVERSER CREDIT","reverser","YES","select",[{value:"YES",label:"YES"},{value:"NO",label:"NO"}]),
-      field("VREF ADDITIVE","vrefadd","5","select",[{value:"0",label:"0"},{value:"3",label:"3"},{value:"5",label:"5"},{value:"10",label:"10"}]),
-      field("WIND","wind",md.wind||""),
-      field("TEMPERATURE","temp",md.temperature||""),
-      field("PRESSURE / QNH","qnh",md.qnh||""),
-      field("SURFACE CONDITION","surface","DRY","select",[{value:"DRY",label:"DRY"},{value:"WET",label:"WET"}]),
-      field("CALCULATION METHOD","method","INFLIGHT METHOD","select",[{value:"INFLIGHT METHOD",label:"INFLIGHT METHOD"},{value:"QRH",label:"QRH"}]),
-      field("CALCULATION REFERENCE","reference","FACTORED DISTANCE","select",[{value:"FACTORED DISTANCE",label:"FACTORED DISTANCE"},{value:"ACTUAL DISTANCE",label:"ACTUAL DISTANCE"}])
+      field("AIRPORT","airport",d.airport),field("RUNWAY","runway",d.runway),
+      field("LENGTH TYPE","shorten_units","lda","select",[{value:"lda",label:"LDA LENGTH"}]),
+      field("LENGTH UNITS","length_units","ft","select",[{value:"ft",label:"FEET"},{value:"m",label:"METRES"}]),
+      field("WEIGHT UNITS","weight_units","kgs","select",[{value:"kgs",label:"KG"},{value:"lbs",label:"LBS"}]),
+      field("LANDING WEIGHT","weight",d.weight),
+      field("FLAP SETTING","flap_setting",d.flap,"select",[{value:"",label:"AUTO / DEFAULT"},{value:"2","label":"2"},{value:"3","label":"3"},{value:"FULL","label":"FULL"}]),
+      field("BRAKE SETTING","brake_setting","AUTO","select",[{value:"AUTO",label:"AUTO"},{value:"LOW","label:"LOW"},{value:"MED","label:"MED"}]),
+      field("REVERSER CREDIT","reverser_credit","YES","select",[{value:"YES",label:"YES"},{value:"NO",label:"NO"}]),
+      field("VREF ADDITIVE","vref_additive","5"),
+      field("WIND / TRUE","wind",d.wind),field("TEMPERATURE","temperature",d.temperature),
+      field("PRESSURE / QNH","altimeter",d.altimeter),
+      field("SURFACE CONDITION","surface_condition",upper(pick(c,"surface_condition")||"Dry").toLowerCase(),"select",[{value:"dry",label:"DRY"},{value:"wet",label:"WET"}]),
+      field("CALC METHOD","calculation_method","inflight","select",[{value:"inflight",label:"IN-FLIGHT METHOD"},{value:"qrh",label:"QRH"}]),
+      field("CALC REFERENCE","calculation_reference","factored","select",[{value:"factored",label:"FACTORED DISTANCE"},{value:"actual",label:"ACTUAL DISTANCE"}])
     ].join("");
   }
 
-  function perfTLR(l,tab){const t=l?.route?.simbrief?.tlr;return tab==="takeoff"?t?.takeoff:t?.landing;}
-  function tlrValue(o,...keys){for(const k of keys){const v=o?.[k];if(v!==undefined&&v!==null&&String(v).trim()!=="")return v;}return "";}
-  function output(tab,l){
-    const isTo=tab==="takeoff",p=perfTLR(l,tab),c=p?.conditions||{},r=p?.runway||{};
-    const available=!!(p&&((p.runway&&Object.keys(p.runway).length)||Object.keys(c).length));
-    if(!available)return '<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">NO TLR IN CURRENT OFP</span></div><div class="perf-warning">Il TLR non è ancora disponibile. Usa <b>LOAD / REFRESH OFP TLR</b>. Il piano deve essere stato generato con <b>RUNWAY ANALYSIS</b> attivo.</div>';
-    const v1=tlrValue(r,"speeds_v1"),vr=tlrValue(r,"speeds_vr"),v2=tlrValue(r,"speeds_v2"),flap=tlrValue(r,"flap_setting"),thrust=tlrValue(r,"thrust_setting"),flex=tlrValue(r,"flex_temperature"),maxTemp=tlrValue(r,"max_temperature"),maxWeight=tlrValue(r,"max_weight"),wd=tlrValue(c,"wind_direction"),ws=tlrValue(c,"wind_speed"),plannedWeight=tlrValue(c,"planned_weight");
-    const tora=tlrValue(r,"length_tora","length"),lda=tlrValue(r,"length_lda","length"),asda=tlrValue(r,"length_asda"),dry=tlrValue(p?.distanceDry,"factored_distance","actual_distance"),wet=tlrValue(p?.distanceWet,"factored_distance","actual_distance");
-    const distance=isTo?(tlrValue(r,"distance_continue","distance_decide")||tora):(dry||wet||lda),wind=wd&&ws?String(wd)+" / "+String(ws)+" KT":ws,status=tlrValue(c,"surface_condition")?"TLR IMPORTED · "+String(tlrValue(c,"surface_condition")).toUpperCase():"TLR IMPORTED";
-    const s1=isTo?(v1||"—"):(tlrValue(r,"speeds_vref")||"—"),s2=isTo?(vr||"—"):(tlrValue(r,"speeds_vapp")||"—"),s3=isTo?(v2||"—"):(distance?String(distance):"—"),mode=isTo?(flex?"FLEX "+flex+" °C":thrust||"—"):(flap||"—"),margin=(isTo?asda:lda)&&distance?Math.max(0,Number(isTo?asda:lda)-Number(distance))+" M":"—";
-    return '<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">'+esc(status)+'</span></div><div class="perf-speeds"><div class="perf-metric"><span>'+(isTo?"V1":"VREF")+'</span><strong>'+s1+'</strong><em>KT</em></div><div class="perf-metric"><span>'+(isTo?"VR":"VAPP")+'</span><strong>'+s2+'</strong><em>KT</em></div><div class="perf-metric"><span>'+(isTo?"V2":"LDG DIST")+'</span><strong>'+s3+'</strong><em>'+(isTo?"KT":"M")+'</em></div></div><div class="perf-data"><div class="perf-data-row"><span>RUNWAY</span><strong>'+esc(tlrValue(r,"identifier","planned_runway")||tlrValue(c,"planned_runway")||"—")+'</strong></div><div class="perf-data-row"><span>CONFIGURATION</span><strong>'+esc(flap||"—")+'</strong></div><div class="perf-data-row"><span>'+(isTo?"THRUST / FLEX":"CALCULATION")+'</span><strong>'+esc(mode)+'</strong></div><div class="perf-data-row"><span>'+(isTo?"MAX TEMP":"MAX WEIGHT")+'</span><strong>'+esc(isTo?(maxTemp?String(maxTemp)+" °C":"—"):(maxWeight?String(maxWeight)+" KG":"—"))+'</strong></div><div class="perf-data-row"><span>'+(isTo?"PERFORMANCE DISTANCE":"LANDING DISTANCE")+'</span><strong>'+esc(distance?String(distance)+" M":"—")+'</strong></div><div class="perf-data-row"><span>STOP MARGIN</span><strong>'+esc(margin)+'</strong></div><div class="perf-data-row"><span>WEIGHT</span><strong>'+esc(plannedWeight?String(plannedWeight)+" KG":"—")+'</strong></div><div class="perf-data-row"><span>WIND</span><strong>'+esc(wind||"—")+'</strong></div></div><div class="perf-warning" style="margin-top:8px">DATI REALI DAL TLR DELL’OFP SIMBRIEF. Il TLR è disponibile quando il piano è generato con <b>RUNWAY ANALYSIS</b> attivo.</div>';
+  function buildTakeoffUrl(v,l,a){
+    const ac=aircraftDataFor(l,a);
+    const params=new URLSearchParams();
+    const put=(k,val)=>{if(val!==undefined&&val!==null&&clean(val)!=="")params.set(k,String(val))};
+    put("basetype",upper(v.basetype));put("ac_order","registration");put("aircraft",upper(v.aircraft));put("airport",upper(v.airport));put("runway",upper(v.runway));
+    put("shorten_units",v.shorten_units);put("runway_shorten",v.runway_shorten||0);put("length_units",v.length_units);put("weight_units",v.weight_units);put("weight",v.weight);
+    put("flap_setting",v.flap_setting);put("thrust_setting",v.thrust_setting);put("enable_bleeds",v.enable_bleeds);put("enable_anti_ice",v.enable_anti_ice);
+    put("wind_units","true");put("wind",v.wind);put("temperature",v.temperature);put("pressure_units","inhg");put("altimeter",v.altimeter);put("surface_condition",v.surface_condition);
+    put("enable_flex",v.enable_flex);put("enable_climb_optimization",v.enable_climb_optimization);put("aircraft_data",JSON.stringify(ac));
+    put("_",Date.now());
+    return "https://api.simbrief.com/v2/performance/takeoff?"+params.toString();
   }
-  function render(tab,l,a){
+
+  async function callPerformance(url){
+    const token=readToken();
+    const headers={Accept:"application/json, text/javascript, */*; q=0.01",Origin:location.origin};
+    if(token)headers.Authorization=token.startsWith("Bearer ")?token:"Bearer "+token;
+    const response=await fetch(url,{method:"GET",headers,cache:"no-store"});
+    const textBody=await response.text();
+    let data=null;try{data=JSON.parse(textBody)}catch(e){}
+    if(!response.ok){
+      const msg=data?.message||data?.error||textBody||("HTTP "+response.status);
+      throw new Error("SimBrief Performance API · HTTP "+response.status+" · "+msg);
+    }
+    if(!data||typeof data!=="object")throw new Error("La risposta SimBrief non è un JSON valido.");
+    return data;
+  }
+
+  function resultData(data){
+    return data?.result||{};
+  }
+  function outputFromApi(tab,data){
+    if(!data)return '<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">WAITING FOR CALCULATION</span></div><div class="perf-warning">Imposta i parametri e premi <b>CALCULATE</b>.</div>';
+    if(tab!=="takeoff")return '<div class="perf-result-head"><strong>LANDING OUTPUT</strong><span class="perf-status">ENDPOINT MAPPING PENDING</span></div><div class="perf-warning">Il motore Takeoff è collegato. Per Landing completiamo la mappatura dopo aver intercettato la request reale del Performance Tool.</div>';
+    const r=resultData(data),rw=data.runway||{},ac=data.aircraft||{},ap=data.airport||{};
+    const speed=(v,u="KT")=>(v!==false&&v!==null&&v!==undefined&&clean(v)!=="")?String(v)+" "+u:"—";
+    const val=(v,u="")=>(v!==false&&v!==null&&v!==undefined&&clean(v)!=="")?String(v)+(u?" "+u:""):"—";
+    const margin=r.distance_margin;
+    const limit=pick(r,"limit_code_long","limit_code_short")||"—";
+    const msg=(data.remarks||[]).map(x=>x?.message||x).filter(Boolean).join(" · ");
+    const status=r.sufficient_runway===true?"RUNWAY SUFFICIENT":r.sufficient_runway===false?"INSUFFICIENT RUNWAY":"CALCULATED";
+    return '<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">'+esc(status)+'</span></div>'+
+      '<div class="perf-speeds"><div class="perf-metric"><span>V1</span><strong>'+speed(r.speeds_v1)+'</strong><em></em></div><div class="perf-metric"><span>VR</span><strong>'+speed(r.speeds_vr)+'</strong><em></em></div><div class="perf-metric"><span>V2</span><strong>'+speed(r.speeds_v2)+'</strong><em></em></div></div>'+
+      '<div class="perf-data">'+
+      '<div class="perf-data-row"><span>RUNWAY</span><strong>'+esc(rw.identifier||data.inputs?.runway||"—")+'</strong></div>'+
+      '<div class="perf-data-row"><span>FLAPS</span><strong>'+esc(r.flap_setting||"—")+'</strong></div>'+
+      '<div class="perf-data-row"><span>THRUST</span><strong>'+esc(r.thrust_setting||"—")+'</strong></div>'+
+      '<div class="perf-data-row"><span>FLEX / SEL TEMP</span><strong>'+esc(val(r.flex_temperature,"°C"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>MAX TOW / PERF LIMIT</span><strong>'+esc(val(r.max_weight,"KG")+" · "+limit)+'</strong></div>'+
+      '<div class="perf-data-row"><span>STOP MARGIN</span><strong>'+esc(val(margin,"FT"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>ASD / REJECT</span><strong>'+esc(val(r.distance_reject,"FT"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>CONTINUE</span><strong>'+esc(val(r.distance_continue,"FT"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>GREEN DOT</span><strong>'+esc(speed(r.speeds_other))+'</strong></div>'+
+      '<div class="perf-data-row"><span>BLEEDS / A-ICE</span><strong>'+esc((r.bleed_setting||"—")+" / "+(r.anti_ice_setting||"—"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>CLIMB OPTIMIZED</span><strong>'+esc(r.climb_optimized===true?"YES":r.climb_optimized===false?"NO":"—")+'</strong></div>'+
+      '<div class="perf-data-row"><span>AIRCRAFT</span><strong>'+esc((ac.name||data.inputs?.aircraft||"")+" · "+(ac.engines||""))+'</strong></div>'+
+      '</div>'+
+      (msg?'<div class="perf-warning" style="margin-top:8px">'+esc(msg)+'</div>':"");
+  }
+
+  function rightPanel(tab,l,data){
+    const rw=data?.runway||currentTLR(l,tab)?.runway||{},r=data?.result||{};
+    const id=rw.identifier||data?.inputs?.runway||runwayFor(l,tab)||"INPUT";
+    const asda=pick(rw,"length_asda","length_tora","length")||"—";
+    const margin=pick(r,"distance_margin");
+    return '<div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY '+esc(id)+'</span><div class="perf-centerline"></div><div class="perf-stop">ASDA '+esc(asda)+' FT</div><span class="perf-rwy-end">'+esc(id)+'</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>'+esc(margin!==""?String(margin)+" FT":"—")+'</strong></div>';
+  }
+
+  function render(tab,l,a,state={}){
     const title=tab==="takeoff"?"TAKEOFF":"LANDING";
-    const form=tab==="takeoff"?takeoffForm(l,a):landingForm(l,a);
-    const aircraft=(a?.simbriefType||a?.name||"A320/EC").toUpperCase();
-    openModal("PERFORMANCE · "+title, '<div class="perf-shell">'+
-      '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / PERFORMANCE TEST</span></div>'+
+    const aircraft=(a?.simbriefType||l?.route?.simbrief?.aircraftType||a?.name||"A320").toUpperCase();
+    const data=state.data||null;
+    const auth=readToken();
+    openModal("PERFORMANCE · "+title,'<div class="perf-shell">'+
+      '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / SIMBRIEF ENGINE</span></div>'+
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
       '<div class="perf-grid">'+
-      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">OPERATIONAL INPUT</div><div id="perfForm">'+form+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">LOAD / REFRESH OFP TLR</button></div></div></div>'+
-      '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+output(tab,l)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
-      '<div class="perf-right"><div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY '+esc((perfTLR(l,tab)?.runway?.identifier||perfTLR(l,tab)?.conditions?.planned_runway||"INPUT"))+'</span><div class="perf-centerline"></div><div class="perf-stop">ASD '+esc(tlrValue(perfTLR(l,tab)?.runway||{},"length_asda","length_tora","length")||"—")+' M</div><span class="perf-rwy-end">'+esc(perfTLR(l,tab)?.runway?.identifier||"RWY")+'</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>—</strong></div></div>'+
-      '</div><div class="perf-foot">PROTOTYPE v0.9.75 · INPUTS MIRROR SIMBRIEF PERFORMANCE & TOOLS · CALCULATION ENGINE NOT YET CONNECTED</div>'+
+      '<div class="perf-left"><div class="perf-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div><div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">'+(tab==="takeoff"?"CALCULATE":"CALCULATE")+'</button></div><div class="perf-auth"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="Bearer token / session token" value="'+esc(auth)+'"><small>Test tecnico: il token viene mantenuto solo in sessionStorage su questo browser. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">'+(auth?"AUTH TOKEN PRESENT · LOCAL SESSION":"NO PERFORMANCE AUTH TOKEN · CALCULATE WILL RETURN 401")+'</div></div></div></div>'+
+      '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+outputFromApi(tab,data)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
+      '<div class="perf-right">'+rightPanel(tab,l,data)+'</div>'+
+      '</div><div class="perf-foot">v0.9.76 · TAKEOFF ENDPOINT CONNECTED · TLR REMAINS THE DEFAULT DATA SOURCE · PERFORMANCE TOKEN IS SESSION-ONLY</div>'+
       '</div>');
-    document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a));
-    if(!l.route?.simbrief?.tlr?.available && typeof fetchLatestSimBrief==="function"){
-      setTimeout(async()=>{
-        try{
-          const data=await fetchLatestSimBrief();
-          applySimBriefToLive(l,data);
-          render(tab,l,a);
-        }catch(err){
-          const status=document.querySelector(".perf-status");
-          if(status)status.textContent="TLR NOT LOADED · USE LOAD / REFRESH OFP TLR";
-        }
-      },80);
-    }
-    document.getElementById("perfCalc").onclick=async()=>{const btn=document.getElementById("perfCalc");btn.disabled=true;btn.textContent="LOADING TLR…";try{const data=await fetchLatestSimBrief();const parsed=applySimBriefToLive(l,data);render(tab,l,a);const status=document.querySelector(".perf-status");if(status)status.textContent=parsed.tlr?.available?"TLR IMPORTED · SIMBRIEF OFP":"NO TLR · ENABLE RUNWAY ANALYSIS";}catch(err){alert("Non riesco a recuperare il TLR SimBrief.\n\n"+err.message);btn.disabled=false;btn.textContent="LOAD / REFRESH OFP TLR";}};
-    document.getElementById("perfReset").onclick=()=>render(tab,l,a);
+    document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{data:null}));
+    const tokenInput=document.getElementById("perfAuthToken");
+    if(tokenInput)tokenInput.onchange=()=>{writeToken(tokenInput.value.trim());};
+    document.getElementById("perfReset").onclick=()=>render(tab,l,a,{data:null});
+    document.getElementById("perfCalc").onclick=async()=>{
+      const btn=document.getElementById("perfCalc"), form=document.getElementById("perfForm");
+      const token=clean(document.getElementById("perfAuthToken")?.value||"");
+      writeToken(token);
+      if(tab!=="takeoff"){
+        alert("Landing è pronto come UI, ma prima completiamo la mappatura del request/response reale di /v2/performance/landing. Il Takeoff è già collegato.");
+        return;
+      }
+      const fd=new FormData(form);
+      const v=Object.fromEntries(fd.entries());
+      const url=buildTakeoffUrl(v,l,a);
+      btn.disabled=true;btn.textContent="CALCULATING…";
+      try{
+        const data=await callPerformance(url);
+        render(tab,l,a,{data});
+      }catch(err){
+        const out=document.getElementById("perfOutput");
+        if(out)out.innerHTML='<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">CALCULATION ERROR</span></div><div class="perf-warning">'+esc(err.message)+'</div>';
+        btn.disabled=false;btn.textContent="CALCULATE";
+      }
+    };
   }
 
   function openForToday(){
@@ -3421,23 +3525,17 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     if(!l){alert("Nessuna live pianificata oggi.");return}
     render("takeoff",l,aircraftFor(l));
   }
-
   function mountButton(){
     const head=document.querySelector(".ois-today-panel .ois-panel-head");
-    if(!head) return;
+    if(!head)return;
     let b=document.getElementById("perfOpenBtn");
     if(!b){
-      b=document.createElement("button");
-      b.id="perfOpenBtn";
-      b.className="perf-open-btn";
-      b.textContent="PERFORMANCE";
-      b.type="button";
-      head.appendChild(b);
+      b=document.createElement("button");b.id="perfOpenBtn";b.className="perf-open-btn";b.textContent="PERFORMANCE";b.type="button";head.appendChild(b);
     }
     b.onclick=openForToday;
   }
   const oldRenderAll=window.renderAll;
-  window.renderAll=function(){ if(typeof oldRenderAll==="function") oldRenderAll.apply(this,arguments); setTimeout(mountButton,0); };
+  window.renderAll=function(){if(typeof oldRenderAll==="function")oldRenderAll.apply(this,arguments);setTimeout(mountButton,0)};
   setTimeout(mountButton,300);
 })();
 </script>
