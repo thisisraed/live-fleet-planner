@@ -3224,7 +3224,8 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-shell{background:#101517;border:1px solid #566267;color:#dce2e3}
     .perf-titlebar strong{font-size:14px;font-weight:400;letter-spacing:.10em}
     .perf-titlebar span{font-size:9px;color:#768287;letter-spacing:.08em}
-    .perf-tabs{display:flex;border-bottom:1px solid #465257;background:#161c1f}
+    .perf-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;border-bottom:1px solid #465257;background:#12181b}.perf-toolbar>div{display:flex;align-items:center;gap:8px}.perf-toolbar span{font-size:8px;letter-spacing:.09em;color:#7f8b8f}.perf-toolbar select{height:30px;min-width:190px;border:1px solid #465257;background:#0b1012;color:#dce2e3;border-radius:0;padding:0 8px}.perf-tlr-banner{display:flex;align-items:center;gap:12px;padding:8px 12px;border-bottom:1px solid #3e494d;background:#111719}.perf-tlr-banner span{font-size:7px;color:#738086;letter-spacing:.1em}.perf-tlr-banner strong{font-size:8px;color:#10b8c7;letter-spacing:.08em}.perf-tlr-banner em{margin-left:auto;font-style:normal;font-size:7px;color:#68757a}.perf-tlr-columns{display:grid;grid-template-columns:270px minmax(0,1fr) 190px;height:100%;min-height:0}.perf-tlr-side,.perf-tlr-main,.perf-tlr-right{min-width:0;min-height:0;overflow:auto;padding:10px;border-right:1px solid #3e494d}.perf-tlr-right{border-right:0;background:#0b1012}.perf-tlr-main .perf-result-head{margin-bottom:10px}.perf-tlr-metric{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:82px;height:68px;margin-right:6px;border:1px solid #3e494d;background:#151b1e}.perf-tlr-metric span{font-size:8px;color:#7f8b8f;letter-spacing:.1em}.perf-tlr-metric strong{font-size:18px;color:#10b8c7;margin-top:4px}.perf-no-tlr{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:#738086;text-align:center}.perf-no-tlr strong{color:#e0c85a;font-size:12px;letter-spacing:.1em}.perf-no-tlr span{font-size:9px}.perf-no-tlr button{margin-top:8px}.perf-tlr-grid{display:block!important;overflow:hidden!important}.perf-tlr-grid>.perf-tlr-columns{width:100%}
+.perf-tabs{display:flex;border-bottom:1px solid #465257;background:#161c1f}
     .perf-tab{flex:0 0 130px;height:38px;border:0!important;border-right:1px solid #3e494d!important;background:#20282b!important;color:#879398!important}
     .perf-tab.active{background:#2c3539!important;color:#10b8c7!important;border-bottom:2px solid #10b8c7!important}
     .perf-left,.perf-mid,.perf-right{padding:12px;border-right:1px solid #3e494d}
@@ -3554,64 +3555,119 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     return '<div class="perf-section-head">RUNWAY PERFORMANCE</div><div class="perf-runway"><span class="perf-rwy-label">RWY '+esc(id)+'</span><div class="perf-centerline"></div><div class="perf-stop">ASDA '+esc(asda)+' FT</div><span class="perf-rwy-end">'+esc(id)+'</span></div><div class="perf-margin"><span>STOP MARGIN</span><strong>'+esc(margin!==""?String(margin)+" FT":"—")+'</strong></div>';
   }
 
+  
+  function tlrNum(v){const n=Number(v);return Number.isFinite(n)?n:null}
+  function tlrVal(o,...keys){return pick(o,...keys)||"—"}
+  function tlrSpeed(v){const n=tlrNum(v);return n===null?"—":String(n)+" KT"}
+  function tlrDist(v){const n=tlrNum(v);return n===null?"—":String(Math.round(n))+" FT"}
+  function tlrTemp(v){const n=tlrNum(v);return n===null?"—":String(n)+" °C"}
+  function tlrWeight(v){const n=tlrNum(v);return n===null?"—":String(Math.round(n))+" KG"}
+  function tlrWind(c){
+    const d=tlrVal(c,"wind_direction"),s=tlrVal(c,"wind_speed");
+    if(d==="—"||s==="—")return "—";
+    return String(d).padStart(3,"0")+"/"+String(s).padStart(2,"0")+" KT";
+  }
+  function tlrRunwayList(p){
+    return Array.isArray(p?.runways)?p.runways:[];
+  }
+  function tlrSelectedRunway(p,id){
+    const list=tlrRunwayList(p), planned=String(id||p?.conditions?.planned_runway||"").toUpperCase();
+    return list.find(r=>String(r?.identifier||"").toUpperCase()===planned)||list[0]||p?.runway||{};
+  }
+  function tlrMetric(label,value,cls=""){
+    return '<div class="perf-tlr-metric '+cls+'"><span>'+label+'</span><strong>'+esc(value)+'</strong></div>';
+  }
+  function tlrConditionRows(p){
+    const c=p?.conditions||{};
+    return '<div class="perf-data">'+
+      '<div class="perf-data-row"><span>AIRPORT</span><strong>'+esc(tlrVal(c,"airport_icao"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>PLANNED RUNWAY</span><strong>'+esc(tlrVal(c,"planned_runway"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>PLANNED WEIGHT</span><strong>'+esc(tlrWeight(c.planned_weight))+'</strong></div>'+
+      '<div class="perf-data-row"><span>WIND</span><strong>'+esc(tlrWind(c))+'</strong></div>'+
+      '<div class="perf-data-row"><span>TEMPERATURE</span><strong>'+esc(tlrTemp(c.temperature))+'</strong></div>'+
+      '<div class="perf-data-row"><span>QNH / ALTIMETER</span><strong>'+esc(tlrVal(c,"altimeter"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>SURFACE</span><strong>'+esc(tlrVal(c,"surface_condition"))+'</strong></div>'+
+      '</div>';
+  }
+  function tlrTakeoffOutput(r){
+    const flex=tlrVal(r,"flex_temperature"),maxT=tlrVal(r,"max_temperature"),maxW=tlrVal(r,"max_weight");
+    return '<div class="perf-result-head"><strong>SIMBRIEF TLR · TAKEOFF</strong><span class="perf-status">OFP DATA</span></div>'+
+      '<div class="perf-speeds">'+tlrMetric("V1",tlrSpeed(r.speeds_v1))+tlrMetric("VR",tlrSpeed(r.speeds_vr))+tlrMetric("V2",tlrSpeed(r.speeds_v2))+'</div>'+
+      '<div class="perf-data">'+
+      '<div class="perf-data-row"><span>RUNWAY</span><strong>'+esc(tlrVal(r,"identifier"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>FLAP</span><strong>'+esc(tlrVal(r,"flap_setting"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>THRUST</span><strong>'+esc(tlrVal(r,"thrust_setting"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>FLEX / SEL TEMP</span><strong>'+esc(flex==="—"?"—":flex+" °C")+'</strong></div>'+
+      '<div class="perf-data-row"><span>MAX TEMPERATURE</span><strong>'+esc(maxT==="—"?"—":maxT+" °C")+'</strong></div>'+
+      '<div class="perf-data-row"><span>MAX WEIGHT</span><strong>'+esc(maxW==="—"?"—":maxW+" KG")+'</strong></div>'+
+      '<div class="perf-data-row"><span>LIMIT CODE</span><strong>'+esc(tlrVal(r,"limit_code"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>OBSTACLE LIMIT</span><strong>'+esc(tlrVal(r,"limit_obstacle"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>REJECT / ASDA</span><strong>'+esc(tlrDist(r.distance_reject))+'</strong></div>'+
+      '<div class="perf-data-row"><span>CONTINUE / TODA</span><strong>'+esc(tlrDist(r.distance_continue))+'</strong></div>'+
+      '<div class="perf-data-row"><span>DISTANCE MARGIN</span><strong>'+esc(tlrDist(r.distance_margin))+'</strong></div>'+
+      '</div>';
+  }
+  function tlrLandingOutput(p,r){
+    const dry=p?.distanceDry||{},wet=p?.distanceWet||{};
+    return '<div class="perf-result-head"><strong>SIMBRIEF TLR · LANDING</strong><span class="perf-status">OFP DATA</span></div>'+
+      '<div class="perf-data">'+
+      '<div class="perf-data-row"><span>RUNWAY</span><strong>'+esc(tlrVal(r,"identifier"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>FLAP</span><strong>'+esc(tlrVal(r,"flap_setting")||tlrVal(dry,"flap_setting"))+'</strong></div>'+
+      '<div class="perf-data-row"><span>MAX WEIGHT DRY</span><strong>'+esc(tlrWeight(r.max_weight_dry))+'</strong></div>'+
+      '<div class="perf-data-row"><span>MAX WEIGHT WET</span><strong>'+esc(tlrWeight(r.max_weight_wet))+'</strong></div>'+
+      '<div class="perf-data-row"><span>VREF</span><strong>'+esc(tlrSpeed(dry.speeds_vref))+'</strong></div>'+
+      '<div class="perf-data-row"><span>DRY ACTUAL</span><strong>'+esc(tlrDist(dry.actual_distance))+'</strong></div>'+
+      '<div class="perf-data-row"><span>DRY FACTORED</span><strong>'+esc(tlrDist(dry.factored_distance))+'</strong></div>'+
+      '<div class="perf-data-row"><span>WET ACTUAL</span><strong>'+esc(tlrDist(wet.actual_distance))+'</strong></div>'+
+      '<div class="perf-data-row"><span>WET FACTORED</span><strong>'+esc(tlrDist(wet.factored_distance))+'</strong></div>'+
+      '</div>';
+  }
+  function tlrRightPanel(tab,p,r){
+    const id=tlrVal(r,"identifier"),length=tlrVal(r,"length"),tora=tlrVal(r,"length_tora"),toda=tlrVal(r,"length_toda"),asda=tlrVal(r,"length_asda"),lda=tlrVal(r,"length_lda");
+    return '<div class="perf-section-head">RUNWAY DATA · '+esc(id)+'</div><div class="perf-runway"><span class="perf-rwy-label">RWY '+esc(id)+'</span><div class="perf-centerline"></div><div class="perf-stop">TORA '+esc(tora==='—'?length:tora)+' FT</div><span class="perf-rwy-end">'+esc(id)+'</span></div><div class="perf-margin"><span>TODA</span><strong>'+esc(toda==='—'?'—':toda+' FT')+'</strong></div><div class="perf-margin"><span>ASDA</span><strong>'+esc(asda==='—'?'—':asda+' FT')+'</strong></div><div class="perf-margin"><span>LDA</span><strong>'+esc(lda==='—'?'—':lda+' FT')+'</strong></div>';
+  }
+
   function render(tab,l,a,state={}){
     const title=tab==="takeoff"?"TAKEOFF":"LANDING";
     const aircraft=(a?.simbriefType||l?.route?.simbrief?.aircraftType||a?.name||"A320").toUpperCase();
-    const data=state.data||null;
-    const auth=readToken();
+    const p=currentTLR(l,tab);
+    const list=tlrRunwayList(p);
+    const selected=tlrSelectedRunway(p,state.runwayId);
+    const hasTLR=!!(p?.runway||list.length||p?.conditions);
+    const selectedId=String(selected?.identifier||"").toUpperCase();
+    const runwayOptions=list.length?list.map(r=>'<option value="'+esc(r.identifier||"")+'" '+(String(r.identifier||"").toUpperCase()===selectedId?"selected":"")+'>'+esc(r.identifier||"RUNWAY")+' · '+esc(r.length||"—")+' FT</option>').join(""):'<option value="">NO RUNWAY DATA</option>';
+    const content=hasTLR?
+      '<div class="perf-tlr-banner"><span>DATA SOURCE</span><strong>SIMBRIEF OFP · RUNWAY ANALYSIS / TLR</strong><em>'+esc(l?.route?.simbrief?.importedAt?new Date(l.route.simbrief.importedAt).toLocaleString("it-IT"):"IMPORTED OFP")+'</em></div>'+
+      '<div class="perf-tlr-columns">'+
+      '<div class="perf-tlr-side"><div class="perf-section-head">TLR CONDITIONS</div>'+tlrConditionRows(p)+'</div>'+
+      '<div class="perf-tlr-main">'+(tab==="takeoff"?tlrTakeoffOutput(selected):tlrLandingOutput(p,selected))+'</div>'+
+      '<div class="perf-tlr-right">'+tlrRightPanel(tab,p,selected)+'</div>'+
+      '</div>'
+      :
+      '<div class="perf-no-tlr"><strong>NO SIMBRIEF TLR AVAILABLE</strong><span>Generate or import an OFP with RUNWAY ANALYSIS enabled.</span><button type="button" class="perf-calc" id="perfRefreshOFP">REFRESH LATEST OFP</button></div>';
     openModal("PERFORMANCE · "+title,'<div class="perf-shell">'+
-      '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / SIMBRIEF ENGINE</span></div>'+
+      '<div class="perf-titlebar"><strong>'+title+' · '+esc(aircraft)+'</strong><span>LIVE FLEET PLANNER / SIMBRIEF TLR</span></div>'+
       '<div class="perf-tabs"><button class="perf-tab '+(tab==="takeoff"?"active":"")+'" data-perf-tab="takeoff">TAKEOFF</button><button class="perf-tab '+(tab==="landing"?"active":"")+'" data-perf-tab="landing">LANDING</button></div>'+
-      '<div class="perf-grid">'+
-      '<div class="perf-left">'+
-      '<div class="perf-auth perf-auth-top"><label>PERFORMANCE API ACCESS TOKEN · SESSION ONLY</label><input id="perfAuthToken" type="password" autocomplete="off" placeholder="INCOLLA QUI IL TOKEN" value="'+esc(auth)+'"><div class="perf-auth-actions"><button type="button" class="secondary" id="perfTokenApply">APPLY TOKEN</button><span id="perfTokenState">'+(auth?"TOKEN PRESENT · SESSION":"NO TOKEN")+'</span></div><small>Token locale alla sessione Safari. Non viene scritto nel database GitHub.</small><div class="perf-engine-state">'+(auth?"AUTH TOKEN READY · BEARER WILL BE SENT":"NO TOKEN · INSERT TOKEN BEFORE CALCULATE")+'</div></div>'+
-      '<div class="perf-section perf-input-section"><div class="perf-section-head">SIMBRIEF PERFORMANCE INPUTS</div><div id="perfForm">'+(tab==="takeoff"?takeoffForm(l,a):landingForm(l,a))+'</div></div>'+
-      '<div class="perf-calc-row"><button type="button" class="secondary perf-reset" id="perfReset">RESET</button><button type="button" class="perf-calc" id="perfCalc">CALCULATE</button></div>'+
-      '</div>'+
-      '<div class="perf-mid"><div class="perf-output-main"><div id="perfOutput">'+outputFromApi(tab,data)+'</div></div><div class="perf-eosid"><div class="perf-section-head">EOSID</div><div class="perf-eosid-empty">EOSID MODULE<br><span>RESERVED FOR FUTURE IMPLEMENTATION</span></div></div></div>'+
-      '<div class="perf-right">'+rightPanel(tab,l,data)+'</div>'+
-      '</div><div class="perf-foot">v0.9.76.5 · TAKEOFF ENDPOINT CONNECTED · TLR REMAINS THE DEFAULT DATA SOURCE · PERFORMANCE TOKEN IS SESSION-ONLY</div>'+
+      '<div class="perf-toolbar"><div><span>RUNWAY</span><select id="perfTlrRunway">'+runwayOptions+'</select></div><button type="button" class="secondary" id="perfRefreshOFP">REFRESH OFP</button></div>'+
+      '<div class="perf-grid perf-tlr-grid">'+content+'</div>'+
+      '<div class="perf-foot">v0.9.77 · DATA SOURCE: SIMBRIEF OFP / TLR · NO PRIVATE PERFORMANCE TOKEN REQUIRED</div>'+
       '</div>');
-    document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{data:null}));
-    const tokenInput=document.getElementById("perfAuthToken");
-    if(tokenInput){tokenInput.onchange=()=>{writeToken(tokenInput.value.trim());updateTokenState()};}
-    const updateTokenState=()=>{const v=clean(document.getElementById("perfAuthToken")?.value||"");const state=document.getElementById("perfTokenState"),engine=document.querySelector(".perf-engine-state");if(state)state.textContent=v?"TOKEN PRESENT · SESSION":"NO TOKEN";if(engine)engine.textContent=v?"AUTH TOKEN READY · REQUEST WILL USE BEARER AUTH":"NO PERFORMANCE AUTH TOKEN · INSERT TOKEN BEFORE CALCULATE"};
-    document.getElementById("perfTokenApply")?.addEventListener("click",()=>{writeToken(clean(document.getElementById("perfAuthToken")?.value||""));updateTokenState()});
-    if(tab==="takeoff"){
-      const airportInput=document.querySelector('#perfForm input[name="airport"]'),runwaySelect=document.getElementById("perfRunwaySelect");
-      if(airportInput){
-        let lastAirport=upper(airportInput.value);
-        populateRunways(lastAirport,runwaySelect?.dataset.runwayValue||"");
-        const refresh=()=>{const next=upper(airportInput.value);if(next!==lastAirport){lastAirport=next;populateRunways(next,"")}};
-        airportInput.addEventListener("change",refresh);airportInput.addEventListener("blur",refresh);
-      }
-    }
-    document.getElementById("perfReset").onclick=()=>render(tab,l,a,{data:null});
-    document.getElementById("perfCalc").onclick=async()=>{
-      const btn=document.getElementById("perfCalc"), form=document.getElementById("perfForm");
-      const token=clean(document.getElementById("perfAuthToken")?.value||"");
-      writeToken(token);
-      if(!token){const out=document.getElementById("perfOutput");if(out)out.innerHTML='<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">AUTHENTICATION REQUIRED</span></div><div class="perf-warning">Inserisci il Performance API Access Token e premi APPLY TOKEN prima di CALCULATE.</div>';return}
-      if(tab!=="takeoff"){
-        alert("Landing è pronto come UI, ma prima completiamo la mappatura del request/response reale di /v2/performance/landing. Il Takeoff è già collegato.");
-        return;
-      }
-      const v={};
-      form.querySelectorAll("input[name],select[name],textarea[name]").forEach(el=>{v[el.name]=el.value;});
-      btn.disabled=true;btn.textContent="CALCULATING…";
+    document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{runwayId:""}));
+    const rs=document.getElementById("perfTlrRunway");
+    if(rs)rs.onchange=()=>render(tab,l,a,{runwayId:rs.value});
+    const rb=document.getElementById("perfRefreshOFP");
+    if(rb)rb.onclick=async()=>{
+      rb.disabled=true;rb.textContent="REFRESHING…";
       try{
-        const url=buildTakeoffUrl(v,l,a);
-        const data=await callPerformance(url);
-        render(tab,l,a,{data});
-      }catch(err){
-        const out=document.getElementById("perfOutput");
-        if(out)out.innerHTML='<div class="perf-result-head"><strong>CALCULATION OUTPUT</strong><span class="perf-status">CALCULATION ERROR</span></div><div class="perf-warning">'+esc(err.message)+'</div>';
-        btn.disabled=false;btn.textContent="CALCULATE";
-      }
+        const data=await fetchLatestSimBrief();
+        applySimBriefToLive(l,data);
+        renderCalendar();renderDashboard();renderRotation();renderOISExtraPages();
+        render(tab,l,a,{runwayId:""});
+      }catch(err){alert("Non riesco ad aggiornare l’OFP SimBrief.\n\n"+err.message);rb.disabled=false;rb.textContent="REFRESH OFP"}
     };
   }
 
-  function openForToday(){
+function openForToday(){
     const l=todayLive();
     if(!l){alert("Nessuna live pianificata oggi.");return}
     render("takeoff",l,aircraftFor(l));
