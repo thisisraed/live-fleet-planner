@@ -3231,7 +3231,8 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     .perf-right{border-right:0}
     .perf-section{margin-bottom:10px;border:1px solid #414d51;background:#181f22}
     .perf-section-head{height:26px;display:flex;align-items:center;padding:0 8px;background:#2a3236;color:#b9c4c7;font-size:8px;letter-spacing:.10em;border-bottom:1px solid #414d51}
-    .perf-field{display:grid;grid-template-columns:1fr 1fr;min-height:34px;border-bottom:1px solid #303b3f}
+    .perf-runway-meta{display:block;margin-top:4px;color:#748084;font-family:'Roboto Mono',monospace;font-size:7px;letter-spacing:.06em;line-height:1.3}
+.perf-field{display:grid;grid-template-columns:1fr 1fr;min-height:34px;border-bottom:1px solid #303b3f}
     .perf-field:last-child{border-bottom:0}
     .perf-field label{padding:8px 7px;color:#849095;font-size:8px;letter-spacing:.07em}
     .perf-field input,.perf-field select{width:100%;height:32px;border:0!important;border-left:1px solid #303b3f!important;border-radius:0!important;background:#151b1e!important;color:#dce2e3!important;padding:0 7px!important;font-size:10px!important}
@@ -3369,11 +3370,84 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
       enable_climb_optimization:pick(r,"climb_optimized")===false?"0":"1"
     };
   }
+  const runwayCatalogState={promise:null,map:null};
+
+  function runwayField(label,name,value){
+    return '<div class="perf-field"><label>'+label+'</label><select name="'+name+'" id="perfRunwaySelect" data-runway-value="'+esc(value||'')+'"><option value="'+esc(value||'')+'">'+esc(value||"LOADING RUNWAYS…")+'</option></select><small id="perfRunwayMeta" class="perf-runway-meta">AIRPORT RUNWAY DATA</small></div>';
+  }
+  function parseCsvLine(line){
+    const out=[];let cur="",quoted=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++;continue}quoted=!quoted;continue}
+      if(ch===','&&!quoted){out.push(cur);cur="";continue}
+      cur+=ch;
+    }
+    out.push(cur);return out;
+  }
+  async function loadRunwayCatalog(){
+    if(runwayCatalogState.map)return runwayCatalogState.map;
+    if(runwayCatalogState.promise)return runwayCatalogState.promise;
+    const host="raw."+"githubusercontent.com";
+    const url="https://"+host+"/davidmegginson/ourairports-data/main/runways.csv";
+    runwayCatalogState.promise=fetch(url,{cache:"force-cache"}).then(res=>{
+      if(!res.ok)throw new Error("RUNWAY DATABASE HTTP "+res.status);
+      return res.text();
+    }).then(csv=>{
+      const lines=csv.split(/\\r?\\n/).filter(Boolean),headers=parseCsvLine(lines[0]),ix=Object.fromEntries(headers.map((h,i)=>[h,i])),map=new Map();
+      for(let n=1;n<lines.length;n++){
+        const row=parseCsvLine(lines[n]),airport=String(row[ix.airport_ident]||"").trim().toUpperCase();
+        if(!airport||String(row[ix.closed]||"0")==="1")continue;
+        const length=Number(row[ix.length_ft]||0);if(!length)continue;
+        const surface=String(row[ix.surface]||"UNK").trim().toUpperCase();
+        for(const end of [
+          {ident:String(row[ix.le_ident]||"").trim().toUpperCase(),heading:row[ix.le_heading_degT],threshold:row[ix.le_displaced_threshold_ft]},
+          {ident:String(row[ix.he_ident]||"").trim().toUpperCase(),heading:row[ix.he_heading_degT],threshold:row[ix.he_displaced_threshold_ft]}
+        ]){
+          if(!end.ident)continue;
+          if(!map.has(airport))map.set(airport,[]);
+          map.get(airport).push({ident:end.ident,lengthFt:length,widthFt:Number(row[ix.width_ft]||0),surface,headingT:end.heading,displacedFt:Number(end.threshold||0)});
+        }
+      }
+      for(const [airport,list] of map){
+        const seen=new Set();
+        map.set(airport,list.filter(x=>{if(seen.has(x.ident))return false;seen.add(x.ident);return true}).sort((a,b)=>a.ident.localeCompare(b.ident)));
+      }
+      runwayCatalogState.map=map;return map;
+    }).catch(err=>{runwayCatalogState.promise=null;throw err});
+    return runwayCatalogState.promise;
+  }
+  function runwaySurfaceName(s){return ({ASP:"ASPHALT",CON:"CONCRETE",GRS:"GRASS",GRE:"GRAVEL",WATER:"WATER",TURF:"TURF",UNK:"UNKNOWN"})[s]||s||"UNKNOWN"}
+  function runwayMetaText(r){
+    if(!r)return "NO RUNWAY DATA";
+    return Math.round(r.lengthFt)+" FT · "+Math.round(r.lengthFt*0.3048)+" M · "+runwaySurfaceName(r.surface)+(r.displacedFt?" · DTHR "+Math.round(r.displacedFt)+" FT":"");
+  }
+  async function populateRunways(airport,selected=""){
+    const select=document.getElementById("perfRunwaySelect"),meta=document.getElementById("perfRunwayMeta");
+    if(!select)return;
+    const icao=upper(airport);
+    if(!icao){select.innerHTML='<option value="">ENTER AIRPORT ICAO</option>';if(meta)meta.textContent="AIRPORT RUNWAY DATA";return}
+    select.disabled=true;select.innerHTML='<option value="">LOADING RUNWAYS…</option>';
+    try{
+      const map=await loadRunwayCatalog(),list=map.get(icao)||[];
+      if(!list.length)throw new Error("NO RUNWAYS FOUND FOR "+icao);
+      select.dataset.manual="0";
+      select.innerHTML=list.map(r=>'<option value="'+esc(r.ident)+'" '+(r.ident===String(selected).toUpperCase()?"selected":"")+'>'+esc(r.ident)+" · "+esc(Math.round(r.lengthFt))+" FT · "+esc(runwaySurfaceName(r.surface))+'</option>').join("");
+      const chosen=list.find(r=>r.ident===String(selected).toUpperCase())||list[0];select.value=chosen.ident;
+      if(meta)meta.textContent=icao+" · "+runwayMetaText(chosen);
+      select.onchange=()=>{const rr=list.find(x=>x.ident===select.value);if(meta)meta.textContent=icao+" · "+runwayMetaText(rr)};
+    }catch(err){
+      select.innerHTML='<option value="">RUNWAY DATABASE UNAVAILABLE · ENTER MANUALLY</option>';
+      select.dataset.manual="1";select.disabled=false;if(meta)meta.textContent=String(err.message||"RUNWAY DATABASE ERROR");
+    }
+    select.disabled=false;
+  }
+
   function takeoffForm(l,a){
     const d=takeoffDefaults(l,a);
     return [
       field("AIRPORT","airport",d.airport),
-      field("RUNWAY","runway",d.runway),
+      runwayField("RUNWAY","runway",d.runway),
       field("RUNWAY LENGTH","shorten_units",d.shorten_units,"select",[{value:"tora",label:"TORA LENGTH"},{value:"toda",label:"TODA LENGTH"},{value:"asda",label:"ASDA LENGTH"}]),
       field("LENGTH UNITS","length_units",d.length_units,"select",[{value:"ft",label:"FEET"},{value:"m",label:"METRES"}]),
       field("WEIGHT UNITS","weight_units",d.weight_units,"select",[{value:"kgs",label:"KG"},{value:"lbs",label:"LBS"}]),
@@ -3496,6 +3570,15 @@ setTimeout(async()=>{if(db.cloud?.autoSync && getGitHubToken() && db.cloud.owner
     document.querySelectorAll("[data-perf-tab]").forEach(btn=>btn.onclick=()=>render(btn.dataset.perfTab,l,a,{data:null}));
     const tokenInput=document.getElementById("perfAuthToken");
     if(tokenInput)tokenInput.onchange=()=>{writeToken(tokenInput.value.trim());};
+    if(tab==="takeoff"){
+      const airportInput=document.querySelector('#perfForm input[name="airport"]'),runwaySelect=document.getElementById("perfRunwaySelect");
+      if(airportInput){
+        let lastAirport=upper(airportInput.value);
+        populateRunways(lastAirport,runwaySelect?.dataset.runwayValue||"");
+        const refresh=()=>{const next=upper(airportInput.value);if(next!==lastAirport){lastAirport=next;populateRunways(next,"")}};
+        airportInput.addEventListener("change",refresh);airportInput.addEventListener("blur",refresh);
+      }
+    }
     document.getElementById("perfReset").onclick=()=>render(tab,l,a,{data:null});
     document.getElementById("perfCalc").onclick=async()=>{
       const btn=document.getElementById("perfCalc"), form=document.getElementById("perfForm");
