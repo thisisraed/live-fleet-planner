@@ -95,12 +95,121 @@ footer{border-top:1px solid var(--line)!important;padding:18px 0 24px!important;
 .section{margin-top:18px!important}
 .panel,.panel-head,.panel-body{border-radius:0!important;box-shadow:none!important}
 
-</style></head><body><div class="topline"></div><header><div class="shell nav"><a class="brand" href="./liveflight.html"><div class="brand-mark">TR</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div></div></a><nav class="navlinks"><a href="./liveflight.html">SCHEDULE</a><a href="./liveflight-archive.html">ARCHIVE</a><a class="active" href="./community-efb.html">COMMUNITY EFB</a></nav></div></header>
-<main class="shell"><section class="hero"><div class="eyebrow">THIS IS RAED · FLIGHT OPERATIONS</div><h1>COMMUNITY EFB</h1><p>Il tuo flight bag per volare insieme durante le live. Importa il volo ufficiale della community oppure prepara un volo indipendente e genera il tuo OFP personale con SimBrief.</p><div class="hero-meta"><span class="pill">PUBLIC EFB</span><span>SIMBRIEF DISPATCH INTEGRATION</span><span>ALL TIMES UTC</span></div></section>
-<section class="section"><div class="section-head"><div><div class="kicker">01 / COMMUNITY FLIGHT</div><h2>Import live flight</h2></div><div class="section-note">SHARED FLIGHT PROFILE</div></div><div class="panel"><div class="panel-head"><span>LIVE FLIGHT DATABASE</span><span>PUBLIC SCHEDULE</span></div><div class="panel-body"><div class="field-grid"><div class="field full"><label>SELECT A LIVE FLIGHT</label><select id="liveSelect"><option value="">CARICAMENTO PROGRAMMAZIONE…</option></select></div></div><div class="actions"><button class="primary" id="importLive">IMPORT LIVE FLIGHT</button><button id="clearFlight">CLEAR / CUSTOM FLIGHT</button><a class="btn" href="./liveflight.html">VIEW LIVE SCHEDULE ↗</a></div><div class="hint">Seleziona una live pubblicata per compilare automaticamente aeromobile, partenza, destinazione, rotta e orario. Potrai comunque modificare ogni campo.</div><div class="status" id="liveStatus"></div></div></div></section>
-<section class="section"><div class="section-head"><div><div class="kicker">02 / FLIGHT DISPATCH</div><h2>Flight planning</h2></div><div class="section-note">LIVE FLIGHT OR INDEPENDENT PLANNING</div></div><div class="grid"><div class="panel"><div class="panel-head"><span>FLIGHT PARAMETERS</span><span>EDITABLE</span></div><div class="panel-body"><div class="field-grid"><div class="field"><label>DEPARTURE ICAO</label><input id="orig" maxlength="4" placeholder="LIMC" autocomplete="off"></div><div class="field"><label>DESTINATION ICAO</label><input id="dest" maxlength="4" placeholder="LIRF" autocomplete="off"></div><div class="field"><label>AIRCRAFT NAME</label><input id="aircraft" placeholder="A320 / Cessna 172"></div><div class="field"><label>SIMBRIEF AIRCRAFT TYPE</label><input id="type" maxlength="4" placeholder="A320" autocomplete="off"></div><div class="field"><label>DEPARTURE DATE</label><input id="date" type="date"></div><div class="field"><label>DEPARTURE TIME (UTC)</label><input id="time" type="time" value="18:00"></div><div class="field full"><label>ROUTE (OPTIONAL)</label><input id="route" placeholder="DCT / airway route from dispatch"></div><div class="field"><label>CALLSIGN (OPTIONAL)</label><input id="callsign" placeholder="RAE123"></div><div class="field"><label>ALTERNATE (OPTIONAL)</label><input id="alternate" maxlength="4" placeholder="LIME"></div></div><div class="actions"><button class="primary" id="generate">GENERATE OFP IN SIMBRIEF ↗</button><button id="reset">RESET PARAMETERS</button></div><div class="status" id="dispatchStatus"></div><div class="hint">Il codice SimBrief Aircraft Type deve corrispondere a un tipo supportato da SimBrief, ad esempio A320, B738 o C172. Il nome visualizzato dell'aereo è libero.</div></div></div>
-<div class="panel"><div class="panel-head"><span>PERSONAL SIMBRIEF PROFILE</span><span>YOUR PILOT ID</span></div><div class="panel-body"><div class="field-grid"><div class="field full"><label>SIMBRIEF PILOT ID</label><input id="pilotId" inputmode="numeric" placeholder="Inserisci il tuo SimBrief Pilot ID"></div></div><div class="actions"><button class="primary" id="refresh">IMPORT / REFRESH MY OFP</button><a class="btn" href="https://www.simbrief.com/home/" target="_blank" rel="noopener">OPEN SIMBRIEF ↗</a></div><div class="hint">Il Pilot ID viene salvato solo nel browser del dispositivo che stai usando. Non viene pubblicato nel database delle live.</div><div class="status" id="ofpStatus">Nessun OFP personale importato.</div><div class="route-line"><div><div class="route-code" id="depCode">----</div><div class="route-sub">DEPARTURE</div></div><div class="route-middle"></div><div style="text-align:right"><div class="route-code" id="arrCode">----</div><div class="route-sub">ARRIVAL</div></div></div><div style="height:12px"></div><div class="data-grid" id="ofpData"><div class="data-cell"><span>AIRCRAFT</span><strong>—</strong></div><div class="data-cell"><span>CALLSIGN</span><strong>—</strong></div><div class="data-cell"><span>DISTANCE</span><strong>—</strong></div><div class="data-cell"><span>ETE</span><strong>—</strong></div><div class="data-cell"><span>CRUISE</span><strong>—</strong></div><div class="data-cell"><span>ALTERNATE</span><strong>—</strong></div><div class="data-cell"><span>FUEL BLOCK</span><strong>—</strong></div><div class="data-cell"><span>PAYLOAD / PAX</span><strong>—</strong></div></div><div class="disclaimer">L'OFP è personale: ogni utente deve generare e verificare il proprio piano. Controlla sempre route, fuel, meteo, NOTAM e performance prima del volo simulato.</div></div></div></div></section>
-</main><footer><div class="shell footer"><span>THIS IS RAED · COMMUNITY EFB</span><span>SIMBRIEF DATA · PERSONAL SESSION</span></div></footer>
+</style></head>
+<body class="community-efb">
+<div class="topline"></div>
+<header class="ois-topbar">
+  <a class="ois-brand" href="./community-efb.html"><span class="ois-brand-mark">LF</span><span><strong>THIS IS RAED</strong><small>COMMUNITY EFB · FLIGHT OPERATIONS</small></span></a>
+  <div class="ois-top-status"><span id="efbClock">-- NOV 0000 00:00L</span><span class="ois-save-state">● PUBLIC EFB ONLINE</span><a href="./liveflight.html">SCHEDULE ↗</a></div>
+</header>
+<nav class="ois-nav">
+  <a class="tab active" href="#efbDashboard">FLIGHT OPS</a>
+  <a class="tab" href="#communityFlight">COMMUNITY FLIGHT</a>
+  <a class="tab" href="#dispatchPanel">FLIGHT DISPATCH</a>
+  <a class="tab" href="#simbriefPanel">SIMBRIEF</a>
+  <a class="tab" href="./liveflight-archive.html">ARCHIVE ↗</a>
+</nav>
+<main class="ois-main" id="efbDashboard">
+  <div class="ois-page-head">
+    <div><div class="ois-page-title">COMMUNITY FLIGHT OPS</div><div class="ois-page-sub">SHARED FLIGHT PROFILE · PERSONAL SIMBRIEF DISPATCH</div></div>
+    <div class="ois-page-index">01 / 02</div>
+  </div>
+  <div class="ois-dashboard-grid">
+    <section class="ois-panel ois-today-panel" id="communityFlight">
+      <div class="ois-panel-head"><span>COMMUNITY FLIGHT</span><span class="panel-code">LIVE DATABASE</span></div>
+      <div class="ois-date-line">SELECT THE OFFICIAL COMMUNITY FLIGHT</div>
+      <div class="ois-community-select">
+        <label for="liveSelect">AVAILABLE LIVE FLIGHTS · NEXT 7 DAYS</label>
+        <select id="liveSelect"><option value="">CARICAMENTO PROGRAMMAZIONE…</option></select>
+        <div class="ois-community-actions">
+          <button class="ois-button primary" id="importLive">IMPORT LIVE FLIGHT</button>
+          <button class="ois-button" id="clearFlight">CLEAR / CUSTOM FLIGHT</button>
+          <a class="ois-button" href="./liveflight.html">VIEW SCHEDULE ↗</a>
+        </div>
+        <div class="ois-hint">Importa il volo ufficiale per compilare automaticamente i parametri. Puoi modificare ogni campo o creare un volo indipendente.</div>
+        <div class="status" id="liveStatus"></div>
+      </div>
+      <div class="ois-release-aircraft-row">
+        <div><span class="micro-label">AIRCRAFT</span><div class="release-aircraft" id="dashAircraft">NOT SELECTED</div><div class="release-sub">COMMUNITY FLIGHT</div></div>
+        <div><span class="micro-label">DEPARTURE</span><div class="release-cyan" id="dashDate">—</div><div class="release-sub" id="dashTime">UTC TIME</div></div>
+        <div><span class="micro-label">SIMULATOR</span><div class="release-cyan" id="dashSim">—</div><div class="release-sub" id="dashCallsign">CALLSIGN —</div></div>
+      </div>
+      <div class="ois-release-route">
+        <div><span class="micro-label">DEPARTURE</span><div class="airport-code" id="dashFrom">----</div><div class="airport-name">ORIGIN ICAO</div></div>
+        <div class="route-arrow"><span>✈</span></div>
+        <div style="text-align:right"><span class="micro-label">ARRIVAL</span><div class="airport-code" id="dashTo">----</div><div class="airport-name">DESTINATION ICAO</div></div>
+      </div>
+      <div class="ois-release-metrics">
+        <div><span>ROUTE</span><strong id="dashRoute">—</strong></div>
+        <div><span>ALTERNATE</span><strong id="dashAlternate">—</strong></div>
+        <div><span>STATUS</span><strong class="ok" id="dashStatus">STANDBY</strong></div>
+      </div>
+    </section>
+    <section class="ois-panel ois-map-panel">
+      <div class="ois-panel-head"><span>ROUTE MAP / DISPATCH PREVIEW</span><span class="panel-tools"><span>PLAN</span><span>LOW ENR</span><span>HIGH ENR</span></span></div>
+      <div class="ois-route-preview" id="routePreview">
+        <div class="ois-map-empty">NO ROUTE LOADED<small>IMPORT A COMMUNITY FLIGHT OR ENTER A CUSTOM ROUTE</small></div>
+      </div>
+      <div class="ois-map-footer"><span>COMMUNITY FLIGHT PROFILE</span><span id="mapRouteLabel">---- → ----</span></div>
+    </section>
+  </div>
+  <div class="ois-lower-grid">
+    <section class="ois-panel" id="dispatchPanel">
+      <div class="ois-panel-head"><span>FLIGHT DATA</span><span class="panel-code">EDITABLE PARAMETERS</span></div>
+      <div class="ois-flight-form">
+        <div class="ois-form-grid">
+          <div class="field"><label for="orig">DEPARTURE ICAO</label><input id="orig" maxlength="4" placeholder="LIMC" autocomplete="off"></div>
+          <div class="field"><label for="dest">DESTINATION ICAO</label><input id="dest" maxlength="4" placeholder="LIRF" autocomplete="off"></div>
+          <div class="field"><label for="aircraft">AIRCRAFT NAME</label><input id="aircraft" placeholder="A320 / Cessna 172"></div>
+          <div class="field"><label for="type">SIMBRIEF AIRCRAFT TYPE</label><input id="type" maxlength="4" placeholder="A320" autocomplete="off"></div>
+          <div class="field"><label for="date">DEPARTURE DATE</label><input id="date" type="date"></div>
+          <div class="field"><label for="time">DEPARTURE TIME (UTC)</label><input id="time" type="time" value="18:00"></div>
+          <div class="field full"><label for="route">ROUTE (OPTIONAL)</label><input id="route" placeholder="DCT / airway route from dispatch"></div>
+          <div class="field"><label for="callsign">CALLSIGN (OPTIONAL)</label><input id="callsign" placeholder="RAE123"></div>
+          <div class="field"><label for="alternate">ALTERNATE (OPTIONAL)</label><input id="alternate" maxlength="4" placeholder="LIME"></div>
+        </div>
+        <div class="ois-form-actions"><button class="ois-button primary" id="generate">GENERATE OFP ↗</button><button class="ois-button" id="reset">RESET PARAMETERS</button></div>
+        <div class="ois-hint">Il codice SimBrief Aircraft Type deve corrispondere a un tipo supportato, ad esempio A320, B738 o C172.</div>
+        <div class="status" id="dispatchStatus"></div>
+      </div>
+    </section>
+    <section class="ois-panel" id="simbriefPanel">
+      <div class="ois-panel-head"><span>SIMBRIEF</span><span class="panel-code">PERSONAL PROFILE</span></div>
+      <div class="ois-simbrief-body">
+        <div class="field"><label for="pilotId">SIMBRIEF PILOT ID</label><input id="pilotId" inputmode="numeric" placeholder="YOUR PILOT ID"></div>
+        <div class="ois-form-actions"><button class="ois-button primary" id="refresh">IMPORT / REFRESH OFP</button><a class="ois-button" href="https://www.simbrief.com/home/" target="_blank" rel="noopener">OPEN SIMBRIEF ↗</a></div>
+        <div class="ois-hint">Il Pilot ID viene salvato solo nel browser del dispositivo. Non viene pubblicato nel database delle live.</div>
+        <div class="status" id="ofpStatus">Nessun OFP personale importato.</div>
+        <div class="ois-status-row"><span>OFP STATUS</span><strong class="warn" id="ofpState">NOT IMPORTED</strong></div>
+        <div class="ois-status-row"><span>LAST IMPORT</span><strong id="ofpLastImport">—</strong></div>
+        <div class="ois-subpanel-head">OFP FLIGHT DATA</div>
+        <div class="ois-ofp-route"><strong id="depCode">----</strong><span>→</span><strong id="arrCode">----</strong></div>
+        <div class="ois-ofp-grid" id="ofpData">
+          <div class="ois-ofp-cell"><span>AIRCRAFT</span><strong>—</strong></div><div class="ois-ofp-cell"><span>CALLSIGN</span><strong>—</strong></div>
+          <div class="ois-ofp-cell"><span>DISTANCE</span><strong>—</strong></div><div class="ois-ofp-cell"><span>ETE</span><strong>—</strong></div>
+          <div class="ois-ofp-cell"><span>CRUISE</span><strong>—</strong></div><div class="ois-ofp-cell"><span>ALTERNATE</span><strong>—</strong></div>
+          <div class="ois-ofp-cell"><span>FUEL BLOCK</span><strong>—</strong></div><div class="ois-ofp-cell"><span>PAYLOAD / PAX</span><strong>—</strong></div>
+        </div>
+      </div>
+    </section>
+    <section class="ois-panel">
+      <div class="ois-panel-head"><span>METEO / DEP/ARR</span><span class="panel-code">OFP SUPPORT</span></div>
+      <div class="ois-status-row"><span>DEPARTURE</span><strong class="cyan" id="meteoDep">----</strong></div>
+      <div class="ois-status-row"><span>ARRIVAL</span><strong class="cyan" id="meteoArr">----</strong></div>
+      <div class="ois-status-row"><span>METAR / TAF</span><strong class="warn">NOT CONNECTED</strong></div>
+      <div class="ois-hint">I dati meteo non vengono recuperati da questa pagina. Consulta briefing e fonti meteorologiche aggiornate prima del volo.</div>
+      <div class="ois-subpanel-head">DISPATCH REMINDER</div>
+      <div class="ois-checklist"><div>VERIFY ROUTE & AIRAC</div><div>CHECK FUEL / ALTERNATE</div><div>REVIEW METAR / TAF</div><div>CHECK NOTAM & PERFORMANCE</div></div>
+      <div class="ois-hint">L'OFP personale deve essere verificato dal pilota prima di ogni volo simulato.</div>
+    </section>
+    <section class="ois-panel">
+      <div class="ois-panel-head"><span>NEXT FLIGHTS</span><span class="panel-code">02 / 05</span></div>
+      <div id="upcoming" class="ois-upcoming"><div class="ois-empty">LOADING COMMUNITY SCHEDULE…</div></div>
+      <a class="ois-open-calendar" href="./liveflight.html">OPEN LIVE SCHEDULE</a>
+    </section>
+  </div>
+</main>
+<footer class="ois-footer"><span>THIS IS RAED · COMMUNITY EFB</span><span>SIMBRIEF DATA · PERSONAL SESSION · ALL TIMES UTC</span></footer>
 <script>
 const FEED="./liveflight-schedule.json",STORE="thisIsRaedCommunityEfb_v1",el=id=>document.getElementById(id);
 let events=[],lastOFP=null;
