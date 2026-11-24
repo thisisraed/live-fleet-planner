@@ -1582,7 +1582,7 @@ function publicLiveFlightPayload(source=db){
       id:String(l.id||""),
       date:l.date||"",
       status:l.status==="done"?"done":"planned",
-      title:String(l.title||"").slice(0,180),
+      title:String(a.name||l.title||"Live pianificata").slice(0,180),
       special:!!l.special,
       aircraft:String(a.name||""),
       sim:String(a.sim||""),
