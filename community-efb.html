@@ -2,71 +2,85 @@
 <html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090c0e"><title>THIS IS RAED · COMMUNITY EFB</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet"><style>
 :root{--bg:#090c0e;--panel:#121719;--panel2:#20282c;--line:#596267;--text:#e7ebec;--muted:#9aa6aa;--yellow:#f0e500;--cyan:#55c7df;--green:#70c7a2;--mono:"Share Tech Mono","Roboto Mono",monospace;--ui:"Roboto Mono",monospace}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:var(--ui);font-size:14px;min-height:100vh}.shell{width:100%;max-width:none;margin:0;padding-left:18px;padding-right:18px}.topline{height:3px;background:var(--yellow)}header{border-bottom:1px solid var(--line);background:#0c1012}.nav{height:62px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;gap:10px;align-items:center;color:inherit;text-decoration:none}.brand-mark{width:32px;height:32px;border:1px solid var(--line);display:grid;place-items:center;color:var(--yellow);font:16px var(--mono)}.brand-name{font:17px var(--mono);letter-spacing:1px}.brand-sub{font:8px var(--mono);color:var(--muted);letter-spacing:.8px}.navlinks{display:flex;gap:5px}.navlinks a{height:48px;min-width:130px;padding:0 18px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid transparent;color:#aeb8bc;text-decoration:none;font:10px var(--mono);letter-spacing:1px}.navlinks a.active,.navlinks a:hover{background:var(--yellow);color:#080a0b}.hero{padding:24px 0 18px;border-bottom:1px solid var(--line)}.eyebrow,.kicker{color:var(--yellow);font:10px var(--mono);letter-spacing:1.2px}.hero h1{font:800 clamp(48px,8vw,76px)/.95 var(--mono);letter-spacing:.025em;margin:18px 0 14px;text-transform:uppercase}.hero p{color:#aeb8bc;max-width:800px;line-height:1.7;margin:0}.hero-meta{display:flex;gap:10px;align-items:center;margin-top:13px;color:var(--muted);font:9px var(--mono)}.pill{border:1px solid var(--line);padding:5px 8px;color:var(--green)}main{padding-bottom:40px}.section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:12px}.section-head h2{font:700 28px var(--mono);letter-spacing:.05em;text-transform:uppercase;margin:7px 0 0}.section-note{font:9px var(--mono);color:var(--muted)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{border:1px solid var(--line);background:var(--panel);min-width:0}.panel-head{background:var(--panel2);padding:10px 12px;border-bottom:1px solid var(--line);font:11px var(--mono);letter-spacing:.8px;display:flex;justify-content:space-between}.panel-body{padding:13px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.full{grid-column:1/-1}label{font:9px var(--mono);color:#aeb8bc;letter-spacing:.6px}input,select{width:100%;background:#090d0f;border:1px solid #596267;color:var(--text);padding:13px 11px;border-radius:0;font:13px var(--mono);outline:none;min-width:0}input:focus,select:focus{border-color:var(--yellow)}.hint{color:var(--muted);font:9px/1.6 var(--mono);margin-top:8px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}button,.btn{border:1px solid var(--line);background:#20282c;color:var(--text);padding:11px 13px;font:10px var(--mono);letter-spacing:.5px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}button.primary,.btn.primary{background:var(--yellow);border-color:var(--yellow);color:#080a0b}button:hover,.btn:hover{border-color:var(--yellow)}button:disabled{opacity:.5;cursor:wait}.status{font:10px var(--mono);color:var(--muted);margin-top:10px;min-height:15px}.status.ok{color:var(--green)}.status.err{color:#ff8c79}.data-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}.data-cell{background:#111719;padding:12px;min-height:60px}.data-cell span{display:block;color:var(--muted);font:9px var(--mono);margin-bottom:7px}.data-cell strong{font:14px var(--mono);color:var(--cyan);overflow-wrap:anywhere}.route-line{padding:15px 12px;border:1px solid var(--line);margin-top:12px;display:flex;justify-content:space-between;align-items:center;gap:15px}.route-code{font:25px var(--mono)}.route-middle{height:1px;background:#899398;flex:1;position:relative}.route-middle:after{content:"✈";position:absolute;left:50%;top:-10px;background:#111719;padding:0 8px;color:var(--yellow)}.route-sub{color:var(--muted);font:8px var(--mono)}.disclaimer{border-left:2px solid var(--yellow);padding:9px 12px;color:var(--muted);font:9px/1.7 var(--mono);margin-top:13px}.footer{border-top:1px solid var(--line);padding:14px 0;color:var(--muted);font:9px var(--mono);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}@media(max-width:760px){.shell{width:100%;padding-left:14px;padding-right:14px}.grid{grid-template-columns:1fr}.field-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.hero h1{font-size:26px}.nav{height:auto;min-height:62px;flex-wrap:wrap;padding:10px 0}.navlinks{width:100%;overflow:auto}.navlinks a{padding:10px}.data-grid{grid-template-columns:repeat(2,1fr)}.route-code{font-size:20px}}
 
-/* FLIGHT OPERATIONS DASHBOARD — visual alignment with Live Fleet Planner */
-html,body{background:#090c0e!important;color:#e7ebec!important;font-family:var(--mono)!important;letter-spacing:.025em}
-.shell{width:100%!important;max-width:none!important;margin:0!important;padding-left:15px!important;padding-right:15px!important}
-header{height:52px;background:#0b0f11;border-bottom:1px solid #4b555a}
-.nav{height:52px!important;min-height:52px!important;padding:0!important}
-.brand-mark{width:30px;height:30px}
-.brand-name{font-size:15px;letter-spacing:.08em}
-.brand-sub{font-size:7px}
-.navlinks{height:100%;gap:4px}
-.navlinks a{height:42px;min-width:125px;padding:0 14px;font-size:9px;letter-spacing:.12em;border:1px solid #313b40}
-.navlinks a.active,.navlinks a:hover{background:#f0e500;color:#090c0e;border-color:#f0e500}
-main.shell{padding-top:14px;padding-bottom:22px}
-.hero{padding:0 0 12px;margin:0 0 12px;border-bottom:1px solid #465157}
-.hero .eyebrow{font-size:9px;letter-spacing:.16em}
-.hero h1{font:700 clamp(26px,3vw,36px)/1 var(--mono)!important;letter-spacing:.06em;margin:7px 0 5px!important}
-.hero p{font:10px/1.5 var(--mono);max-width:900px;color:#9ba6aa}
-.hero-meta{margin-top:7px;font-size:8px}
-.pill{padding:3px 6px}
-.section{margin-top:12px}
-.section-head{padding-bottom:6px;margin-bottom:7px;border-color:#465157}
-.section-head h2{font:700 19px/1.1 var(--mono);letter-spacing:.07em;margin:4px 0 0}
-.kicker{font-size:8px;letter-spacing:.16em}
-.section-note{font-size:8px;letter-spacing:.08em}
-.panel{background:#111719;border:1px solid #515c61;border-radius:0;box-shadow:none}
-.panel-head{min-height:32px;background:#20282c;padding:8px 10px;border-bottom:1px solid #515c61;font:10px var(--mono);letter-spacing:.1em}
-.panel-body{padding:10px}
-.grid{grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr);gap:8px}
-.field-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.field.full{grid-column:1/-1}
-label{font-size:8px;letter-spacing:.1em}
-input,select{padding:10px 9px;font:11px var(--mono);background:#090d0f;border-color:#4b565b}
-button,.btn{padding:9px 11px;font:9px var(--mono);letter-spacing:.08em;border-radius:0;background:#20282c;border-color:#596469}
-button.primary,.btn.primary{background:#f0e500;border-color:#f0e500;color:#090c0e}
-.hint,.status{font-size:8px;line-height:1.5}
-.route-line{padding:10px;margin-top:9px;background:#0d1214;border-color:#4c575c}
-.route-code{font-size:22px}
-.route-sub{font-size:7px;letter-spacing:.1em}
-.data-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;border-color:#4d585d;background:#4d585d}
-.data-cell{background:#111719;padding:9px;min-height:53px}
-.data-cell span{font-size:8px;letter-spacing:.08em;margin-bottom:5px}
-.data-cell strong{font:12px var(--mono);color:#55c7df}
-.disclaimer{font-size:8px;padding:7px 9px;margin-top:9px}
-footer{padding:12px 0 18px}
-.footer{font-size:8px}
-@media(min-width:1100px){
- .section:nth-of-type(2) .grid{grid-template-columns:minmax(0,1.7fr) minmax(360px,1fr)}
- .section:nth-of-type(2) .grid>.panel:first-child .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* SHARED FLIGHT OPERATIONS DESIGN SYSTEM — aligned with liveflight.html */
+:root{
+ --bg:#090c0e;--panel:#14191c;--panel2:#1a2125;--line:#596267;
+ --text:#eef2f3;--muted:#aeb7ba;--yellow:#f0e500;--cyan:#55c7df;
+ --green:#70c7a2;--mono:"Share Tech Mono","Roboto Mono",monospace;
+ --ui:"Share Tech Mono","Roboto Mono",monospace
 }
-@media(max-width:760px){
- .shell{padding-left:10px!important;padding-right:10px!important}
- .nav{height:auto!important;min-height:52px!important;flex-wrap:wrap;padding:7px 0!important}
- header{height:auto}
- .navlinks{width:100%;overflow:auto}
- .navlinks a{height:36px;min-width:105px;flex:1}
- .hero h1{font-size:26px!important}
- .grid{grid-template-columns:1fr}
+html,body{background:var(--bg)!important;color:var(--text)!important;font-family:var(--mono)!important;letter-spacing:.035em!important}
+body{font-weight:400!important;font-size:14px!important}
+a{color:inherit}
+.topline{height:3px;background:var(--yellow)}
+.shell{width:100%!important;max-width:none!important;margin:0!important;padding-left:18px!important;padding-right:18px!important}
+header{height:58px;padding:8px 18px!important;background:#0c1012!important;border-bottom:1px solid var(--line)!important;position:sticky;top:0;z-index:30}
+.nav{height:100%!important;min-height:42px!important;width:100%;padding:0!important;display:flex;align-items:center;justify-content:space-between}
+.brand{gap:11px}
+.brand-mark{width:36px;height:36px;border:1px solid #697479;color:var(--yellow);font:400 15px var(--mono);transform:none}
+.brand-name{font:400 17px var(--mono);letter-spacing:.08em}
+.brand-sub{font:8px var(--mono);color:var(--muted);letter-spacing:.08em}
+.navlinks{display:flex;align-items:center;gap:0;height:58px;font:400 13px var(--mono);letter-spacing:.1em;color:#c3cbcf}
+.navlinks a{height:48px;min-width:130px;padding:0 18px;display:flex;align-items:center;justify-content:center;text-align:center;clip-path:polygon(0 0,92% 0,100% 50%,92% 100%,0 100%,7% 50%);background:#1a2125;color:#c3cbcf;margin:0 -4px;border:0}
+.navlinks a:hover{background:#252e32;color:var(--text)}
+.navlinks a.active{background:var(--yellow);color:#090c0e}
+main.shell{padding-top:16px!important;padding-bottom:28px!important}
+.hero{padding:20px 0 14px!important;margin:0!important;border-bottom:1px solid var(--line);overflow:visible}
+.hero:after{display:none!important}
+.eyebrow,.kicker{font:400 10px var(--mono)!important;color:var(--yellow)!important;letter-spacing:.12em!important}
+.hero h1{font:400 clamp(30px,5vw,46px)/1.05 var(--mono)!important;letter-spacing:.08em!important;text-transform:uppercase;margin:10px 0 9px!important;max-width:none}
+.hero p{max-width:850px!important;color:var(--muted)!important;font:400 12px/1.6 var(--mono)!important}
+.hero-meta{margin-top:13px!important;color:var(--muted)!important;font:400 9px var(--mono)!important}
+.pill{border:1px solid var(--line);background:var(--panel);color:#d8e0e2;padding:6px 9px}
+.section{margin-top:18px!important}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;padding-bottom:8px!important;border-bottom:1px solid var(--line);margin-bottom:12px!important}
+.section-head h2{font:400 17px var(--mono)!important;letter-spacing:.1em!important;text-transform:uppercase;margin:6px 0 0!important}
+.section-note{font:400 9px var(--mono)!important;color:var(--muted)!important}
+.panel{background:var(--panel)!important;border:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;min-width:0}
+.panel-head{min-height:34px;background:#1a2125!important;border-bottom:1px solid var(--line)!important;padding:9px 12px!important;font:400 10px var(--mono)!important;letter-spacing:.1em!important;color:#dce3e5}
+.panel-body{padding:13px!important}
+.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,1fr);gap:8px!important}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}
+.field{gap:6px!important}
+label{font:400 9px var(--mono)!important;color:var(--muted)!important;letter-spacing:.08em!important}
+input,select{width:100%;padding:11px 10px!important;background:#090d0f!important;border:1px solid var(--line)!important;border-radius:0!important;color:var(--text)!important;font:400 11px var(--mono)!important}
+input:focus,select:focus{border-color:var(--yellow)!important;outline:none}
+.actions{gap:7px!important;margin-top:12px!important}
+button,.btn{border:1px solid var(--line)!important;border-radius:0!important;background:#182124!important;color:var(--text)!important;padding:9px 12px!important;font:400 10px var(--mono)!important;letter-spacing:.08em!important;text-transform:uppercase}
+button.primary,.btn.primary{background:var(--yellow)!important;border-color:var(--yellow)!important;color:#090c0e!important}
+button:hover,.btn:hover{border-color:var(--yellow)!important}
+.hint,.status{font:400 9px/1.6 var(--mono)!important;color:var(--muted)!important}
+.status.ok{color:var(--green)!important}.status.err{color:#ff8c79!important}
+.route-line{padding:12px!important;margin-top:12px!important;background:#111619!important;border:1px solid var(--line)!important}
+.route-code{font:400 25px var(--mono)!important;color:var(--text)}
+.route-sub{font:400 8px var(--mono)!important;color:var(--muted)}
+.route-middle{background:#d9dddc!important}.route-middle:after{color:var(--yellow)!important;background:#111619!important}
+.data-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px!important;background:var(--line)!important;border:1px solid var(--line)!important}
+.data-cell{background:#111619!important;padding:11px!important;min-height:58px}
+.data-cell span{font:400 9px var(--mono)!important;color:var(--muted)!important;margin-bottom:6px!important}
+.data-cell strong{font:400 12px var(--mono)!important;color:var(--cyan)!important;overflow-wrap:anywhere}
+.disclaimer{border-left:2px solid var(--yellow)!important;padding:9px 11px!important;color:var(--muted)!important;font:400 9px/1.7 var(--mono)!important;margin-top:12px!important}
+footer{border-top:1px solid var(--line)!important;padding:18px 0 24px!important;color:var(--muted)!important;font:400 9px var(--mono)!important}
+.footer{border:0!important;padding:0!important;font:400 9px var(--mono)!important}
+@media(max-width:900px){.grid{grid-template-columns:1fr!important}}
+@media(max-width:700px){
+ header{height:auto;min-height:58px;padding:8px 14px!important;position:relative}
+ .nav{min-height:42px;flex-wrap:wrap}
+ .navlinks{height:46px;width:100%;overflow:auto}
+ .navlinks a{min-width:90px;height:40px;padding:0 9px;font-size:10px}
+ main.shell{padding-left:14px!important;padding-right:14px!important}
+ .hero{padding:18px 0 12px!important}
+ .hero h1{font-size:clamp(27px,8vw,38px)!important}
+ .section-head h2{font-size:14px!important}
  .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .data-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:460px){
+@media(max-width:420px){
  .field-grid{grid-template-columns:1fr}
  .field.full{grid-column:auto}
- .hero p{font-size:9px}
- .section-head h2{font-size:16px}
- .navlinks a{min-width:95px;font-size:8px}
+ .hero p{font-size:10px!important}
+ .navlinks a{min-width:95px;font-size:9px}
 }
 
 </style></head><body><div class="topline"></div><header><div class="shell nav"><a class="brand" href="./liveflight.html"><div class="brand-mark">TR</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div></div></a><nav class="navlinks"><a href="./liveflight.html">SCHEDULE</a><a href="./liveflight-archive.html">ARCHIVE</a><a class="active" href="./community-efb.html">COMMUNITY EFB</a></nav></div></header>
