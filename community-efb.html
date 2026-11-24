@@ -83,6 +83,18 @@ footer{border-top:1px solid var(--line)!important;padding:18px 0 24px!important;
  .navlinks a{min-width:95px;font-size:9px}
 }
 
+
+/* PAGE-SPECIFIC MATCH TO THE MAIN SCHEDULE PAGE */
+.brand-mark{font-size:0!important}
+.brand-mark:after{content:"LF";font:400 15px var(--mono);color:var(--yellow)}
+.hero{padding:20px 0 14px!important;margin:0 0 2px!important;border-bottom:0!important}
+.hero .eyebrow{display:block;margin-bottom:8px}
+.hero h1{font:400 20px/1.2 var(--mono)!important;letter-spacing:.1em!important;margin:0 0 7px!important;color:var(--text)!important}
+.hero p{font:400 11px/1.6 var(--mono)!important;max-width:850px!important;color:var(--muted)!important}
+.hero-meta{margin-top:10px!important}
+.section{margin-top:18px!important}
+.panel,.panel-head,.panel-body{border-radius:0!important;box-shadow:none!important}
+
 </style></head><body><div class="topline"></div><header><div class="shell nav"><a class="brand" href="./liveflight.html"><div class="brand-mark">TR</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div></div></a><nav class="navlinks"><a href="./liveflight.html">SCHEDULE</a><a href="./liveflight-archive.html">ARCHIVE</a><a class="active" href="./community-efb.html">COMMUNITY EFB</a></nav></div></header>
 <main class="shell"><section class="hero"><div class="eyebrow">THIS IS RAED · FLIGHT OPERATIONS</div><h1>COMMUNITY EFB</h1><p>Il tuo flight bag per volare insieme durante le live. Importa il volo ufficiale della community oppure prepara un volo indipendente e genera il tuo OFP personale con SimBrief.</p><div class="hero-meta"><span class="pill">PUBLIC EFB</span><span>SIMBRIEF DISPATCH INTEGRATION</span><span>ALL TIMES UTC</span></div></section>
 <section class="section"><div class="section-head"><div><div class="kicker">01 / COMMUNITY FLIGHT</div><h2>Import live flight</h2></div><div class="section-note">SHARED FLIGHT PROFILE</div></div><div class="panel"><div class="panel-head"><span>LIVE FLIGHT DATABASE</span><span>PUBLIC SCHEDULE</span></div><div class="panel-body"><div class="field-grid"><div class="field full"><label>SELECT A LIVE FLIGHT</label><select id="liveSelect"><option value="">CARICAMENTO PROGRAMMAZIONE…</option></select></div></div><div class="actions"><button class="primary" id="importLive">IMPORT LIVE FLIGHT</button><button id="clearFlight">CLEAR / CUSTOM FLIGHT</button><a class="btn" href="./liveflight.html">VIEW LIVE SCHEDULE ↗</a></div><div class="hint">Seleziona una live pubblicata per compilare automaticamente aeromobile, partenza, destinazione, rotta e orario. Potrai comunque modificare ogni campo.</div><div class="status" id="liveStatus"></div></div></div></section>
