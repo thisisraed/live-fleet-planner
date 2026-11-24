@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-24T20:42:21.739Z",
+  "updatedAt": "2026-11-24T23:51:40.533Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -475,8 +475,8 @@
       "simbriefType": "",
       "sim": "MSFS 2024",
       "category": "Airliner",
-      "from": "",
-      "to": "",
+      "from": "LIPZ",
+      "to": "LEBL",
       "route": "",
       "callsign": "",
       "distance": "",
