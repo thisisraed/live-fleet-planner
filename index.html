@@ -1571,9 +1571,11 @@ function liveFlightBriefingUrl(raw){
   walk(raw);
   return found.find(u=>/\.pdf(?:$|\?)/i.test(u))||found.find(u=>/briefing|ofp/i.test(u))||found[0]||"";
 }
-function publicLiveFlightPayload(){
-  const events=db.lives.filter(l=>l&&l.status!=="skipped").map(l=>{
-    const a=getAircraft(l.aircraftId)||{};
+function publicLiveFlightPayload(source=db){
+  const lives=Array.isArray(source?.lives)?source.lives:[];
+  const aircraft=Array.isArray(source?.aircraft)?source.aircraft:[];
+  const events=lives.filter(l=>l&&l.status!=="skipped").map(l=>{
+    const a=aircraft.find(x=>x.id===l.aircraftId)||{};
     const sb=l.route?.simbrief||{};
     const md=l.manualData||{};
     return {
@@ -1600,22 +1602,26 @@ function publicLiveFlightPayload(){
   events.sort((a,b)=>new Date(a.date)-new Date(b.date));
   return {schemaVersion:1,updatedAt:new Date().toISOString(),timezone:"Europe/Rome",events};
 }
-function liveFlightPublishStatus(base){return window._liveFlightPublicFeedError?base+" · LIVEFLIGHT ERROR: "+window._liveFlightPublicFeedError:base+" · LIVEFLIGHT PUBLISHED";}
-async function publishPublicLiveFlight(token){
+function liveFlightPublishStatus(base){return window._liveFlightPublicFeedError?base+" · LIVEFLIGHT ERROR: "+window._liveFlightPublicFeedError:base+" · LIVEFLIGHT PUBLISHED · "+(Number(window._liveFlightPublicFeedCount)||0)+" EVENTS";}
+async function publishPublicLiveFlight(token,source=db){
   const owner="thisisraed",repo="live-fleet-planner",path="liveflight-schedule.json",branch="main";
   const base="https://api.github.com/repos/"+owner+"/"+repo+"/contents/"+path;
   const headers=githubHeaders(token);
   const current=await fetch(base+"?ref="+branch,{headers,cache:"no-store"});
   if(!current.ok)throw new Error("Public feed GET HTTP "+current.status);
   const file=await current.json();
-  const payload=JSON.stringify(publicLiveFlightPayload(),null,2);
+  const data=publicLiveFlightPayload(source);
+  if(!data.events.length)throw new Error("Il database locale non contiene eventi pubblicabili: verifica il caricamento della schedule prima del PUSH.");
+  const payload=JSON.stringify(data,null,2);
   const bytes=new TextEncoder().encode(payload);let binary="";
   for(let i=0;i<bytes.length;i+=0x8000)binary+=String.fromCharCode(...bytes.subarray(i,i+0x8000));
   const body={message:"Publish LiveFlight public schedule "+new Date().toISOString(),content:btoa(binary),branch};
   if(file.sha)body.sha=file.sha;
   const response=await fetch(base,{method:"PUT",headers,body:JSON.stringify(body)});
   if(!response.ok){let message="Public feed PUT HTTP "+response.status;try{const x=await response.json();if(x.message)message+=": "+x.message}catch(e){}throw new Error(message);}
-  return true;
+  const saved=await response.json();
+  if(!saved.commit?.sha)throw new Error("GitHub non ha restituito la conferma del commit del feed pubblico.");
+  return data.events.length;
 }
 async function githubPushDatabase(){
   const c=githubConfig(); const current=await githubGetDatabase();
@@ -1629,8 +1635,8 @@ async function githubPushDatabase(){
   const body={message:`Sync Live Fleet Planner ${new Date().toISOString()}`,content,branch:c.branch}; if(current.sha) body.sha=current.sha;
   const r=await fetch(url,{method:"PUT",headers:githubHeaders(c.token),body:JSON.stringify(body)}); if(!r.ok){let msg=`GitHub PUT HTTP ${r.status}`;try{const x=await r.json();if(x.message)msg+=`: ${x.message}`}catch(e){} throw new Error(msg)}
   const out=await r.json(); const newSha=out.content?.sha||""; db.cloud.remoteSha=newSha; db.cloud.dirty=false; localStorage.setItem(KEY,JSON.stringify(db));
-  try{await publishPublicLiveFlight(c.token);window._liveFlightPublicFeedError="";}
-  catch(publicError){window._liveFlightPublicFeedError=publicError.message;console.error("LiveFlight public feed non aggiornato:",publicError);}
+  try{const source=JSON.parse(JSON.stringify(db));delete source.cloud;window._liveFlightPublicFeedCount=await publishPublicLiveFlight(c.token,source);window._liveFlightPublicFeedError="";}
+  catch(publicError){window._liveFlightPublicFeedError=publicError.message;window._liveFlightPublicFeedCount=0;console.error("LiveFlight public feed non aggiornato:",publicError);}
   return newSha;
 }
 async function testGitHubConnection(){
