@@ -1585,6 +1585,7 @@ function publicLiveFlightPayload(source=db){
       title:String(a.name||l.title||"Live pianificata").slice(0,180),
       special:!!l.special,
       aircraft:String(a.name||""),
+      simbriefType:String(a.simbriefType||""),
       sim:String(a.sim||""),
       category:String(a.category||""),
       from:String(l.route?.from||"").toUpperCase(),
