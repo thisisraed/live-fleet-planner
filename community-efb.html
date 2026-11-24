@@ -95,6 +95,106 @@ footer{border-top:1px solid var(--line)!important;padding:18px 0 24px!important;
 .section{margin-top:18px!important}
 .panel,.panel-head,.panel-body{border-radius:0!important;box-shadow:none!important}
 
+
+/* OIS FLIGHT OPS DASHBOARD — shared layout system */
+:root{--ois-bg:#090c0e;--ois-panel:#111619;--ois-panel-head:#252d31;--ois-line:#596267;--ois-text:#eef2f3;--ois-muted:#aeb7ba;--ois-yellow:#f0e500;--ois-cyan:#55c7df;--ois-green:#70c7a2}
+body.community-efb{background:var(--ois-bg)!important;color:var(--ois-text)!important;font:400 11px "Share Tech Mono","Roboto Mono",monospace!important;letter-spacing:.035em}
+.ois-topbar{height:48px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;background:#0b0f11;border-bottom:1px solid var(--ois-line)}
+.ois-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ois-text)}
+.ois-brand-mark{width:30px;height:30px;border:1px solid #697479;color:var(--ois-yellow);display:grid;place-items:center;font:14px "Share Tech Mono",monospace}
+.ois-brand strong{display:block;font:16px "Share Tech Mono",monospace;letter-spacing:.08em}
+.ois-brand small{display:block;color:var(--ois-muted);font:7px "Share Tech Mono",monospace;letter-spacing:.08em}
+.ois-top-status{display:flex;align-items:center;gap:18px;color:#c3cbcf;font:9px "Share Tech Mono",monospace}
+.ois-top-status a{color:var(--ois-muted);text-decoration:none;border:1px solid var(--ois-line);padding:7px 10px}
+.ois-save-state{border:1px solid var(--ois-line);padding:7px 10px;color:var(--ois-green)}
+.ois-nav{height:48px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;padding:5px 10px;background:#0c1012;border-bottom:1px solid var(--ois-line)}
+.ois-nav .tab{display:flex;align-items:center;justify-content:center;min-width:0;background:#171e22;color:#d6dddf;border:1px solid #596267;clip-path:polygon(0 0,96% 0,100% 50%,96% 100%,0 100%,4% 50%);text-decoration:none;font:11px "Roboto Condensed","Roboto Mono",sans-serif;letter-spacing:.08em}
+.ois-nav .tab.active{background:var(--ois-yellow);border-color:var(--ois-yellow);color:#090c0e}
+.ois-main{padding:14px 15px 24px;max-width:none;margin:0}
+.ois-page-head{height:52px;border-bottom:1px solid #626c70;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ois-page-title{font:500 18px "Roboto Mono",monospace;letter-spacing:.08em}
+.ois-page-sub{font:9px "Share Tech Mono",monospace;color:#899397;letter-spacing:.12em;margin-top:4px}
+.ois-page-index,.panel-code{font:10px "Roboto Mono",monospace;color:#9aa4a8;letter-spacing:.05em}
+.ois-dashboard-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:10px;align-items:stretch}
+.ois-panel{background:#111619;border:1px solid #697378;min-width:0}
+.ois-panel-head{height:34px;padding:0 11px;display:flex;align-items:center;justify-content:space-between;background:#252d31;border-bottom:1px solid #697378;font:11px "Roboto Mono",monospace;letter-spacing:.06em}
+.ois-date-line{height:30px;padding:8px 12px;border-bottom:1px solid #3f494e;color:#c7ced0;font:600 9px "Roboto Mono",monospace;letter-spacing:.08em}
+.ois-community-select{padding:10px 11px 7px}
+.ois-community-select label,.ois-flight-form label,.ois-simbrief-body label{display:block;font:8px "Share Tech Mono",monospace;color:#aeb7ba;letter-spacing:.1em;margin-bottom:5px}
+.ois-community-select select,.ois-flight-form input,.ois-simbrief-body input{width:100%;height:33px;padding:7px 9px;background:#090d0f;border:1px solid #596267;border-radius:0;color:#eef2f3;font:10px "Roboto Mono",monospace;outline:none}
+.ois-community-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.ois-button{display:inline-flex;align-items:center;justify-content:center;min-height:29px;padding:6px 9px;border:1px solid #7b878b!important;border-radius:0!important;background:#20282b!important;color:#e2e7e8!important;text-decoration:none;font:9px "Roboto Mono",monospace!important;letter-spacing:.05em;cursor:pointer}
+.ois-button.primary{background:var(--ois-yellow)!important;border-color:var(--ois-yellow)!important;color:#090c0e!important}
+.ois-hint{padding:7px 9px;color:#7f898d;font:8px/1.55 "Share Tech Mono",monospace;letter-spacing:.04em}
+.ois-release-aircraft-row{display:grid;grid-template-columns:1.35fr 1fr 1fr;border-top:1px solid #596469;border-bottom:1px solid #596469}
+.ois-release-aircraft-row>div{padding:9px;border-right:1px solid #596469;min-width:0}
+.ois-release-aircraft-row>div:last-child{border-right:0}
+.micro-label{font:8px "Share Tech Mono",monospace;color:#9da6a9;letter-spacing:.11em}
+.release-aircraft{font:20px "Roboto Mono",monospace;margin-top:4px;overflow-wrap:anywhere}
+.release-sub{font:8px "Share Tech Mono",monospace;color:#aeb7ba;margin-top:3px}
+.release-cyan{font:12px "Roboto Mono",monospace;color:var(--ois-cyan);margin-top:7px}
+.ois-release-route{display:grid;grid-template-columns:1fr 1.4fr 1fr;align-items:center;padding:10px 12px;border-bottom:1px solid #596469}
+.airport-code{font:29px "Roboto Mono",monospace;margin-top:4px}
+.airport-name{font:8px "Share Tech Mono",monospace;color:#aab3b6;letter-spacing:.05em}
+.route-arrow{display:flex;align-items:center;justify-content:center;gap:5px}
+.route-arrow:before,.route-arrow:after{content:"";height:1px;background:#c8d0d2;flex:1}
+.route-arrow span{font-size:20px;color:var(--ois-yellow)}
+.ois-release-metrics{display:grid;grid-template-columns:repeat(3,1fr)}
+.ois-release-metrics>div{padding:7px 9px;border-right:1px solid #596469}
+.ois-release-metrics>div:last-child{border:0}
+.ois-release-metrics span{display:block;font:8px "Share Tech Mono",monospace;color:#9da6a9}
+.ois-release-metrics strong{display:block;font:10px "Roboto Mono",monospace;color:var(--ois-cyan);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ois-release-metrics strong.ok{color:var(--ois-green)}
+.ois-map-panel{display:flex;flex-direction:column}
+.ois-map-panel .panel-tools{display:flex;gap:5px;font:8px "Roboto Condensed",sans-serif}
+.ois-map-panel .panel-tools span{border:1px solid #657176;padding:4px 7px}
+.ois-map-panel .panel-tools span:first-child{color:var(--ois-cyan);border-color:#13a8b5}
+.ois-route-preview{height:300px;flex:1;min-height:300px;background:#0d1317;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.ois-route-preview:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(105,120,126,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(105,120,126,.08) 1px,transparent 1px);background-size:32px 32px}
+.ois-route-map-content{position:relative;z-index:1;width:86%;display:grid;grid-template-columns:1fr 1.5fr 1fr;align-items:center;text-align:center}
+.ois-route-map-content strong{font:26px "Roboto Mono",monospace;color:#eef2f3}
+.ois-route-map-content small{display:block;color:#8e9a9f;font:8px "Share Tech Mono",monospace;margin-top:5px}
+.ois-route-map-line{height:1px;background:#d4dcde;position:relative}
+.ois-route-map-line:after{content:"✈";position:absolute;left:50%;top:-12px;transform:translateX(-50%);background:#0d1317;padding:0 8px;color:var(--ois-yellow);font-size:17px}
+.ois-map-empty{position:relative;z-index:1;text-align:center;color:#818c90;font:10px "Roboto Mono",monospace;letter-spacing:.08em}
+.ois-map-empty small{display:block;font:8px "Share Tech Mono",monospace;color:#687276;margin-top:9px}
+.ois-map-footer{display:flex;justify-content:space-between;padding:7px 10px;border-top:1px solid #596469;color:#aeb7ba;font:8px "Share Tech Mono",monospace}
+.ois-lower-grid{display:grid;grid-template-columns:1.25fr .95fr 1fr 1.05fr;gap:10px;margin-top:10px;align-items:stretch}
+.ois-lower-grid>.ois-panel{min-height:245px}
+.ois-flight-form{padding:9px}
+.ois-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.ois-form-grid .field{min-width:0}
+.ois-form-grid .field.full{grid-column:1/-1}
+.ois-form-actions{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0 2px}
+.ois-simbrief-body{padding:9px}
+.ois-status-row{display:flex;justify-content:space-between;gap:8px;padding:8px 9px;border-bottom:1px solid #3d474b;font:8px "Share Tech Mono",monospace}
+.ois-status-row strong{font:9px "Roboto Mono",monospace;color:#dfe5e6;text-align:right}
+.ois-status-row strong.warn{color:var(--ois-yellow)}
+.ois-status-row strong.cyan{color:var(--ois-cyan)}
+.ois-subpanel-head{border-top:1px solid #596469;border-bottom:1px solid #596469;background:#1c2427;padding:7px 9px;font:9px "Roboto Mono",monospace}
+.ois-ofp-route{display:flex;justify-content:space-around;align-items:center;padding:9px;border-bottom:1px solid #3d474b;color:var(--ois-yellow)}
+.ois-ofp-route strong{font:17px "Roboto Mono",monospace;color:#eef2f3}
+.ois-ofp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#3d474b}
+.ois-ofp-cell{background:#111619;padding:6px 7px;min-width:0}
+.ois-ofp-cell span{display:block;font:7px "Share Tech Mono",monospace;color:#9da6a9}
+.ois-ofp-cell strong{display:block;font:9px "Roboto Mono",monospace;color:var(--ois-cyan);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ois-checklist{padding:7px 9px}
+.ois-checklist div{padding:7px 0;border-bottom:1px solid #303a3e;color:#aeb7ba;font:8px "Share Tech Mono",monospace}
+.ois-checklist div:before{content:"□";color:var(--ois-yellow);margin-right:8px}
+.ois-upcoming{min-height:180px}
+.ois-upcoming-row{display:grid;grid-template-columns:62px minmax(0,1fr);gap:7px;align-items:center;padding:9px;border-bottom:1px solid #3d474b}
+.ois-upcoming-row time{font:8px "Roboto Mono",monospace;color:#dce2e4}
+.ois-upcoming-row strong{display:block;font:9px "Roboto Mono",monospace;color:#eef2f3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ois-upcoming-row small{display:block;font:8px "Share Tech Mono",monospace;color:#8e9a9f;margin-top:3px}
+.ois-open-calendar{display:block;margin:9px;padding:8px;text-align:center;border:1px solid #697378;color:#dce2e4;text-decoration:none;font:9px "Roboto Mono",monospace}
+.ois-empty{padding:24px 8px;text-align:center;color:#818c90;font:9px "Roboto Mono",monospace}
+.ois-footer{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-top:1px solid #596267;color:#aeb7ba;font:8px "Share Tech Mono",monospace}
+.status{font:8px "Share Tech Mono",monospace;color:#aeb7ba;min-height:12px;margin-top:6px}
+.status.ok{color:var(--ois-green)}.status.err{color:#ff8c79}
+@media(max-width:1100px){.ois-lower-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ois-dashboard-grid{grid-template-columns:1fr 1.1fr}}
+@media(max-width:760px){.ois-topbar{padding:0 10px}.ois-top-status{gap:7px;font-size:8px}.ois-top-status .ois-save-state{display:none}.ois-nav{grid-template-columns:repeat(5,minmax(95px,1fr));overflow:auto}.ois-main{padding:10px}.ois-dashboard-grid,.ois-lower-grid{grid-template-columns:1fr}.ois-route-preview{min-height:220px;height:220px}.ois-footer{flex-direction:column}.ois-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:460px){.ois-brand strong{font-size:13px}.ois-top-status>a{display:none}.ois-form-grid{grid-template-columns:1fr}.ois-form-grid .field.full{grid-column:auto}.ois-release-aircraft-row{grid-template-columns:1fr 1fr}.ois-release-aircraft-row>div:last-child{display:none}}
+
 </style></head>
 <body class="community-efb">
 <div class="topline"></div>
