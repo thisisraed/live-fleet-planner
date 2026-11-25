@@ -3110,6 +3110,7 @@ function renderOISExtraPages(){
 function updateOISClock(){const e=document.getElementById('oisClock');if(!e)return;const d=new Date();const mon=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()];e.textContent=`${String(d.getDate()).padStart(2,'0')} ${mon} ${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}L`}
 setInterval(updateOISClock,1000);updateOISClock();
 function renderAll(){const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();}renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages()}
+setInterval(()=>{const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();renderAll();}},60000);
 exportBtnEl.onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="live-fleet-planner-backup.json";a.click();URL.revokeObjectURL(a.href)}
 importBtnEl.onclick=()=>importFileEl.click();
 if(cloudRefreshBtnEl) cloudRefreshBtnEl.onclick=async()=>{
