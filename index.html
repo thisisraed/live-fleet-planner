@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.91</title>
+<title>Live Fleet Planner 0.9.92</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1214,6 +1214,22 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
     <div class="settings-description">Il generatore usa esclusivamente i giorni attivi. La preferenza definisce quali aerei possono essere utilizzati; la rotazione degli aerei resta indipendente dal giorno della settimana.</div>
     <div id="scheduleSettings" class="schedule-settings"></div>
     <div id="schedulePreview" class="schedule-preview"></div>
+  </div>
+
+  <div class="ois-panel settings-panel" id="discordWeeklyPanel">
+    <div class="ois-panel-head"><span>DISCORD · WEEKLY PROGRAMMING</span><span class="panel-code">MON / FRI</span></div>
+    <div class="settings-description">Genera un messaggio Discord con la programmazione dal lunedì al venerdì. Tutte le live dello stesso giorno vengono raggruppate insieme.</div>
+    <div style="padding:0 14px 14px">
+      <div id="discordWeeklyRange" class="settings-status" style="margin-bottom:8px"></div>
+      <textarea id="discordWeeklyText" readonly spellcheck="false" style="display:block;width:100%;min-height:245px;resize:vertical;background:#090d10;color:#dce4e8;border:1px solid var(--border);border-radius:2px;padding:13px;font:13px/1.7 'Roboto Mono',monospace;white-space:pre;overflow:auto"></textarea>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px">
+        <div id="discordWeeklyStatus" class="settings-status">Testo pronto da copiare e incollare su Discord.</div>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="secondary ois-button" id="discordWeeklyRefresh">↻ REGENERATE</button>
+          <button type="button" class="ois-button" id="discordWeeklyCopy">COPY FOR DISCORD</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="ois-panel settings-panel cloud-settings-panel">
@@ -3109,7 +3125,7 @@ function renderOISExtraPages(){
 }
 function updateOISClock(){const e=document.getElementById('oisClock');if(!e)return;const d=new Date();const mon=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()];e.textContent=`${String(d.getDate()).padStart(2,'0')} ${mon} ${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}L`}
 setInterval(updateOISClock,1000);updateOISClock();
-function renderAll(){const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();}renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages()}
+function renderAll(){const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();}renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages();window.renderDiscordWeeklyMessage?.()}
 setInterval(()=>{const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();renderAll();}},60000);
 exportBtnEl.onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="live-fleet-planner-backup.json";a.click();URL.revokeObjectURL(a.href)}
 importBtnEl.onclick=()=>importFileEl.click();
@@ -3858,6 +3874,83 @@ function openForToday(){
 })();
 </script>
 
+<script>
+(function(){
+  function weekWindow(){
+    const now=new Date();
+    const monday=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12);
+    const weekday=monday.getDay();
+    monday.setDate(monday.getDate()-((weekday+6)%7)+(weekday===0||weekday===6?7:0));
+    const friday=new Date(monday);friday.setDate(friday.getDate()+4);
+    return {monday,friday};
+  }
+  function dateKey(date){
+    return date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
+  }
+  function safeText(value){
+    return String(value??"").split("\n").join(" ").split("\r").join(" ").trim();
+  }
+  function makeMessage(){
+    const week=weekWindow();
+    const startLabel=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"long"}).format(week.monday).toUpperCase();
+    const endLabel=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"long",year:"numeric"}).format(week.friday).toUpperCase();
+    const entries=(Array.isArray(db.lives)?db.lives:[]).filter(l=>{
+      if(!l||!l.date||!["planned","done"].includes(l.status))return false;
+      const d=new Date(l.date);
+      return !Number.isNaN(d.getTime())&&dateKey(d)>=dateKey(week.monday)&&dateKey(d)<=dateKey(week.friday);
+    }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+    const lines=["✈️ **PROGRAMMAZIONE LIVE**","━━━━━━━━━━━━━━━━━━━━━━━━━━━━","📅 **"+startLabel+" — "+endLabel+"**","━━━━━━━━━━━━━━━━━━━━━━━━━━━━"];
+    for(let offset=0;offset<5;offset++){
+      const day=new Date(week.monday);day.setDate(day.getDate()+offset);
+      const key=dateKey(day);
+      const label=new Intl.DateTimeFormat("it-IT",{weekday:"long"}).format(day).toUpperCase();
+      const dayEntries=entries.filter(l=>dateKey(new Date(l.date))===key);
+      if(!dayEntries.length){lines.push("","• **"+label+"**　❌");continue;}
+      lines.push("","• **"+label+"**　✅");
+      dayEntries.forEach((live,index)=>{
+        const aircraft=typeof getAircraft==="function"?getAircraft(live.aircraftId):null;
+        const description=safeText(live.title||aircraft?.name||"Live programmata");
+        lines.push(index===0?"　└ "+description:"　　↳ "+description);
+      });
+    }
+    return {text:lines.join("\n"),week};
+  }
+  function render(){
+    const textarea=document.getElementById("discordWeeklyText");
+    const range=document.getElementById("discordWeeklyRange");
+    if(!textarea||!range||typeof db==="undefined")return;
+    const result=makeMessage();
+    textarea.value=result.text;
+    range.textContent="WEEK · "+dateKey(result.week.monday)+" → "+dateKey(result.week.friday);
+  }
+  window.renderDiscordWeeklyMessage=render;
+  window.addEventListener("focus",render);
+  setInterval(render,60000);
+  document.addEventListener("click",event=>{
+    if(event.target&&event.target.id==="discordWeeklyRefresh"){
+      render();
+      const status=document.getElementById("discordWeeklyStatus");
+      if(status)status.textContent="✓ Programmazione aggiornata.";
+    }
+    if(event.target&&event.target.id==="discordWeeklyCopy"){
+      const textarea=document.getElementById("discordWeeklyText");
+      const status=document.getElementById("discordWeeklyStatus");
+      if(!textarea)return;
+      const fallback=()=>{
+        textarea.focus();textarea.select();
+        try{document.execCommand("copy");if(status)status.textContent="✓ Testo selezionato e copiato.";}
+        catch(e){if(status)status.textContent="Seleziona il testo e copialo manualmente.";}
+      };
+      if(navigator.clipboard&&window.isSecureContext){
+        navigator.clipboard.writeText(textarea.value).then(()=>{
+          if(status)status.textContent="✓ Messaggio copiato. Puoi incollarlo su Discord.";
+        }).catch(fallback);
+      }else fallback();
+    }
+  });
+  render();
+})();
+</script>
 </body>
 </html>
 <style>
