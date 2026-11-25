@@ -1464,8 +1464,71 @@ function renderSettings(){
     });
   });
 }
-function discordSafe(value){
-  return String(value??"").replace(/[\\*_~|>]/g,"\\function readSettingsForm(){
+function discordSafe(value){return String(value??"").replace(/\r?\n/g," ").trim()}
+function getDiscordWeek(){
+  const now=new Date();
+  const monday=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12,0,0,0);
+  const day=monday.getDay();
+  monday.setDate(monday.getDate()-((day+6)%7)+(day===0||day===6?7:0));
+  const friday=new Date(monday);friday.setDate(friday.getDate()+4);
+  return {monday,friday,start:localDateKey(monday),end:localDateKey(friday)};
+}
+function buildDiscordScheduleMessage(){
+  const week=getDiscordWeek();
+  const lives=db.lives.filter(l=>{
+    if(!l?.date||!["planned","done"].includes(l.status))return false;
+    const key=localDateKey(new Date(l.date));
+    return key>=week.start&&key<=week.end;
+  }).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const rangeStart=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"short"}).format(week.monday).replace(".","");
+  const rangeEnd=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"short",year:"numeric"}).format(week.friday).replace(".","");
+  const lines=["📅 **PROGRAMMAZIONE LIVE**","🗓️ "+rangeStart.toUpperCase()+" — "+rangeEnd.toUpperCase(),"━━━━━━━━━━━━━━━━━━━━━━━━━━"];
+  [1,2,3,4,5].forEach(offset=>{
+    const date=new Date(week.monday);date.setDate(date.getDate()+offset-1);
+    const key=localDateKey(date);
+    const label=new Intl.DateTimeFormat("it-IT",{weekday:"long",day:"2-digit",month:"long"}).format(date).toUpperCase();
+    const dayLives=lives.filter(l=>localDateKey(new Date(l.date))===key);
+    lines.push("","**"+label+"**");
+    if(!dayLives.length){lines.push("🌙 Nessuna live programmata");return}
+    dayLives.forEach(l=>{
+      const a=getAircraft(l.aircraftId);
+      const time=new Intl.DateTimeFormat("it-IT",{timeZone:"Europe/Rome",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date(l.date));
+      const aircraft=discordSafe(a?.name||"Aereo non specificato");
+      const sim=discordSafe(a?.sim||"");
+      const title=discordSafe(l.title||"");
+      const from=discordSafe(l.route?.from||"").toUpperCase();
+      const to=discordSafe(l.route?.to||"").toUpperCase();
+      lines.push("🕗 **"+time+"** · **"+aircraft+"**");
+      if(sim)lines.push("🎮 "+sim);
+      if(from||to)lines.push("✈️ "+(from||"????")+" → "+(to||"????"));
+      if(title)lines.push("🎬 "+title);
+      if(l.special)lines.push("⭐ Live speciale");
+      if(l.status==="done")lines.push("☑️ Live completata");
+    });
+  });
+  lines.push("","━━━━━━━━━━━━━━━━━━━━━━━━━━","📌 Orari italiani · CET / CEST","✈️ Ci vediamo in diretta!");
+  return {text:lines.join("\\n"),week};
+}
+function renderDiscordSchedule(){
+  const textarea=document.getElementById("discordScheduleMessage");
+  const range=document.getElementById("discordScheduleRange");
+  const status=document.getElementById("discordScheduleStatus");
+  if(!textarea||!range||!status)return;
+  const result=buildDiscordScheduleMessage();
+  textarea.value=result.text;
+  range.textContent="WEEK · "+result.week.start+" → "+result.week.end;
+  const copy=document.getElementById("discordCopyBtn");
+  const refresh=document.getElementById("discordRefreshBtn");
+  if(refresh)refresh.onclick=()=>{renderDiscordSchedule();status.textContent="✓ Programmazione aggiornata."};
+  if(copy)copy.onclick=async()=>{
+    try{
+      if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(textarea.value);
+      else{textarea.focus();textarea.select();if(!document.execCommand("copy"))throw new Error("Copia non disponibile");}
+      status.textContent="✓ Messaggio copiato. Ora puoi incollarlo su Discord.";
+    }catch(error){textarea.focus();textarea.select();status.textContent="Seleziona il testo e copialo manualmente con ⌘C / CTRL+C.";}
+  };
+}
+function readSettingsForm(){
   normalizeSettings();").replace(/\r?\n/g," ");
 }
 function getDiscordWeek(){
