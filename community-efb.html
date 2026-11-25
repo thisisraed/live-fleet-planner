@@ -373,10 +373,52 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
 .ois-lower-grid{gap:10px!important}
 @media(max-width:1100px){.ois-lower-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:760px){.ois-lower-grid{grid-template-columns:1fr!important}}
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.108"></head>
+
+/* FINAL REFERENCE ALIGNMENT v0.9.109 */
+.ois-page-head{height:46px!important;margin-bottom:8px!important;border-color:#3b4448!important}
+.ois-page-title{font:500 16px "Roboto Mono",monospace!important;letter-spacing:.08em!important;color:#eef2f3!important}
+.ois-page-sub,.ois-page-index,.panel-code{font:8px "Share Tech Mono",monospace!important;color:#899397!important;letter-spacing:.12em!important}
+.ois-dashboard-grid{grid-template-columns:minmax(0,.98fr) minmax(0,1.22fr)!important;gap:8px!important}
+.ois-lower-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.82fr) minmax(0,.96fr) minmax(0,1fr)!important;gap:8px!important;margin-top:8px!important}
+.ois-panel{background:#111619!important;border:1px solid #596267!important}
+.ois-panel-head{height:36px!important;padding:0 12px!important;background:#252d31!important;border-bottom:1px solid #596267!important;color:#e7ebec!important;font:400 11px "Roboto Mono",monospace!important;letter-spacing:.08em!important}
+.ois-date-line{height:28px!important;background:#171e21!important;border-color:#3a4448!important;color:#d4dbdd!important;font:500 8px "Roboto Mono",monospace!important}
+.ois-community-select{padding:8px 10px 6px!important}
+.ois-community-select label,.ois-flight-form label,.ois-simbrief-body label{font:8px "Share Tech Mono",monospace!important;color:#aeb7ba!important;letter-spacing:.12em!important}
+.ois-community-select select,.ois-flight-form input,.ois-simbrief-body input{height:34px!important;padding:7px 10px!important;background:#090c0e!important;border:1px solid #596267!important;color:#e7ebec!important;font:10px "Roboto Mono",monospace!important}
+.ois-flight-form{padding:10px!important}
+.ois-form-grid{gap:9px!important}
+.ois-form-actions,.ois-community-actions{gap:7px!important}
+.ois-button{min-height:32px!important;padding:7px 10px!important;background:#1a2125!important;border:1px solid #596267!important;color:#dce3e5!important;font:9px "Roboto Mono",monospace!important;letter-spacing:.08em!important}
+.ois-button.primary{background:#f0e500!important;border-color:#f0e500!important;color:#090c0e!important}
+.ois-hint{padding:8px 9px!important;color:#899397!important;font:8px/1.65 "Share Tech Mono",monospace!important;letter-spacing:.04em!important}
+.ois-release-aircraft-row>div{padding:9px 10px!important;border-color:#3a4448!important}
+.micro-label,.ois-weather-label,.ois-ofp-cell span{color:#aeb7ba!important;font:8px "Share Tech Mono",monospace!important;letter-spacing:.1em!important}
+.release-aircraft{font:21px "Roboto Mono",monospace!important;color:#eef2f3!important}
+.release-cyan,.ois-weather-title strong{color:#55c7df!important}
+.ois-release-route{padding:12px 10px!important;border-color:#3a4448!important}
+.ois-release-metrics>div{padding:7px 9px!important;border-color:#3a4448!important}
+.ois-simbrief-body,.ois-weather-body{padding:9px!important}
+.ois-status-row{padding:9px 10px!important;border-color:#3a4448!important;font:8px "Share Tech Mono",monospace!important;color:#aeb7ba!important}
+.ois-status-row strong{font:9px "Roboto Mono",monospace!important;color:#e7ebec!important}
+.ois-ofp-route{padding:12px 9px!important;border-color:#3a4448!important}
+.ois-ofp-route strong{font:18px "Roboto Mono",monospace!important;color:#eef2f3!important}
+.ois-ofp-grid{background:#3a4448!important;gap:1px!important}
+.ois-ofp-cell{background:#111619!important;padding:9px 10px!important;min-height:49px!important}
+.ois-ofp-cell strong{font:10px "Roboto Mono",monospace!important;color:#55c7df!important;margin-top:5px!important}
+.ois-weather-station{padding:9px 0!important;border-color:#3a4448!important}
+.ois-weather-report{background:#090c0e!important;border:1px solid #3a4448!important;color:#dce3e5!important;font:8px/1.6 "Share Tech Mono",monospace!important;padding:8px!important}
+.ois-weather-time,.ois-weather-status{font:8px "Share Tech Mono",monospace!important;color:#899397!important}
+.ois-weather-actions{padding-top:8px!important;border-top:1px solid #3a4448!important}
+.ois-route-preview{border-color:#596267!important}
+.ois-map-footer{background:#111619!important;border-color:#3a4448!important;color:#899397!important;font:8px "Share Tech Mono",monospace!important}
+@media(max-width:1100px){.ois-lower-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:760px){.ois-dashboard-grid,.ois-lower-grid{grid-template-columns:1fr!important}}
+
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.109"></head>
 <body class="community-efb">
 <div class="topline"></div>
-<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.108"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.108 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.108">Schedule</a><a href="./liveflight-archive.html?v=0.9.108">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.108">Community EFB ↗</a></nav></div></header>
+<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.109"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.109 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.109">Schedule</a><a href="./liveflight-archive.html?v=0.9.109">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.109">Community EFB ↗</a></nav></div></header>
 <main class="ois-main" id="efbDashboard">
   <div class="ois-page-head">
     <div><div class="ois-page-title">COMMUNITY FLIGHT OPS</div><div class="ois-page-sub">SHARED FLIGHT PROFILE · PERSONAL SIMBRIEF DISPATCH</div></div>
@@ -392,7 +434,7 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
         <div class="ois-community-actions">
           <button class="ois-button primary" id="importLive">IMPORT LIVE FLIGHT</button>
           <button class="ois-button" id="clearFlight">CLEAR / CUSTOM FLIGHT</button>
-          <a class="ois-button" href="./liveflight.html?v=0.9.108">VIEW SCHEDULE ↗</a>
+          <a class="ois-button" href="./liveflight.html?v=0.9.109">VIEW SCHEDULE ↗</a>
         </div>
         <div class="ois-hint">Importa il volo ufficiale per compilare automaticamente i parametri. Puoi modificare ogni campo o creare un volo indipendente.</div>
         <div class="status" id="liveStatus"></div>
