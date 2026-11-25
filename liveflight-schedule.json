@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-25T00:34:19.855Z",
+  "updatedAt": "2026-11-25T00:34:30.075Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -496,6 +496,27 @@
       "simbriefType": "",
       "sim": "MSFS 2024",
       "category": "Jet privati",
+      "from": "",
+      "to": "",
+      "route": "",
+      "callsign": "",
+      "distance": "",
+      "ete": "",
+      "cruise": "",
+      "alternate": "",
+      "fuelBlock": "",
+      "briefingUrl": ""
+    },
+    {
+      "id": "t62to574empmwve5h44",
+      "date": "2026-11-27T19:00:00.000Z",
+      "status": "planned",
+      "title": "FENIX A320",
+      "special": false,
+      "aircraft": "FENIX A320",
+      "simbriefType": "A320",
+      "sim": "MSFS 2024",
+      "category": "Airliner",
       "from": "",
       "to": "",
       "route": "",
