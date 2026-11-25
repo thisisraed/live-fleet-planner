@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-25T10:33:49.307Z",
+  "updatedAt": "2026-11-25T10:56:09.938Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -325,7 +325,7 @@
       "title": "A340",
       "special": false,
       "aircraft": "A340",
-      "simbriefType": "",
+      "simbriefType": "A346",
       "sim": "MSFS 2024",
       "category": "Airliner",
       "from": "",
@@ -472,18 +472,18 @@
       "title": "A340",
       "special": false,
       "aircraft": "A340",
-      "simbriefType": "",
+      "simbriefType": "A346",
       "sim": "MSFS 2024",
       "category": "Airliner",
       "from": "LIPZ",
       "to": "LEBL",
-      "route": "",
-      "callsign": "",
-      "distance": "",
-      "ete": "",
-      "cruise": "",
+      "route": "AKAD7L AKADO M196 KOPER DCT IBTOK DCT OSBUL DCT LAGEN DCT GEKBA DCT VAMTU DCT KOLON DCT GANGU DCT PADKO DCT DIVKO DCT MAMES M984 BISBA BISB2Z",
+      "callsign": "D-AERO",
+      "distance": "611",
+      "ete": "01:28:19",
+      "cruise": "35000",
       "alternate": "",
-      "fuelBlock": "",
+      "fuelBlock": "22171",
       "briefingUrl": ""
     },
     {
