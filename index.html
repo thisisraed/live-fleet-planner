@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.93</title>
+<title>Live Fleet Planner 0.9.91</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1218,7 +1218,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 
   <div class="ois-panel settings-panel" id="discordSchedulePanel">
     <div class="ois-panel-head"><span>DISCORD · WEEKLY PROGRAMMING</span><span class="panel-code">MON / FRI</span></div>
-    <div class="settings-description">Messaggio pronto da copiare su Discord. Mostra tutte le live dal lunedì al venerdì, raggruppate per giornata. Il lunedì passa automaticamente alla nuova settimana. Il messaggio viene generato dai voli presenti nel calendario e non viene pubblicato automaticamente.</div>
+    <div class="settings-description">Messaggio pronto da copiare su Discord. Mostra le live dal lunedì al venerdì della settimana corrente; il lunedì passa automaticamente alla nuova programmazione. Il messaggio viene generato dai voli presenti nel calendario e non viene pubblicato automaticamente.</div>
     <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:0 14px 10px">
       <div id="discordScheduleRange" class="settings-status">CALCOLO SETTIMANA…</div>
       <div style="display:flex;gap:7px;flex-wrap:wrap">
@@ -1481,21 +1481,32 @@ function buildDiscordScheduleMessage(){
     return key>=week.start&&key<=week.end;
   }).sort((a,b)=>new Date(a.date)-new Date(b.date));
   const rangeStart=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"short"}).format(week.monday).replace(".","");
-  const rangeEnd=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"long",year:"numeric"}).format(week.friday).replace(".","");
-  const lines=["✈️ **PROGRAMMAZIONE LIVE**","╭━━━━━━━━━━━━━━━━━━━━━━━━━━━━╮","　📅 **"+rangeStart.toUpperCase()+" — "+rangeEnd.toUpperCase()+"**","╰━━━━━━━━━━━━━━━━━━━━━━━━━━━━╯"];
+  const rangeEnd=new Intl.DateTimeFormat("it-IT",{day:"2-digit",month:"short",year:"numeric"}).format(week.friday).replace(".","");
+  const lines=["📅 **PROGRAMMAZIONE LIVE**","🗓️ "+rangeStart.toUpperCase()+" — "+rangeEnd.toUpperCase(),"━━━━━━━━━━━━━━━━━━━━━━━━━━"];
   [1,2,3,4,5].forEach(offset=>{
     const date=new Date(week.monday);date.setDate(date.getDate()+offset-1);
     const key=localDateKey(date);
-    const label=new Intl.DateTimeFormat("it-IT",{weekday:"long"}).format(date).toUpperCase();
+    const label=new Intl.DateTimeFormat("it-IT",{weekday:"long",day:"2-digit",month:"long"}).format(date).toUpperCase();
     const dayLives=lives.filter(l=>localDateKey(new Date(l.date))===key);
     lines.push("","**"+label+"**");
-    if(!dayLives.length){lines.push("　❌ Nessuna live programmata");return}
+    if(!dayLives.length){lines.push("🌙 Nessuna live programmata");return}
     dayLives.forEach(l=>{
       const a=getAircraft(l.aircraftId);
-      const description=discordSafe(l.title||a?.name||"Live programmata");
-      lines.push("　✅ "+description);
+      const time=new Intl.DateTimeFormat("it-IT",{timeZone:"Europe/Rome",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(new Date(l.date));
+      const aircraft=discordSafe(a?.name||"Aereo non specificato");
+      const sim=discordSafe(a?.sim||"");
+      const title=discordSafe(l.title||"");
+      const from=discordSafe(l.route?.from||"").toUpperCase();
+      const to=discordSafe(l.route?.to||"").toUpperCase();
+      lines.push("🕗 **"+time+"** · **"+aircraft+"**");
+      if(sim)lines.push("🎮 "+sim);
+      if(from||to)lines.push("✈️ "+(from||"????")+" → "+(to||"????"));
+      if(title)lines.push("🎬 "+title);
+      if(l.special)lines.push("⭐ Live speciale");
+      if(l.status==="done")lines.push("☑️ Live completata");
     });
   });
+  lines.push("","━━━━━━━━━━━━━━━━━━━━━━━━━━","📌 Orari italiani · CET / CEST","✈️ Ci vediamo in diretta!");
   return {text:lines.join("\n"),week};
 }
 function renderDiscordSchedule(){
