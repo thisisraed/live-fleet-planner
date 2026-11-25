@@ -1,0 +1,23 @@
+/* THIS IS RAED · SHARED HEADER
+   Canonical header component used by Schedule, Archive and Community EFB. */
+.topline{height:3px!important;background:#f0e500!important}
+header{height:58px!important;padding:8px 18px!important;box-sizing:border-box!important;background:#0c1012!important;border-bottom:1px solid #596267!important;position:sticky!important;top:0!important;z-index:30!important;backdrop-filter:none!important}
+header .shell.nav{height:100%!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:nowrap!important}
+header .brand{display:flex!important;align-items:center!important;gap:11px!important;margin:0!important;color:#eef2f3!important;text-decoration:none!important}
+header .brand-mark{width:36px!important;height:36px!important;flex:0 0 36px!important;border:1px solid #697479!important;color:#f0e500!important;display:grid!important;place-items:center!important;font:400 15px var(--mono)!important;transform:none!important}
+header .brand-mark:after{content:none!important}
+header .brand-name{font:400 17px var(--mono)!important;letter-spacing:.08em!important;color:#eef2f3!important}
+header .brand-sub{font:8px var(--mono)!important;color:#aeb7ba!important;letter-spacing:.08em!important;margin-top:0!important}
+header .brand-version{display:block!important;margin-top:2px!important;color:#7f8b90!important;font:7px/1.2 var(--mono)!important;letter-spacing:.09em!important;white-space:nowrap!important}
+header .navlinks{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:0!important;height:58px!important;width:auto!important;overflow:visible!important;flex:0 0 auto!important;color:#c3cbcf!important;font:400 13px var(--mono)!important;letter-spacing:.1em!important;text-transform:uppercase!important}
+header .navlinks a{height:48px!important;min-width:130px!important;padding:0 18px!important;flex:0 0 auto!important;margin:0 -4px!important;border:0!important;clip-path:polygon(0 0,92% 0,100% 50%,92% 100%,0 100%,7% 50%)!important;background:#1a2125!important;color:#c3cbcf!important;text-decoration:none!important;text-align:center!important;display:flex!important;align-items:center!important;justify-content:center!important;font:400 13px var(--mono)!important;letter-spacing:.1em!important;text-transform:uppercase!important;white-space:nowrap!important}
+header .navlinks a:first-child{background:#1a2125!important;color:#c3cbcf!important}
+header .navlinks a:hover{background:#252e32!important;color:#eef2f3!important}
+header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
+@media(max-width:900px){header .navlinks a{min-width:112px!important;padding:0 13px!important}}
+@media(max-width:700px){
+ header{height:auto!important;min-height:58px!important;padding:8px 14px!important;position:relative!important}
+ header .shell.nav{min-height:42px!important;flex-wrap:wrap!important}
+ header .navlinks{height:46px!important;width:100%!important;overflow:auto!important;justify-content:flex-start!important}
+ header .navlinks a{min-width:90px!important;height:40px!important;flex:0 0 auto!important;padding:0 9px!important;font-size:10px!important}
+}
