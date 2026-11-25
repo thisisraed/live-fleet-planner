@@ -374,7 +374,7 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
 @media(max-width:1100px){.ois-lower-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 @media(max-width:760px){.ois-lower-grid{grid-template-columns:1fr!important}}
 
-/* FINAL REFERENCE ALIGNMENT v0.9.114 */
+/* FINAL REFERENCE ALIGNMENT v0.9.115 */
 .ois-page-head{height:46px!important;margin-bottom:8px!important;border-color:#3b4448!important}
 .ois-page-title{font:500 16px "Roboto Mono",monospace!important;letter-spacing:.08em!important;color:#eef2f3!important}
 .ois-page-sub,.ois-page-index,.panel-code{font:8px "Share Tech Mono",monospace!important;color:#899397!important;letter-spacing:.12em!important}
@@ -441,10 +441,19 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
 .ois-weather-body>.ois-hint{padding:8px 9px 10px!important}
 @media(min-width:1101px){#ofpPanel .ois-ofp-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.114"></head>
+
+/* ROUTE TEXT: HORIZONTAL SCROLL WHEN IT EXCEEDS ITS CELL */
+.ois-release-metrics{grid-template-columns:minmax(0,3fr) minmax(88px,1fr) minmax(88px,1fr)!important}
+.ois-release-metrics>div{min-width:0!important;overflow:hidden}
+#dashRoute{display:block;max-width:100%;min-width:0;white-space:nowrap!important;overflow-x:auto!important;overflow-y:hidden!important;text-overflow:clip!important;scrollbar-width:thin;scrollbar-color:#596469 #111619;padding-bottom:3px;overscroll-behavior-x:contain}
+#dashRoute::-webkit-scrollbar{height:4px}
+#dashRoute::-webkit-scrollbar-track{background:#111619}
+#dashRoute::-webkit-scrollbar-thumb{background:#596469}
+
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.115"></head>
 <body class="community-efb">
 <div class="topline"></div>
-<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.114"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.114 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.114">Schedule</a><a href="./liveflight-archive.html?v=0.9.114">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.114">Community EFB ↗</a></nav></div></header>
+<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.115"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.115 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.115">Schedule</a><a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.115">Community EFB ↗</a></nav></div></header>
 <main class="ois-main" id="efbDashboard">
   <div class="ois-page-head">
     <div><div class="ois-page-title">COMMUNITY FLIGHT OPS</div><div class="ois-page-sub">SHARED FLIGHT PROFILE · PERSONAL SIMBRIEF DISPATCH</div></div>
@@ -460,7 +469,7 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
         <div class="ois-community-actions">
           <button class="ois-button primary" id="importLive">IMPORT LIVE FLIGHT</button>
           <button class="ois-button" id="clearFlight">CLEAR / CUSTOM FLIGHT</button>
-          <a class="ois-button" href="./liveflight.html?v=0.9.114">VIEW SCHEDULE ↗</a>
+          <a class="ois-button" href="./liveflight.html?v=0.9.115">VIEW SCHEDULE ↗</a>
         </div>
         <div class="ois-hint">Importa il volo ufficiale per compilare automaticamente i parametri. Puoi modificare ogni campo o creare un volo indipendente.</div>
         <div class="status" id="liveStatus"></div>
