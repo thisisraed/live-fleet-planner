@@ -348,10 +348,35 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
  header .navlinks{width:100%!important;height:46px!important;overflow:auto!important;justify-content:flex-start!important}
  header .navlinks a{height:40px!important;min-width:100px!important;flex:1 0 100px!important;padding:0 8px!important;font-size:9px!important}
 }
-</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.107"></head>
+
+/* VISUAL ALIGNMENT — match the Flight Operations reference dashboard */
+.ois-main{background:#0a0c0e!important}
+.ois-panel{background:#111619!important;border:1px solid #596267!important}
+.ois-panel-head{background:#262d31!important;border-bottom:1px solid #596267!important;color:#eef2f3!important;font:400 12px "Roboto Mono",monospace!important;letter-spacing:.07em!important}
+.panel-code{color:#aeb7ba!important;font:8px "Share Tech Mono",monospace!important;letter-spacing:.1em!important}
+.ois-release-aircraft-row,.ois-release-route,.ois-release-metrics>div,.ois-status-row,.ois-weather-station,.ois-ofp-route{border-color:#3a4448!important}
+.ois-release-aircraft-row>div{border-color:#3a4448!important}
+.ois-ofp-grid{background:#3a4448!important}
+.ois-ofp-cell{background:#111619!important}
+.ois-ofp-cell span,.ois-weather-label,.micro-label{color:#aeb7ba!important}
+.ois-ofp-cell strong{color:#dce3e5!important}
+.ois-ofp-cell:nth-child(2) strong,.ois-ofp-cell:nth-child(3) strong{color:#55c7df!important}
+.ois-weather-report{background:#090c0e!important;border-color:#3a4448!important;color:#dce3e5!important}
+.ois-weather-title{color:#eef2f3!important}
+.ois-weather-title strong,.release-cyan,.ois-release-metrics strong{color:#55c7df!important}
+.ois-flight-form input,.ois-simbrief-body input,.ois-community-select select{background:#090c0e!important;border-color:#596267!important;color:#eef2f3!important}
+.ois-button{background:#1a2125!important;border-color:#596267!important;color:#dce3e5!important}
+.ois-button.primary{background:#f0e500!important;border-color:#f0e500!important;color:#090c0e!important}
+.ois-hint,.ois-weather-time,.release-sub{color:#899397!important}
+.ois-status-row strong{color:#dce3e5!important}
+.ois-status-row strong.warn{color:#f0e500!important}
+.ois-lower-grid{gap:10px!important}
+@media(max-width:1100px){.ois-lower-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:760px){.ois-lower-grid{grid-template-columns:1fr!important}}
+</style><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""><link rel="stylesheet" href="./shared-header.css?v=0.9.108"></head>
 <body class="community-efb">
 <div class="topline"></div>
-<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.107"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.107 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.107">Schedule</a><a href="./liveflight-archive.html?v=0.9.107">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.107">Community EFB ↗</a></nav></div></header>
+<header><div class="shell nav"><a class="brand" href="./liveflight.html?v=0.9.108"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.108 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html?v=0.9.108">Schedule</a><a href="./liveflight-archive.html?v=0.9.108">Archive ↗</a><a class="active" href="./community-efb.html?v=0.9.108">Community EFB ↗</a></nav></div></header>
 <main class="ois-main" id="efbDashboard">
   <div class="ois-page-head">
     <div><div class="ois-page-title">COMMUNITY FLIGHT OPS</div><div class="ois-page-sub">SHARED FLIGHT PROFILE · PERSONAL SIMBRIEF DISPATCH</div></div>
@@ -367,7 +392,7 @@ header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
         <div class="ois-community-actions">
           <button class="ois-button primary" id="importLive">IMPORT LIVE FLIGHT</button>
           <button class="ois-button" id="clearFlight">CLEAR / CUSTOM FLIGHT</button>
-          <a class="ois-button" href="./liveflight.html?v=0.9.107">VIEW SCHEDULE ↗</a>
+          <a class="ois-button" href="./liveflight.html?v=0.9.108">VIEW SCHEDULE ↗</a>
         </div>
         <div class="ois-hint">Importa il volo ufficiale per compilare automaticamente i parametri. Puoi modificare ogni campo o creare un volo indipendente.</div>
         <div class="status" id="liveStatus"></div>
