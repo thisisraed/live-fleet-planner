@@ -1,4 +1,4 @@
-const CACHE = 'live-fleet-planner-shell-v0.9.78';
+const CACHE = 'live-fleet-planner-shell-v0.9.79';
 const APP_SHELL = [
   './',
   './index.html',
