@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Live Fleet Planner">
-<title>Live Fleet Planner 0.9.89</title>
+<title>Live Fleet Planner 0.9.90</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1124,7 +1124,7 @@ code,pre,.route-line,.route-card,.stat,.flight-data,.mono,.callsign,.time,.date,
 </head>
 <body>
 <header>
-  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.89</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
+  <div class="brand"><h1>✈ Live Fleet Planner <span style="font-size:12px;color:var(--muted);font-weight:600">v0.9.90</span></h1><p>Pianificazione e sincronizzazione delle tue live di simulazione</p></div>
   <div class="ois-header-clock" id="oisClock">30 SEP 2026 11:42L</div><div class="actions">
     <span id="saveStatus" style="display:inline-flex;align-items:center;padding:8px 11px;border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px">✓ Tutto salvato</span>
     <button class="secondary" id="cloudRefreshBtn" title="Aggiorna i dati dal database GitHub" aria-label="Aggiorna dati dal cloud">↻ REFRESH</button>
@@ -1759,6 +1759,22 @@ function localDateKey(d){
   const day=String(x.getDate()).padStart(2,"0");
   return `${y}-${m}-${day}`;
 }
+
+function autoCompletePastLives(){
+  const todayKey=localDateKey(new Date());
+  let changed=0;
+  db.lives.forEach(l=>{
+    if(!l || l.status!=="planned" || !l.date) return;
+    const liveDay=localDateKey(new Date(l.date));
+    if(liveDay<todayKey){
+      l.status="done";
+      l.completedAt=l.completedAt||new Date().toISOString();
+      l.completionMode="automatic";
+      changed++;
+    }
+  });
+  return changed;
+}
 function weekdayName(d){
   const key=localDateKey(d);
   const [y,m,day]=key.split("-").map(Number);
@@ -1796,7 +1812,7 @@ function confirmDeleteLive(id){
 
 function confirmNotPerformedLive(id){
   const l=db.lives.find(x=>x.id===id);
-  if(!l || l.status!=="planned") return;
+  if(!l || !["planned","done"].includes(l.status)) return;
   const a=getAircraft(l.aircraftId);
   openModal("Live non effettuata",`
     <div style="font-size:15px;line-height:1.5">
@@ -1814,8 +1830,10 @@ function confirmNotPerformedLive(id){
 
 function markLiveNotPerformed(id){
   const l=db.lives.find(x=>x.id===id);
-  if(!l || l.status!=="planned") return;
+  if(!l || !["planned","done"].includes(l.status)) return;
   l.status="skipped";
+  delete l.completedAt;
+  delete l.completionMode;
   l.notPerformedAt=new Date().toISOString();
   save("✓ Live segnata come non effettuata");
   closeModal();
@@ -2500,7 +2518,7 @@ for(let i=0;i<42;i++){
     const a=getAircraft(l.aircraftId);
     const skipped=l.status==="skipped";
     const draggable=l.status==="planned";
-    return `<div class="event ${skipped?"is-skipped":""}" data-live-id="${l.id}" draggable="${draggable}" title="${draggable?"Trascina per spostare la live":""}" onclick="showLiveForm('${l.id}')" ${draggable?`ondragstart="startLiveDrag(event,'${l.id}')" ondragend="endLiveDrag(event)" ondragover="markLiveDropTarget(event)" ondragleave="clearLiveDropTarget(event)" ondrop="dropLiveBefore(event,'${l.id}','${dateKey}')"`:""}><button class="delete-event" title="Elimina live" onclick="event.stopPropagation();confirmDeleteLive('${l.id}')">×</button><strong>${aircraftName(a?.name,"Aereo rimosso")}</strong><small>${l.status==="done"?"✓ ":""}${esc(l.title||"Live")}${l.preference&&l.preference!=="any"?" · "+esc((PREFERENCES.find(p=>p.value===l.preference)||{}).label||""):""}</small>${l.special?`<span class="special-badge">SPECIALE</span>`:""}${skipped?`<div class="status-skipped">LIVE NON EFFETTUATA · AEREO REINSERITO IN ROTAZIONE</div>`:""}${l.route&&l.route.from&&l.route.to?`<div class="route-line">✈ ${esc(l.route.from)} → ${esc(l.route.to)}</div>`:""}<div class="event-actions">${!skipped&&l.status==="planned"?`<button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"Modifica rotta":"＋ Rotta"}</button><button class="not-performed-btn" onclick="event.stopPropagation();confirmNotPerformedLive('${l.id}')">NON EFFETTUATA</button>`:skipped?`<button class="not-performed-btn" onclick="event.stopPropagation();restoreLiveToPlanned('${l.id}')">RIPRISTINA LIVE</button>`:l.status==="done"?`<button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"Modifica rotta":"＋ Rotta"}</button>`:""}</div></div>`
+    return `<div class="event ${skipped?"is-skipped":""}" data-live-id="${l.id}" draggable="${draggable}" title="${draggable?"Trascina per spostare la live":""}" onclick="showLiveForm('${l.id}')" ${draggable?`ondragstart="startLiveDrag(event,'${l.id}')" ondragend="endLiveDrag(event)" ondragover="markLiveDropTarget(event)" ondragleave="clearLiveDropTarget(event)" ondrop="dropLiveBefore(event,'${l.id}','${dateKey}')"`:""}><button class="delete-event" title="Elimina live" onclick="event.stopPropagation();confirmDeleteLive('${l.id}')">×</button><strong>${aircraftName(a?.name,"Aereo rimosso")}</strong><small>${l.status==="done"?"✓ ":""}${esc(l.title||"Live")}${l.preference&&l.preference!=="any"?" · "+esc((PREFERENCES.find(p=>p.value===l.preference)||{}).label||""):""}</small>${l.special?`<span class="special-badge">SPECIALE</span>`:""}${skipped?`<div class="status-skipped">LIVE NON EFFETTUATA · AEREO REINSERITO IN ROTAZIONE</div>`:""}${l.route&&l.route.from&&l.route.to?`<div class="route-line">✈ ${esc(l.route.from)} → ${esc(l.route.to)}</div>`:""}<div class="event-actions">${!skipped&&(l.status==="planned"||l.status==="done")?`<button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"Modifica rotta":"＋ Rotta"}</button><button class="not-performed-btn" onclick="event.stopPropagation();confirmNotPerformedLive('${l.id}')">NON EFFETTUATA</button>`:skipped?`<button class="not-performed-btn" onclick="event.stopPropagation();restoreLiveToPlanned('${l.id}')">RIPRISTINA LIVE</button>`:l.status==="done"?`<button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"Modifica rotta":"＋ Rotta"}</button>`:""}</div></div>`
   }).join("")}<div class="calendar-drag-hint">TRASCINA QUI PER SPOSTARE</div><button class="secondary" style="padding:3px 7px;font-size:11px;margin-top:5px" onclick="showLiveForm(null,'${dateKey}')">+</button></div>`);
 }
 calendarGridEl.innerHTML=['Lun','Mar','Mer','Gio','Ven','Sab','Dom'].map(x=>`<div class="dow">${x}</div>`).join("")+cells.join("");
@@ -2524,7 +2542,7 @@ if(calendarMobileAgendaEl){
       const status=skipped?'<span class="calendar-mobile-status skipped">NON EFFETTUATA</span>':done?'<span class="calendar-mobile-status done">EFFETTUATA</span>':'<span class="calendar-mobile-status planned">PIANIFICATA</span>';
       const special=l.special?'<span class="special-badge">SPECIALE</span>':'';
       let actions='';
-      if(!skipped && !done){actions=`<div class="calendar-mobile-actions"><button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"MODIFICA ROTTA":"＋ ROTTA"}</button><button class="not-performed-btn" onclick="event.stopPropagation();confirmNotPerformedLive('${l.id}')">NON EFFETTUATA</button></div>`;}
+      if(!skipped && (l.status==="planned"||done)){actions=`<div class="calendar-mobile-actions"><button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"MODIFICA ROTTA":"＋ ROTTA"}</button><button class="not-performed-btn" onclick="event.stopPropagation();confirmNotPerformedLive('${l.id}')">NON EFFETTUATA</button></div>`;}
       else if(skipped){actions=`<div class="calendar-mobile-actions"><button class="not-performed-btn" onclick="event.stopPropagation();restoreLiveToPlanned('${l.id}')">RIPRISTINA LIVE</button></div>`;}
       else if(done){actions=`<div class="calendar-mobile-actions"><button class="secondary" onclick="event.stopPropagation();routeForLive('${l.id}')">${l.route&&((l.route.from||l.route.to||l.route.route))?"MODIFICA ROTTA":"＋ ROTTA"}</button></div>`;}
       return `<div class="calendar-mobile-event ${skipped?'is-skipped':''}" onclick="showLiveForm('${l.id}')"><div class="calendar-mobile-event-top"><strong>${aircraftName(a?.name,"AEREO RIMOSSO")}</strong>${status}</div><div class="calendar-mobile-event-title">${title}${pref}</div>${special}${skipped?'<div class="calendar-mobile-note">LIVE NON EFFETTUATA · AEREO REINSERITO IN ROTAZIONE</div>':''}${route}${actions}</div>`;
@@ -3091,7 +3109,7 @@ function renderOISExtraPages(){
 }
 function updateOISClock(){const e=document.getElementById('oisClock');if(!e)return;const d=new Date();const mon=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'][d.getMonth()];e.textContent=`${String(d.getDate()).padStart(2,'0')} ${mon} ${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}L`}
 setInterval(updateOISClock,1000);updateOISClock();
-function renderAll(){renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages()}
+function renderAll(){const autoDone=autoCompletePastLives();if(autoDone){normalizeCloud();db.cloud.dirty=true;localStorage.setItem(KEY,JSON.stringify(db));scheduleCloudPush();}renderFleet();renderCalendar();renderRotation();renderDashboard();renderSettings();renderOISExtraPages()}
 exportBtnEl.onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="live-fleet-planner-backup.json";a.click();URL.revokeObjectURL(a.href)}
 importBtnEl.onclick=()=>importFileEl.click();
 if(cloudRefreshBtnEl) cloudRefreshBtnEl.onclick=async()=>{
