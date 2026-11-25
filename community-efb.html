@@ -315,10 +315,24 @@ header .navlinks{text-transform:uppercase!important;font:400 11px var(--mono)!im
 header .navlinks a{text-transform:uppercase!important;font:400 11px var(--mono)!important;letter-spacing:.1em!important}
 header .brand-mark:after{content:none!important}
 header .brand-mark{font-size:15px!important}
+
+/* HEADER ALIGNMENT — pixel geometry matched to Schedule */
+header{height:58px!important;padding:8px 15px!important;box-sizing:border-box!important}
+header .shell.nav{height:42px!important;min-height:42px!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;flex-wrap:nowrap!important;gap:20px!important}
+header .brand{gap:11px!important;margin:0!important}
+header .brand-mark{width:36px!important;height:36px!important;flex:0 0 36px!important}
+header .brand-name{font:400 17px var(--mono)!important;letter-spacing:.08em!important}
+header .brand-sub{font:8px var(--mono)!important;letter-spacing:.08em!important}
+header .brand-version{font:7px/1.2 var(--mono)!important}
+header .navlinks{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:0!important;height:48px!important;width:auto!important;overflow:visible!important;flex:0 0 auto!important;font:400 11px var(--mono)!important;letter-spacing:.1em!important;text-transform:uppercase!important}
+header .navlinks a{height:48px!important;min-width:112px!important;padding:0 13px!important;flex:0 0 112px!important;margin:0 -4px!important;border:0!important;clip-path:polygon(0 0,92% 0,100% 50%,92% 100%,0 100%,7% 50%)!important;background:#1a2125!important;color:#c3cbcf!important;text-decoration:none!important;text-align:center!important;display:flex!important;align-items:center!important;justify-content:center!important;font:400 11px var(--mono)!important;letter-spacing:.1em!important;text-transform:uppercase!important}
+header .navlinks a:hover{background:#252e32!important;color:#eef2f3!important}
+header .navlinks a.active{background:#f0e500!important;color:#090c0e!important}
+@media(max-width:760px){header{height:auto!important;min-height:58px!important;padding:7px 10px!important}header .shell.nav{height:auto!important;min-height:42px!important;flex-wrap:wrap!important;gap:8px!important}header .navlinks{width:100%!important;height:42px!important;overflow:auto!important;justify-content:flex-start!important}header .navlinks a{height:40px!important;min-width:100px!important;flex:1 0 100px!important;font-size:9px!important}}
 </style></head>
 <body class="community-efb">
 <div class="topline"></div>
-<header><div class="shell nav"><a class="brand" href="./liveflight.html"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.90 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html">Schedule</a><a href="./liveflight-archive.html">Archive ↗</a><a class="active" href="./community-efb.html">Community EFB ↗</a></nav></div></header>
+<header><div class="shell nav"><a class="brand" href="./liveflight.html"><div class="brand-mark">LF</div><div><div class="brand-name">THIS IS RAED</div><div class="brand-sub">FLIGHT OPERATIONS</div><div class="brand-version">WEB v0.9.91 · 25 NOV 2026</div></div></a><nav class="navlinks"><a href="./liveflight.html">Schedule</a><a href="./liveflight-archive.html">Archive ↗</a><a class="active" href="./community-efb.html">Community EFB ↗</a></nav></div></header>
 <main class="ois-main" id="efbDashboard">
   <div class="ois-page-head">
     <div><div class="ois-page-title">COMMUNITY FLIGHT OPS</div><div class="ois-page-sub">SHARED FLIGHT PROFILE · PERSONAL SIMBRIEF DISPATCH</div></div>
