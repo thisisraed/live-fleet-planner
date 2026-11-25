@@ -1507,7 +1507,7 @@ function buildDiscordScheduleMessage(){
     });
   });
   lines.push("","━━━━━━━━━━━━━━━━━━━━━━━━━━","📌 Orari italiani · CET / CEST","✈️ Ci vediamo in diretta!");
-  return {text:lines.join("\\n"),week};
+  return {text:lines.join("\n"),week};
 }
 function renderDiscordSchedule(){
   const textarea=document.getElementById("discordScheduleMessage");
@@ -1515,7 +1515,7 @@ function renderDiscordSchedule(){
   const status=document.getElementById("discordScheduleStatus");
   if(!textarea||!range||!status)return;
   const result=buildDiscordScheduleMessage();
-  textarea.value=result.text;
+  if(textarea.value!==result.text)textarea.value=result.text;
   range.textContent="WEEK · "+result.week.start+" → "+result.week.end;
   const copy=document.getElementById("discordCopyBtn");
   const refresh=document.getElementById("discordRefreshBtn");
@@ -1528,6 +1528,7 @@ function renderDiscordSchedule(){
     }catch(error){textarea.focus();textarea.select();status.textContent="Seleziona il testo e copialo manualmente con ⌘C / CTRL+C.";}
   };
 }
+setInterval(renderDiscordSchedule,60000);
 function readSettingsForm(){
   normalizeSettings();").replace(/\r?\n/g," ");
 }
