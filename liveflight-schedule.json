@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-24T23:53:39.825Z",
+  "updatedAt": "2026-11-25T00:31:35.399Z",
   "timezone": "Europe/Rome",
   "events": [
     {
       "id": "95s1zt9ggk4mut1k3t2",
       "date": "2026-09-28T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "FALCON 50",
       "special": false,
       "aircraft": "FALCON 50",
@@ -27,7 +27,7 @@
     {
       "id": "ifl9a54suqgmut1jre5",
       "date": "2026-09-29T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "A321 FsLabs",
       "special": false,
       "aircraft": "A321 FsLabs",
@@ -48,7 +48,7 @@
     {
       "id": "vi1fo89pfrmuo7wi7b",
       "date": "2026-10-01T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "EV-97",
       "special": true,
       "aircraft": "EV-97",
@@ -69,7 +69,7 @@
     {
       "id": "19n4w3s2d54muva6439",
       "date": "2026-10-05T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "E190",
       "special": false,
       "aircraft": "E190",
@@ -90,7 +90,7 @@
     {
       "id": "2b0ud8ohkwumut1nk57",
       "date": "2026-10-07T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "P180",
       "special": false,
       "aircraft": "P180",
@@ -111,7 +111,7 @@
     {
       "id": "q7m7mbmmximut1npix",
       "date": "2026-10-08T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "F16",
       "special": false,
       "aircraft": "F16",
@@ -132,7 +132,7 @@
     {
       "id": "3u9yhhezc4mut1yz12",
       "date": "2026-10-12T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "FENIX A320",
       "special": false,
       "aircraft": "FENIX A320",
@@ -153,7 +153,7 @@
     {
       "id": "vou4vdcqupkmut1zdy3",
       "date": "2026-10-13T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "HAWKER 700",
       "special": false,
       "aircraft": "HAWKER 700",
@@ -174,7 +174,7 @@
     {
       "id": "6nqab1tbyrnmut1z69r",
       "date": "2026-10-15T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "AS365",
       "special": false,
       "aircraft": "AS365",
@@ -195,7 +195,7 @@
     {
       "id": "beevx1yvm49mut1nbtm",
       "date": "2026-10-19T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "a220",
       "special": false,
       "aircraft": "a220",
@@ -216,7 +216,7 @@
     {
       "id": "ywz60tknulkmvigvepa",
       "date": "2026-10-21T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "FENIX A320",
       "special": false,
       "aircraft": "FENIX A320",
@@ -237,7 +237,7 @@
     {
       "id": "ijqhz30fxrmut1zmue",
       "date": "2026-10-22T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "F16",
       "special": false,
       "aircraft": "F16",
@@ -258,7 +258,7 @@
     {
       "id": "1lwekoy9dj7mut2017k",
       "date": "2026-10-23T18:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "B757",
       "special": true,
       "aircraft": "B757",
@@ -279,7 +279,7 @@
     {
       "id": "31nw0am5lvwmvths5lb",
       "date": "2026-11-02T20:30:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "B757",
       "special": false,
       "aircraft": "B757",
@@ -300,7 +300,7 @@
     {
       "id": "573y3belti5mvths5lb",
       "date": "2026-11-03T20:30:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "B757",
       "special": false,
       "aircraft": "B757",
@@ -321,7 +321,7 @@
     {
       "id": "fai3kbjf22umvths5lc",
       "date": "2026-11-05T20:30:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "A340",
       "special": false,
       "aircraft": "A340",
@@ -342,7 +342,7 @@
     {
       "id": "lkimgnzbpwmw93sygt",
       "date": "2026-11-09T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "atr",
       "special": false,
       "aircraft": "atr",
@@ -363,7 +363,7 @@
     {
       "id": "sxncge58c4mvths5lb",
       "date": "2026-11-10T20:30:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "E190",
       "special": false,
       "aircraft": "E190",
@@ -384,7 +384,7 @@
     {
       "id": "fgstau0rb59mvths5lb",
       "date": "2026-11-12T20:30:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "Commander 114",
       "special": false,
       "aircraft": "Commander 114",
@@ -405,7 +405,7 @@
     {
       "id": "h3twe4eb5dtmwj6okns",
       "date": "2026-11-16T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "U2",
       "special": false,
       "aircraft": "U2",
@@ -426,7 +426,7 @@
     {
       "id": "f8wj6lqekiemwj7fyug",
       "date": "2026-11-19T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "U2",
       "special": false,
       "aircraft": "U2",
@@ -447,7 +447,7 @@
     {
       "id": "h7ivyojvcvjmwuwys1e",
       "date": "2026-11-24T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "Global 6000",
       "special": false,
       "aircraft": "Global 6000",
@@ -496,27 +496,6 @@
       "simbriefType": "",
       "sim": "MSFS 2024",
       "category": "Jet privati",
-      "from": "",
-      "to": "",
-      "route": "",
-      "callsign": "",
-      "distance": "",
-      "ete": "",
-      "cruise": "",
-      "alternate": "",
-      "fuelBlock": "",
-      "briefingUrl": ""
-    },
-    {
-      "id": "8bp3gptflgpmvths5lc",
-      "date": "2026-11-27T20:30:00.000Z",
-      "status": "planned",
-      "title": "A340",
-      "special": false,
-      "aircraft": "A340",
-      "simbriefType": "",
-      "sim": "MSFS 2024",
-      "category": "Airliner",
       "from": "",
       "to": "",
       "route": "",
