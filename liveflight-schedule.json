@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-25T00:36:51.084Z",
+  "updatedAt": "2026-11-25T10:33:49.307Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -487,8 +487,8 @@
       "briefingUrl": ""
     },
     {
-      "id": "lkbn55wztsomvths5lc",
-      "date": "2026-11-26T20:30:00.000Z",
+      "id": "rmvqw9618wmwvzk4p9",
+      "date": "2026-11-26T19:00:00.000Z",
       "status": "planned",
       "title": "Global 6000",
       "special": false,
