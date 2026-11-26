@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-26T09:37:11.117Z",
+  "updatedAt": "2026-11-26T09:37:36.799Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -467,7 +467,7 @@
     },
     {
       "id": "fen3dng1l2mwj7guoy",
-      "date": "2026-11-25T19:00:00.000Z",
+      "date": "2026-11-26T19:00:00.000Z",
       "status": "done",
       "title": "A340",
       "special": false,
@@ -484,27 +484,6 @@
       "cruise": "35000",
       "alternate": "",
       "fuelBlock": "22171",
-      "briefingUrl": ""
-    },
-    {
-      "id": "rmvqw9618wmwvzk4p9",
-      "date": "2026-11-26T19:00:00.000Z",
-      "status": "planned",
-      "title": "Global 6000",
-      "special": false,
-      "aircraft": "Global 6000",
-      "simbriefType": "",
-      "sim": "MSFS 2024",
-      "category": "Jet privati",
-      "from": "",
-      "to": "",
-      "route": "",
-      "callsign": "",
-      "distance": "",
-      "ete": "",
-      "cruise": "",
-      "alternate": "",
-      "fuelBlock": "",
       "briefingUrl": ""
     },
     {
