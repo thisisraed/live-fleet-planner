@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-26T09:38:03.619Z",
+  "updatedAt": "2026-11-26T23:01:51.174Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -468,7 +468,7 @@
     {
       "id": "fen3dng1l2mwj7guoy",
       "date": "2026-11-26T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "A340",
       "special": false,
       "aircraft": "A340",
