@@ -182,7 +182,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <a href="./liveflight.html?v=0.9.115">Schedule</a>
     <a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a>
     <a href="./community-efb.html?v=0.9.115">Community EFB ↗</a>
-    <a class="active" href="./setup.html?v=1.0.4">My Setup</a>
+    <a class="active" href="./setup.html?v=1.0.5">My Setup</a>
   </nav>
 </div></header>
 <main class="shell">
@@ -235,7 +235,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   function loadImage(path){
     $("setupImage").onload=function(){$("imageStatus").style.display="none"};
     $("setupImage").onerror=function(){$("imageStatus").textContent="ILLUSTRATION COULD NOT BE DISPLAYED"};
-    $("setupImage").src="./"+path;
+    $("setupImage").src="./"+path+(path.indexOf("?")===-1?"?":"&")+"v=1.0.5";
   }
   function renderZones(){
     var svg='<svg class="device-zones" viewBox="0 0 960 640" preserveAspectRatio="none" role="group" aria-label="Interactive hardware zones">';
@@ -319,7 +319,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   });
   async function boot(){
     try{
-      var response=await fetch("./setup-data.json?v=1.0.4",{cache:"no-store"});
+      var response=await fetch("./setup-data.json?v=1.0.5",{cache:"no-store"});
       if(!response.ok)throw new Error("DATA HTTP "+response.status);
       var data=await response.json();
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
