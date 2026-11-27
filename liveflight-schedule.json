@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-27T18:07:19.075Z",
+  "updatedAt": "2026-11-27T18:07:58.474Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -498,13 +498,13 @@
       "category": "Jet privati",
       "from": "KDEN",
       "to": "KJAC",
-      "route": "",
-      "callsign": "",
-      "distance": "",
-      "ete": "",
-      "cruise": "",
+      "route": "DDRTH1 DDRTH DCT GOLCH DCT DNW DCT",
+      "callsign": "IRAED",
+      "distance": "438",
+      "ete": "01:03:35",
+      "cruise": "47000",
       "alternate": "",
-      "fuelBlock": "",
+      "fuelBlock": "3455",
       "briefingUrl": ""
     },
     {
