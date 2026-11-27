@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-27T12:35:33.450Z",
+  "updatedAt": "2026-11-27T18:06:11.948Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -496,8 +496,8 @@
       "simbriefType": "",
       "sim": "MSFS 2024",
       "category": "Jet privati",
-      "from": "",
-      "to": "",
+      "from": "KDEV",
+      "to": "KJAC",
       "route": "",
       "callsign": "",
       "distance": "",
