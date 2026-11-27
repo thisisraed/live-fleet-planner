@@ -46,8 +46,8 @@ header{border-bottom:1px solid var(--line);background:rgba(8,13,18,.94);position
 .hotspot-layer{position:absolute;inset:0;pointer-events:none}
 .device-zones{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:auto}
 .device-zone{cursor:pointer;outline:none}
-.device-zone path{fill:rgba(71,200,223,.003);stroke:rgba(71,200,223,0);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;transition:fill .16s ease,stroke .16s ease,stroke-width .16s ease}
-.device-zone:hover path,.device-zone.active path,.device-zone.preview path,.device-zone:focus-visible path{fill:rgba(71,200,223,.21);stroke:var(--cyan);stroke-width:2.8}
+.device-zone{pointer-events:all}.device-zone path{pointer-events:all;fill:rgba(71,200,223,.012);stroke:rgba(71,200,223,0);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;transition:fill .16s ease,stroke .16s ease,stroke-width .16s ease}
+.device-zone:hover path,.device-zone.active path,.device-zone.preview path,.device-zone:focus-visible path{fill:rgba(71,200,223,.30);stroke:var(--cyan);stroke-width:3.2;filter:drop-shadow(0 0 3px rgba(71,200,223,.55))}
 .device-zone:focus-visible path{stroke-width:3.2}
 
 .hotspot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:30px;height:30px;padding:0;border:1px solid #8edbeb;border-radius:50%;background:rgba(5,16,22,.91);color:#e9faff;display:grid;place-items:center;font:9px var(--mono);box-shadow:0 0 0 3px rgba(71,200,223,.13),0 0 13px rgba(71,200,223,.26);pointer-events:auto;transition:transform .15s,background .15s,border-color .15s}
@@ -182,7 +182,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <a href="./liveflight.html?v=0.9.115">Schedule</a>
     <a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a>
     <a href="./community-efb.html?v=0.9.115">Community EFB ↗</a>
-    <a class="active" href="./setup.html?v=1.0.6">My Setup</a>
+    <a class="active" href="./setup.html?v=1.0.7">My Setup</a>
   </nav>
 </div></header>
 <main class="shell">
@@ -235,7 +235,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   function loadImage(path){
     $("setupImage").onload=function(){$("imageStatus").style.display="none"};
     $("setupImage").onerror=function(){$("imageStatus").textContent="ILLUSTRATION COULD NOT BE DISPLAYED"};
-    $("setupImage").src="./"+path+(path.indexOf("?")===-1?"?":"&")+"v=1.0.6";
+    $("setupImage").src="./"+path+(path.indexOf("?")===-1?"?":"&")+"v=1.0.7";
   }
   function renderZones(){
     var svg='<svg class="device-zones" viewBox="0 0 960 640" preserveAspectRatio="none" role="group" aria-label="Interactive hardware zones">';
@@ -319,7 +319,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   });
   async function boot(){
     try{
-      var response=await fetch("./setup-data.json?v=1.0.6",{cache:"no-store"});
+      var response=await fetch("./setup-data.json?v=1.0.7",{cache:"no-store"});
       if(!response.ok)throw new Error("DATA HTTP "+response.status);
       var data=await response.json();
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
