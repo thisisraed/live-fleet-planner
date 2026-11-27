@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "configurations": [
+    {
+      "id": "airbus",
+      "name": "AIRBUS",
+      "status": "ready",
+      "image": "assets/setup/airbus-setup.webp",
+      "imageAlt": "Ricostruzione tecnica della postazione Airbus di This Is Raed",
+      "items": [
+        {
+          "id": "monitors",
+          "name": "TRIPLE DISPLAY ARRAY",
+          "manufacturer": "MODELLO DA CONFERMARE",
+          "category": "DISPLAY",
+          "description": "Tre monitor: uno centrale e due laterali angolati, nella disposizione della postazione reale.",
+          "x": 48.5,
+          "y": 23.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "camera-lights",
+          "name": "CAMERA + DUAL LIGHTS",
+          "manufacturer": "MODELLO DA CONFERMARE",
+          "category": "VIDEO / LIGHTING",
+          "description": "Telecamera e due luci LED montate sul supporto tra il monitor centrale e quello destro.",
+          "x": 65.5,
+          "y": 14,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "microphone",
+          "name": "MICROPHONE + BOOM ARM",
+          "manufacturer": "MODELLO DA CONFERMARE",
+          "category": "AUDIO",
+          "description": "Microfono montato su braccio articolato, collocato sul lato destro della zona centrale.",
+          "x": 65,
+          "y": 24,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "fcu",
+          "name": "FCU / EFIS PANEL",
+          "manufacturer": "WINCTRL",
+          "category": "FLIGHT GUIDANCE",
+          "description": "Pannello centrale sopra la tastiera, utilizzato per i controlli di guida e autopilota.",
+          "x": 49.5,
+          "y": 39.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "streamdeck",
+          "name": "STREAM DECK",
+          "manufacturer": "ELGATO",
+          "category": "CONTROL SURFACE",
+          "description": "Superficie di controllo secondaria collocata sul lato destro della scrivania.",
+          "x": 66,
+          "y": 46.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "tiller",
+          "name": "AIRBUS TILLER",
+          "manufacturer": "WINCTRL",
+          "category": "GROUND CONTROL",
+          "description": "Tiller montato sopra il sidestick, con supporto dedicato fissato alla scrivania.",
+          "x": 28,
+          "y": 48,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "sidestick",
+          "name": "AIRBUS SIDESTICK",
+          "manufacturer": "WINCTRL",
+          "category": "FLIGHT CONTROL",
+          "description": "Sidestick laterale con impugnatura dedicata, base nera e supporto metallico da scrivania.",
+          "x": 27.5,
+          "y": 65,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "aux-panel",
+          "name": "AUXILIARY CONTROL PANEL",
+          "manufacturer": "WINCTRL",
+          "category": "AUXILIARY CONTROLS",
+          "description": "Pannello comandi aggiuntivo visibile sul lato sinistro della configurazione.",
+          "x": 39,
+          "y": 61.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "pc",
+          "name": "PC TOWER",
+          "manufacturer": "CUSTOM BUILD",
+          "category": "COMPUTER",
+          "description": "Workstation sotto la scrivania, con pannello laterale e illuminazione RGB viola.",
+          "x": 19,
+          "y": 73,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "rudder-pedals",
+          "name": "RUDDER PEDALS",
+          "manufacturer": "MODELLO DA CONFERMARE",
+          "category": "FLIGHT CONTROL",
+          "description": "Pedaliera centrale posizionata sotto la scrivania.",
+          "x": 50,
+          "y": 77.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "systems-panel",
+          "name": "AIRBUS SYSTEMS PANEL",
+          "manufacturer": "WINCTRL",
+          "category": "AIRCRAFT SYSTEMS",
+          "description": "Pannello avionico superiore sul lato destro della postazione.",
+          "x": 80,
+          "y": 56.5,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "mcdu",
+          "name": "MCDU",
+          "manufacturer": "WINCTRL",
+          "category": "FLIGHT MANAGEMENT",
+          "description": "Unità MCDU con display e tastiera, installata sul supporto inclinato a destra.",
+          "x": 71.5,
+          "y": 74,
+          "purchaseUrl": ""
+        },
+        {
+          "id": "throttle",
+          "name": "AIRBUS THROTTLE QUADRANT",
+          "manufacturer": "WINCTRL",
+          "category": "THRUST / AIRCRAFT CONTROLS",
+          "description": "Throttle quadrant Airbus blu con manette ENG 1 / ENG 2, speed brake, flap selector e parking brake.",
+          "x": 86,
+          "y": 82,
+          "purchaseUrl": ""
+        }
+      ]
+    },
+    {
+      "id": "boeing",
+      "name": "BOEING",
+      "status": "coming-soon",
+      "items": []
+    },
+    {
+      "id": "military",
+      "name": "MILITARY",
+      "status": "coming-soon",
+      "items": []
+    }
+  ]
+}

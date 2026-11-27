@@ -1,7 +1,15 @@
-const CACHE = 'live-fleet-planner-shell-v0.9.79';
+const CACHE = 'live-fleet-planner-shell-v0.9.80';
 const APP_SHELL = [
   './',
   './index.html',
+  './setup.html',
+  './setup-data.json',
+  './assets/setup/airbus-setup-0.txt',
+  './assets/setup/airbus-setup-1.txt',
+  './assets/setup/airbus-setup-2.txt',
+  './assets/setup/airbus-setup-3.txt',
+  './assets/setup/airbus-setup-4.txt',
+  './assets/setup/airbus-setup.webp',
   './manifest.webmanifest',
   './icons/icon-192-v0.9.71.png',
   './icons/icon-512-v0.9.71.png',
@@ -25,6 +33,16 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   // Never cache API calls: GitHub, SimBrief and live weather must remain network-first.
   if (url.hostname === 'api.github.com' || url.hostname.includes('simbrief.com') || url.hostname.includes('aviationweather.gov') || url.hostname.includes('vatsim.net')) return;
+  if (req.mode === 'navigate' && url.pathname.endsWith('/setup.html')) {
+    event.respondWith(fetch(req).then(res => {
+      if (res.ok) {
+        const copy = res.clone();
+        caches.open(CACHE).then(c => c.put('./setup.html', copy));
+      }
+      return res;
+    }).catch(() => caches.match('./setup.html')));
+    return;
+  }
   if (req.mode === 'navigate') {
     event.respondWith(fetch(req).then(res => {
       const copy = res.clone();
