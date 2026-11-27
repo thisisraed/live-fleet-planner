@@ -182,7 +182,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <a href="./liveflight.html?v=0.9.115">Schedule</a>
     <a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a>
     <a href="./community-efb.html?v=0.9.115">Community EFB ↗</a>
-    <a class="active" href="./setup.html?v=1.0.2">My Setup</a>
+    <a class="active" href="./setup.html?v=1.0.3">My Setup</a>
   </nav>
 </div></header>
 <main class="shell">
@@ -239,7 +239,8 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   }
   function renderZones(){
     var svg='<svg class="device-zones" viewBox="0 0 960 640" preserveAspectRatio="none" role="group" aria-label="Interactive hardware zones"><defs><filter id="deviceGlow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>';
-    currentConfig.items.forEach(function(item){
+    var drawPriority={"pc-left":1,"pc-right":1,"monitors":2,"camera-lights":2,"microphone":3,"fcu":4,"elgato-left":4,"elgato-right":4,"tiller":5,"sidestick":6,"rudder-pedals":6,"radio-tcas":7,"agp-panel":8,"mcdu":9,"throttle":10};
+    currentConfig.items.slice().sort(function(a,b){return (drawPriority[a.id]||0)-(drawPriority[b.id]||0)}).forEach(function(item){
       var zones=Array.isArray(item.zones)?item.zones:[];
       if(!zones.length)return;
       svg+='<g class="device-zone" data-item="'+esc(item.id)+'" tabindex="0" role="button" aria-pressed="false" aria-label="Select '+esc(item.name)+'" title="'+esc(item.name)+'">';
@@ -275,14 +276,14 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     document.querySelectorAll("[data-item]").forEach(function(node){
       var active=node.getAttribute("data-item")===id;
       node.classList.toggle("active",active);
-      if(node.classList.contains("hotspot"))node.setAttribute("aria-pressed",active?"true":"false");
+      if(node.classList.contains("device-zone"))node.setAttribute("aria-pressed",active?"true":"false");
     });
     renderDetail(item);
   }
   function renderConfig(config){
     currentConfig=config;
     $("hotspotCount").textContent=String(config.items.length).padStart(2,"0")+" INTERACTIVE POINTS";
-    $("deviceCount").textContent=String(config.items.length).padStart(2,"0")+" DEVICES · CLICK TO EXPLORE";
+    $("deviceCount").textContent=String(config.items.length).padStart(2,"0")+" DEVICES · HOVER TO HIGHLIGHT";
     $("inventoryCount").textContent=config.name+" · "+String(config.items.length).padStart(2,"0")+" DEVICES";
     renderZones();renderInventory();
     if(selectedId&&config.items.some(function(x){return x.id===selectedId}))selectItem(selectedId);
@@ -318,7 +319,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   });
   async function boot(){
     try{
-      var response=await fetch("./setup-data.json?v=1.0.2",{cache:"no-store"});
+      var response=await fetch("./setup-data.json?v=1.0.3",{cache:"no-store"});
       if(!response.ok)throw new Error("DATA HTTP "+response.status);
       var data=await response.json();
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
