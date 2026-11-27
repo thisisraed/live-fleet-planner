@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-27T18:07:58.474Z",
+  "updatedAt": "2026-11-27T23:01:50.958Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -489,7 +489,7 @@
     {
       "id": "6zzzxd8zagdmwyys4yx",
       "date": "2026-11-27T19:00:00.000Z",
-      "status": "planned",
+      "status": "done",
       "title": "GLOBAL 6000",
       "special": false,
       "aircraft": "GLOBAL 6000",
