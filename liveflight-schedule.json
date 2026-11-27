@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-26T23:01:51.174Z",
+  "updatedAt": "2026-11-27T12:35:22.092Z",
   "timezone": "Europe/Rome",
   "events": [
     {
@@ -484,6 +484,27 @@
       "cruise": "35000",
       "alternate": "",
       "fuelBlock": "22171",
+      "briefingUrl": ""
+    },
+    {
+      "id": "6zzzxd8zagdmwyys4yx",
+      "date": "2026-11-27T19:00:00.000Z",
+      "status": "planned",
+      "title": "Global 6000",
+      "special": false,
+      "aircraft": "Global 6000",
+      "simbriefType": "",
+      "sim": "MSFS 2024",
+      "category": "Jet privati",
+      "from": "",
+      "to": "",
+      "route": "",
+      "callsign": "",
+      "distance": "",
+      "ete": "",
+      "cruise": "",
+      "alternate": "",
+      "fuelBlock": "",
       "briefingUrl": ""
     },
     {
