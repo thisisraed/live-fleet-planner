@@ -182,7 +182,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <a href="./liveflight.html?v=0.9.115">Schedule</a>
     <a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a>
     <a href="./community-efb.html?v=0.9.115">Community EFB ↗</a>
-    <a class="active" href="./setup.html?v=1.0.9">My Setup</a>
+    <a class="active" href="./setup.html?v=1.1.0">My Setup</a>
   </nav>
 </div></header>
 <main class="shell">
@@ -190,7 +190,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <div class="eyebrow">THIS IS RAED · FLIGHT OPERATIONS · HARDWARE</div>
     <h1>MY FLIGHT SIM <span>SETUP</span></h1>
     <div class="hero-copy">Esplora le configurazioni hardware che utilizzo per la simulazione di volo. Seleziona una periferica per visualizzarne dettagli, produttore e collegamento d'acquisto.</div>
-    <div class="hero-bottom"><span class="status-pill"><i class="dot"></i> AIRBUS CONFIGURATION ONLINE</span><span class="updated" id="deviceCount">LOADING DEVICE INVENTORY…</span><span class="version-label">SETUP VERSION · v1.0.9</span></div>
+    <div class="hero-bottom"><span class="status-pill"><i class="dot"></i> AIRBUS CONFIGURATION ONLINE</span><span class="updated" id="deviceCount">LOADING DEVICE INVENTORY…</span><span class="version-label">SETUP VERSION · v1.1.0</span></div>
   </section>
 
   <div class="config-tabs" role="tablist" aria-label="Configurazioni hardware">
@@ -235,7 +235,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   function loadImage(path){
     $("setupImage").onload=function(){$("imageStatus").style.display="none"};
     $("setupImage").onerror=function(){$("imageStatus").textContent="ILLUSTRATION COULD NOT BE DISPLAYED"};
-    $("setupImage").src="./"+path+(path.indexOf("?")===-1?"?":"&")+"v=1.0.9";
+    $("setupImage").src="./"+path+(path.indexOf("?")===-1?"?":"&")+"v=1.1.0";
   }
   function renderZones(){
     var svg='<svg class="device-zones" viewBox="0 0 960 640" preserveAspectRatio="none" role="group" aria-label="Interactive hardware zones">';
@@ -319,7 +319,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
   });
   async function boot(){
     try{
-      var response=await fetch("./setup-data.json?v=1.0.9",{cache:"no-store"});
+      var response=await fetch("./setup-data.json?v=1.1.0",{cache:"no-store"});
       if(!response.ok)throw new Error("DATA HTTP "+response.status);
       var data=await response.json();
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
