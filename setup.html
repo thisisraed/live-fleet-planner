@@ -78,7 +78,7 @@ header{border-bottom:1px solid var(--line);background:rgba(8,13,18,.94);position
 .inventory-name{display:block;font:9px/1.45 var(--mono);letter-spacing:.04em;text-transform:uppercase}
 .inventory-maker{display:block;font:8px var(--mono);color:#81919a;margin-top:5px;letter-spacing:.04em}
 .inventory-link-state{display:block;color:#637780;font:7px var(--mono);margin-top:5px;letter-spacing:.05em}
-.loading,.error-state{padding:24px;color:var(--muted);font:10px/1.7 var(--mono);letter-spacing:.06em}
+.loading,.error-state{padding:24px;color:var(--muted);font:10px/1.7 var(--mono);letter-spacing:.06em}#imageStatus{position:absolute;left:12px;top:12px;z-index:2;padding:7px 9px;background:rgba(5,12,17,.88);border:1px solid #34464f}
 .page-footer{margin:22px 0 34px;padding:13px 0;border-top:1px solid #23333b;color:#72838b;font:8px/1.7 var(--mono);letter-spacing:.06em}
 footer{border-top:1px solid var(--line);padding:23px 0 30px;color:var(--muted);font:9px var(--mono);letter-spacing:.08em}
 .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -148,20 +148,10 @@ footer{border-top:1px solid var(--line);padding:23px 0 30px;color:var(--muted);f
   var $=function(id){return document.getElementById(id)};
   function esc(value){return String(value==null?"":value).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
   function safeUrl(value){if(!value)return "";try{var u=new URL(value,location.href);return u.protocol==="https:"||u.protocol==="http:"?u.href:""}catch(e){return ""}}
-  async function loadImage(parts){
-    var buffers=await Promise.all(parts.map(async function(path){
-      var r=await fetch("./"+path,{cache:"force-cache"});
-      if(!r.ok)throw new Error("IMAGE PART "+path+" · HTTP "+r.status);
-      return r.arrayBuffer();
-    }));
-    var size=buffers.reduce(function(total,b){return total+b.byteLength},0);
-    var joined=new Uint8Array(size),offset=0;
-    buffers.forEach(function(b){var bytes=new Uint8Array(b);joined.set(bytes,offset);offset+=bytes.byteLength});
-    if(imageObjectUrl)URL.revokeObjectURL(imageObjectUrl);
-    imageObjectUrl=URL.createObjectURL(new Blob([joined],{type:"image/webp"}));
-    $("setupImage").src=imageObjectUrl;
+  function loadImage(path){
     $("setupImage").onload=function(){$("imageStatus").style.display="none"};
     $("setupImage").onerror=function(){$("imageStatus").textContent="ILLUSTRATION COULD NOT BE DISPLAYED"};
+    $("setupImage").src="./"+path;
   }
   function renderMarkers(){
     $("hotspotLayer").innerHTML=currentConfig.items.map(function(item,index){
@@ -224,7 +214,7 @@ footer{border-top:1px solid var(--line);padding:23px 0 30px;color:var(--muted);f
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
       if(!config)throw new Error("AIRBUS CONFIGURATION NOT FOUND");
       renderConfig(config);
-      try{await loadImage(config.imageParts)}catch(imageError){$("imageStatus").textContent="ILLUSTRATION UNAVAILABLE · "+imageError.message;console.error(imageError)}
+      loadImage(config.image)
     }catch(error){
       $("deviceCount").textContent="INVENTORY UNAVAILABLE";
       $("inventoryGrid").innerHTML='<div class="error-state">IMPOSSIBILE CARICARE setup-data.json · '+esc(error.message)+'</div>';

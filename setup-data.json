@@ -5,13 +5,6 @@
       "id": "airbus",
       "name": "AIRBUS",
       "status": "ready",
-      "imageParts": [
-        "assets/setup/airbus-approved-0.bin",
-        "assets/setup/airbus-approved-1.bin",
-        "assets/setup/airbus-approved-2.bin",
-        "assets/setup/airbus-approved-3.bin",
-        "assets/setup/airbus-approved-4.bin"
-      ],
       "imageAlt": "Illustrazione tecnica approvata della postazione Airbus di This Is Raed",
       "items": [
         {
@@ -144,7 +137,8 @@
           "y": 83,
           "purchaseUrl": ""
         }
-      ]
+      ],
+      "image": "assets/setup/airbus-approved.webp"
     },
     {
       "id": "boeing",
