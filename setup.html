@@ -44,6 +44,12 @@ header{border-bottom:1px solid var(--line);background:rgba(8,13,18,.94);position
 .stage-body{position:relative;background:#060a0e;overflow:hidden}
 .setup-image{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain}
 .hotspot-layer{position:absolute;inset:0;pointer-events:none}
+.device-zones{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:auto}
+.device-zone{cursor:pointer;outline:none}
+.device-zone path{fill:rgba(71,200,223,.003);stroke:rgba(71,200,223,0);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;transition:fill .16s ease,stroke .16s ease,filter .16s ease}
+.device-zone:hover path,.device-zone.active path,.device-zone.preview path,.device-zone:focus-visible path{fill:rgba(71,200,223,.23);stroke:var(--cyan);filter:url(#deviceGlow)}
+.device-zone:focus-visible path{stroke-width:3}
+
 .hotspot{position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:30px;height:30px;padding:0;border:1px solid #8edbeb;border-radius:50%;background:rgba(5,16,22,.91);color:#e9faff;display:grid;place-items:center;font:9px var(--mono);box-shadow:0 0 0 3px rgba(71,200,223,.13),0 0 13px rgba(71,200,223,.26);pointer-events:auto;transition:transform .15s,background .15s,border-color .15s}
 .hotspot:hover,.hotspot.active{transform:translate(-50%,-50%) scale(1.12);background:var(--cyan);border-color:#b7f2fc;color:#061116;box-shadow:0 0 0 4px rgba(71,200,223,.2),0 0 17px rgba(71,200,223,.35)}
 .hotspot:focus-visible,.config-tab:focus-visible,.inventory-card:focus-visible,.buy-link:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
@@ -176,7 +182,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     <a href="./liveflight.html?v=0.9.115">Schedule</a>
     <a href="./liveflight-archive.html?v=0.9.115">Archive ↗</a>
     <a href="./community-efb.html?v=0.9.115">Community EFB ↗</a>
-    <a class="active" href="./setup.html?v=1.0.1">My Setup</a>
+    <a class="active" href="./setup.html?v=1.0.2">My Setup</a>
   </nav>
 </div></header>
 <main class="shell">
@@ -201,7 +207,7 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
         <div class="hotspot-layer" id="hotspotLayer" aria-label="Periferiche selezionabili"></div>
         <div class="loading" id="imageStatus">CARICAMENTO ILLUSTRAZIONE…</div>
       </div>
-      <div class="stage-foot"><span class="legend"><span class="legend-dot"></span> SELECTABLE HARDWARE</span><span>APPROVED AIRBUS CONFIGURATION</span></div>
+      <div class="stage-foot"><span class="legend"><span class="legend-dot"></span> HOVER TO HIGHLIGHT · CLICK TO SELECT</span><span>APPROVED AIRBUS CONFIGURATION</span></div>
     </section>
 
     <aside class="panel detail-panel" aria-live="polite">
@@ -231,11 +237,17 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     $("setupImage").onerror=function(){$("imageStatus").textContent="ILLUSTRATION COULD NOT BE DISPLAYED"};
     $("setupImage").src="./"+path;
   }
-  function renderMarkers(){
-    $("hotspotLayer").innerHTML=currentConfig.items.map(function(item,index){
-      var n=String(index+1).padStart(2,"0");
-      return '<button class="hotspot" type="button" data-item="'+esc(item.id)+'" style="left:'+Number(item.x)+'%;top:'+Number(item.y)+'%" aria-label="Open '+esc(item.name)+'" title="'+esc(item.name)+'">'+n+'</button>';
-    }).join("");
+  function renderZones(){
+    var svg='<svg class="device-zones" viewBox="0 0 960 640" preserveAspectRatio="none" role="group" aria-label="Interactive hardware zones"><defs><filter id="deviceGlow" x="-35%" y="-35%" width="170%" height="170%"><feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter></defs>';
+    currentConfig.items.forEach(function(item){
+      var zones=Array.isArray(item.zones)?item.zones:[];
+      if(!zones.length)return;
+      svg+='<g class="device-zone" data-item="'+esc(item.id)+'" tabindex="0" role="button" aria-pressed="false" aria-label="Select '+esc(item.name)+'" title="'+esc(item.name)+'">';
+      zones.forEach(function(path){svg+='<path d="'+esc(path)+'"></path>'});
+      svg+='<title>'+esc(item.name)+'</title></g>';
+    });
+    svg+='</svg>';
+    $("hotspotLayer").innerHTML=svg;
   }
   function renderInventory(){
     $("inventoryGrid").innerHTML=currentConfig.items.map(function(item,index){
@@ -272,21 +284,41 @@ footer{border-top:1px solid var(--line)!important;background:#090c0e!important;p
     $("hotspotCount").textContent=String(config.items.length).padStart(2,"0")+" INTERACTIVE POINTS";
     $("deviceCount").textContent=String(config.items.length).padStart(2,"0")+" DEVICES · CLICK TO EXPLORE";
     $("inventoryCount").textContent=config.name+" · "+String(config.items.length).padStart(2,"0")+" DEVICES";
-    renderMarkers();renderInventory();
+    renderZones();renderInventory();
     if(selectedId&&config.items.some(function(x){return x.id===selectedId}))selectItem(selectedId);
     else{
       $("detailIndex").textContent="NO SELECTION";
       $("detailContent").innerHTML='<div class="detail-empty"><div class="empty-symbol">+</div><div class="empty-title">SELECT A PERIPHERAL</div><div class="empty-copy">Seleziona un punto sulla postazione o un dispositivo nell’inventario per visualizzarne le informazioni.</div></div>';
     }
   }
+  function previewItem(id,enabled){
+    document.querySelectorAll(".device-zone").forEach(function(node){
+      node.classList.toggle("preview",enabled&&node.getAttribute("data-item")===id);
+    });
+  }
   document.addEventListener("click",function(e){
     var item=e.target.closest("[data-item]");if(item&&currentConfig)selectItem(item.getAttribute("data-item"));
     var tab=e.target.closest("[data-config]");
     if(tab&&tab.disabled)e.preventDefault();
   });
+  document.addEventListener("keydown",function(e){
+    var zone=e.target.closest(".device-zone");
+    if(zone&&(e.key==="Enter"||e.key===" ")){
+      e.preventDefault();
+      if(currentConfig)selectItem(zone.getAttribute("data-item"));
+    }
+  });
+  document.addEventListener("pointerover",function(e){
+    var card=e.target.closest(".inventory-card[data-item]");
+    if(card&&!card.contains(e.relatedTarget))previewItem(card.getAttribute("data-item"),true);
+  });
+  document.addEventListener("pointerout",function(e){
+    var card=e.target.closest(".inventory-card[data-item]");
+    if(card&&!card.contains(e.relatedTarget))previewItem(card.getAttribute("data-item"),false);
+  });
   async function boot(){
     try{
-      var response=await fetch("./setup-data.json?v=1.0.0",{cache:"no-store"});
+      var response=await fetch("./setup-data.json?v=1.0.2",{cache:"no-store"});
       if(!response.ok)throw new Error("DATA HTTP "+response.status);
       var data=await response.json();
       var config=data.configurations.find(function(x){return x.id==="airbus"&&x.status==="ready"});
